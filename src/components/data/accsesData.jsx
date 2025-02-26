@@ -1,0 +1,58 @@
+export const accessoriesData = [
+  {
+    id: "61",
+    name: "Сумка Molotow Allround",
+    price: 400,
+    old_price: 0,
+    img: "./Accses/photo1.jpg",
+  },
+  {
+    id: "62",
+    name: "Респиратор полумаска 3M",
+    price: 3400,
+    old_price: 0,
+    img: "./Accses/photo2.jpg",
+  },
+  {
+    id: "63",
+    name: "Респиратор полумаска 3M 6000",
+    price: 3000,
+    old_price: 0,
+    img: "./Accses/photo3.jpg",
+  },
+  {
+    id: "68",
+    name: "Маска респиратор 3M 3270",
+    price: 3500,
+    old_price: 0,
+    img: "./Accses/photo12.jpg",
+  },
+  {
+    id: "64",
+    name: "Респиратор противопыльный",
+    price: 200,
+    old_price: 0,
+    img: "./Accses/photo4.jpg",
+  },
+  {
+    id: "65",
+    name: "Респиратор противопыльный",
+    price: 100,
+    old_price: 0,
+    img: "./Accses/photo5.png",
+  },
+  {
+    id: "66",
+    name: "Перчатки прорезиненные Molotow Protective Gloves",
+    price: 400,
+    old_price: 0,
+    img: "./Accses/photo6.jpeg",
+  },
+  {
+    id: "67",
+    name: "Перчатки Montana нейлоновые зимние",
+    price: 500,
+    old_price: 0,
+    img: "./Accses/photo7.jpg",
+  },
+];

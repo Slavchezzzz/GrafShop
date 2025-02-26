@@ -1,0 +1,164 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  list-style: none;
+}
+
+.bucket {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.bucket-main {
+  flex-grow: 1;
+}
+
+h1 {
+  margin-top: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Блок информации о товарах в корзине  */
+
+.itog {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cart-itog {
+  width: 498px;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  padding: 20px 20px 16px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+.cart-itog p {
+  font-size: 1.3rem;
+  font-family: "Roboto";
+}
+
+.cart-itog a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  width: 100%;
+  padding: 10px 50px 10px;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: white;
+  background-color: #a800e5;
+  border: 1px solid #a800e5;
+  transition: 500ms ease;
+  text-decoration: none;
+}
+
+.cart-itog a:hover {
+  background-color: #7502ab;
+  border: 1px solid #7502ab;
+}
+
+/* Таблица товаров в корзине */
+
+.card-bucket {
+  width: 100%;
+  display: flex;
+  background-color: white;
+  padding: 20px 20px 16px;
+  border-top: 1px solid black;
+  border-radius: 0;
+}
+
+.card-bucket-des {
+  width: 100%;
+  display: flex;
+  /* justify-content: space-between; */
+  align-items: center;
+}
+
+.card-bucket-des h2 {
+  margin: 0;
+}
+
+.card-bucket-des p {
+  display: flex;
+  margin: 0;
+  width: 25%;
+  justify-content: center;
+}
+
+.bucket-img {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 150px;
+}
+
+.card-bucket-des p {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.card-bucket-des button {
+  height: 44px;
+  padding: 10px 50px 10px;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: white;
+  background-color: #a800e5;
+  border: 1px solid #a800e5;
+  transition: 500ms ease;
+}
+
+.card-bucket-des button:hover {
+  background-color: #7502ab;
+  border: 1px solid #7502ab;
+}
+
+.clicker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.clicker button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+  transition: 500ms ease;
+}
+
+/* Адаптация страницы */
+
+@media screen and (max-width: 850px) {
+  .card-bucket {
+    width: 100%;
+    display: flex;
+  }
+  .bucket-img {
+    width: 150px;
+  }
+  .card-bucket-des {
+    flex-direction: column;
+    gap: 0;
+    margin: 0;
+  }
+}
+
+@media screen and (max-width: 510px) {
+  .card-bucket {
+    display: flex;
+    justify-content: center;
+  }
+}

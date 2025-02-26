@@ -1,0 +1,78 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  height: 100%;
+}
+
+.main-brand {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.Brands-container {
+  padding: 20px;
+  justify-content: center;
+  padding-bottom: 50px;
+  margin-top: 25px;
+  flex-grow: 1;
+}
+
+.Brands-menu {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 400px);
+  width: 100%;
+  max-width: 1500px;
+  justify-content: center;
+  justify-items: center;
+  column-gap: 45px;
+  row-gap: 45px;
+  margin: 0 auto;
+}
+
+.Brands-item {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding-left: 10px;
+  padding-bottom: 5px;
+  overflow: hidden;
+  cursor: pointer;
+  background-color: white;
+  transition: transform 0.5s, background-color 0.4s, color 0.2s;
+  border-radius: 5px;
+}
+
+.Brands-item img {
+  height: 100px;
+  transition: transform 500ms ease;
+  align-items: center;
+  justify-content: center;
+  object-fit: scale-down;
+}
+
+.Brands-item:hover {
+  background-color: #a800e5;
+  color: white;
+  transform: scale(1.01);
+}
+
+.Brands-item img:hover {
+  transform: scale(1.05);
+}
+
+.Brand-image {
+  height: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.Brand-discription {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}

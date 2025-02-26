@@ -1,0 +1,147 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  list-style: none;
+}
+
+.LogPage {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.main-container {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: url("/public/spray/spray4\ .png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 650px;
+}
+
+.main-reg {
+  position: relative;
+  flex-direction: column;
+  padding: 30px;
+  width: 400px;
+  border: 1px solid white;
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: 0 5px 10px rgb(0, 0, 0, 1);
+  overflow: hidden;
+}
+
+.main-log {
+  position: relative;
+  flex-direction: column;
+  padding: 30px;
+  max-width: 430px;
+  width: 400px;
+  border: 1px solid white;
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: 0 5px 10px rgb(0, 0, 0, 1);
+  overflow: hidden;
+}
+
+.title {
+  position: relative;
+  font-size: 27px;
+  font-weight: 600;
+}
+
+.title::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 3px;
+  width: 30px;
+  background-color: #aa00e8;
+  border-radius: 25px;
+}
+
+.input-faild {
+  position: relative;
+  height: 50px;
+  margin-top: 15px;
+}
+
+.input-faild input {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  padding: 0 35px;
+  border: none;
+  outline: none;
+  border-bottom: 2px solid #ccc;
+  border-top: 2px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.input-faild input:focus {
+  border-bottom-color: #aa00e8;
+}
+
+.input-faild .input-icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #999;
+  font-size: 15px;
+}
+
+.checkbox-text {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.checkbox-span {
+  padding-left: 5px;
+}
+
+.log-button {
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.log-button input {
+  border: none;
+  color: #fff;
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  border-radius: 6px;
+  background-color: #aa00e8;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  height: 50px;
+}
+
+.log-button input:hover {
+  background-color: #8700b8;
+}
+
+.login-signup {
+  text-align: center;
+}
+
+.login-signup button {
+  margin-left: 5px;
+  border: none;
+  cursor: pointer;
+  color: #8700b8;
+  font-size: 1rem;
+  background-color: white;
+}
+
+.login-signup button:hover {
+  text-decoration: underline;
+}

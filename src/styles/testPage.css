@@ -1,0 +1,23 @@
+#root {
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+  /* text-align: center; */
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  list-style: none;
+}
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.Page {
+  flex-grow: 1;
+}

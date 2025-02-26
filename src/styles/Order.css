@@ -1,0 +1,218 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  list-style: none;
+}
+
+.page-order {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.main-order {
+  flex-grow: 1;
+  padding: 15px;
+}
+
+.main-order h1 {
+  margin-top: 0;
+}
+
+.back-order {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #e1ebee;
+  border-radius: 15px;
+  width: 100%;
+}
+
+/* стили для информации о заказе */
+
+.order-info {
+  display: flex;
+  padding: 20px;
+  justify-content: center;
+  width: 100%;
+  border-radius: 15px;
+  gap: 5px;
+}
+
+/* стили для способа доставки */
+
+.delivery {
+  background-color: white;
+  width: 100%;
+  border-radius: 15px;
+}
+.delivery h2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.description {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 25px;
+  gap: 15px;
+}
+
+.input-delivery {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  padding-bottom: 5px;
+}
+
+.input-delivery input {
+  height: 100%;
+  width: 100%;
+  border: none;
+  outline: none;
+  border-bottom: 2px solid #ccc;
+  border-top: 2px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.input-delivery input:focus {
+  border-bottom-color: #aa00e8;
+}
+
+/* стили для способа оплаты */
+
+.payment {
+  background-color: white;
+  width: 100%;
+  border-radius: 15px;
+}
+
+.payment h2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.payment p {
+  font-size: large;
+}
+
+.payment #itog {
+  font-size: large;
+  font-weight: 700;
+}
+
+.payment-info button {
+  width: 100%;
+  padding: 10px 50px 10px;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: white;
+  background-color: #a800e5;
+  border: 1px solid #a800e5;
+  transition: 500ms ease;
+}
+
+.payment-info button:hover {
+  background-color: #7502ab;
+  border: 1px solid #7502ab;
+}
+
+.payment .checkbox {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* стили для товаров  */
+.cart-main {
+  padding: 20px;
+}
+
+.card-order {
+  display: flex;
+  padding: 15px;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+  border: 1px solid white;
+  border-radius: 15px;
+  margin-bottom: 10px;
+}
+
+.card-order h2 {
+  margin: 0;
+}
+
+.card-order p {
+  display: flex;
+  margin: 0;
+  width: 25%;
+  justify-content: center;
+}
+
+.card-order p {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.card-order button {
+  height: 44px;
+  padding: 10px 50px 10px;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: white;
+  background-color: #a800e5;
+  border: 1px solid #a800e5;
+  transition: 500ms ease;
+}
+
+.card-order button:hover {
+  background-color: #7502ab;
+  border: 1px solid #7502ab;
+}
+
+.card-order img {
+  width: 150px;
+}
+
+.clicker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.clicker button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+  transition: 500ms ease;
+}
+
+/* Адаптация страницы */
+
+@media screen and (max-width: 800px) {
+  .card-order {
+    flex-direction: column;
+    width: 100%;
+    gap: 5px;
+  }
+  .card-order p {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .payment-info button {
+    padding: 5px 25px 5px;
+  }
+  .payment .checkbox {
+    flex-direction: column;
+  }
+}

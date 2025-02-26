@@ -1,0 +1,122 @@
+@font-face {
+  font-family: "Jolly";
+  src: url(../assets/Jolly_Lodger/JollyLodger-Regular.ttf);
+}
+
+.Card-info {
+  padding: 45px;
+  color: aliceblue;
+  justify-content: center;
+}
+
+.Card-info h1 {
+  color: black;
+  display: flex;
+  justify-content: center;
+  font-family: "Jolly";
+  font-size: 55px;
+}
+
+.card-item {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  background-color: white;
+  color: black;
+  border-radius: 10px;
+  transition: transform 0.5s, box-shadow 0.9s;
+  box-shadow: 0px 0px 15px white;
+  cursor: pointer;
+}
+
+.card-item:hover {
+  -ms-transform: scale(1.8); /* IE 9 */
+  -webkit-transform: scale(1.9); /* Safari 3-8 */
+  transform: scale(1.1);
+  box-shadow: 0px 0px 15px black;
+}
+
+.card-description {
+  padding-left: 5px;
+}
+
+.tag-new {
+  /* padding-left: 20px; */
+  display: inline-block;
+  position: absolute;
+  padding: 0 10px;
+  line-height: 20px;
+  font-size: small;
+  font-weight: 300;
+  color: white;
+  border: 1px solid #a800e5;
+  background-color: #a800e5;
+  border-radius: 0px 5px 5px 0px;
+  margin-top: 5px;
+}
+
+.card-item a {
+  width: 100px;
+  display: flex;
+  justify-content: center;
+  text-decoration: none;
+  color: aliceblue;
+  font-size: 1rem;
+  border: 1px solid #a800e5;
+  border-radius: 10px;
+  background-color: #a800e5;
+  padding: 7px 14px;
+  transition: 300ms ease;
+}
+
+.Card-pos {
+  padding: 5px;
+}
+
+.Card-pos button:hover {
+  border: 1px solid #7502ab;
+  background-color: #7502ab;
+}
+
+.heart-icon-card {
+  width: 24px;
+  height: 24px;
+  transition: 300ms ease;
+}
+
+.bucket-icon-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+  transition: 300ms ease;
+}
+
+.bucket-icon-card:hover {
+  color: #7502ab;
+}
+
+.heart-icon-card:hover {
+  color: #7502ab;
+}
+
+.card-item a:hover {
+  background-color: #7502ab;
+}
+
+.product-description p {
+  padding-top: 5px;
+}
+
+@media screen and (max-width: 900px) {
+  .card {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .card {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}

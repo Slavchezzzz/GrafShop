@@ -1,0 +1,50 @@
+@font-face {
+  font-family: "Jolly";
+  src: url(../assets/Jolly_Lodger/JollyLodger-Regular.ttf);
+}
+
+#root {
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+  /* text-align: center; */
+}
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  /* behavior: smooth; */
+}
+
+.Page {
+  flex-grow: 1;
+}
+
+.page-card-info-product h1 {
+  background-image: url("/public/spray/sprey.png");
+  background-repeat: no-repeat;
+  background-size: 480px;
+  background-position: top;
+  height: 150px;
+}
+
+.Page h1 {
+  color: white;
+  display: flex;
+  justify-content: center;
+  font-family: "Roboto";
+  font-size: 35px;
+}
+.page-card {
+  /* padding-top: 25px; */
+  margin-top: 30px;
+  margin-bottom: 40px;
+}
+
+@media screen and (max-width: 510px) {
+  .page-card-info-product h1 {
+    background-size: 400px;
+    background-position: center;
+    font-size: 30px;
+  }
+}
