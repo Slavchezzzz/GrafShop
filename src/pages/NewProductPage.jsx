@@ -12,7 +12,7 @@ export default function NewProductPage() {
         </a>
         <a>Новинки</a>
       </div>
-      <div>
+      <div className="Page-newproduct">
         <NewProduct />
       </div>
       <Footer />

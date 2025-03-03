@@ -12,7 +12,7 @@ export default function SalePage() {
         </a>
         <a>Скидки</a>
       </div>
-      <div>
+      <div className="Page-sale">
         <Sale />
       </div>
       <Footer />

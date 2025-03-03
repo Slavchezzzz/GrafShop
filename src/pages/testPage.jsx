@@ -15,7 +15,7 @@ export default function TestPage() {
         </a>
         <a>Каталог</a>
       </div>
-      <div className="Page">
+      <div className="Page-graf">
         <MainCard />
       </div>
       <Footer />

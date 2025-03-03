@@ -6,6 +6,7 @@ import Infinity from "../components/InfinitySlider.jsx";
 import CardPopular from "../components/CardPopular.jsx";
 import HeaderPhoto from "../components/HeaderPhoto.jsx";
 import News from "../components/News.jsx";
+import CategoryBlock from "../components/CategoryBlock.jsx";
 import ControlledCarousel from "../components/SliderBoot.jsx";
 
 export default function IndexPage() {
@@ -13,8 +14,9 @@ export default function IndexPage() {
     <div className="layout">
       <Header></Header>
       <HeaderPhoto />
-      <div className="Page">
+      <main className="Page">
         <div className="page-card">
+          <CategoryBlock />
           <div className="page-card-info-product">
             <h1>Новые поступления</h1>
           </div>
@@ -32,7 +34,7 @@ export default function IndexPage() {
         <div className="page-card">
           <News />
         </div>
-      </div>
+      </main>
       <Footer />
     </div>
   );

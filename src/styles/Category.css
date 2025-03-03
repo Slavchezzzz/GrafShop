@@ -1,0 +1,77 @@
+@-webkit-keyframes scale-up-center {
+  0% {
+    -webkit-transform: scale(0.5);
+    transform: scale(0.5);
+  }
+  100% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+}
+@keyframes scale-up-center {
+  0% {
+    -webkit-transform: scale(0.5);
+    transform: scale(0.5);
+  }
+  100% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+}
+
+.category-des {
+  /* background-image: url("/public/spray/spray5.png");
+  background-repeat: no-repeat;
+  background-size: 640px;
+  background-position: center; */
+}
+
+.category-des h2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 150px;
+  margin: 0;
+}
+
+.my-card {
+  -webkit-animation: scale-up-center 0.4s cubic-bezier(0.39, 0.575, 0.565, 1)
+    both;
+  animation: scale-up-center 0.4s cubic-bezier(0.39, 0.575, 0.565, 1) both;
+}
+
+.my-card img {
+  width: 100%;
+}
+
+.category-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 25px;
+}
+
+.category-text h1 {
+  color: black;
+  margin: 0;
+  padding: 5px;
+}
+
+.category-text a {
+  background-color: #a800e5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  width: 100%;
+  border-radius: 10px;
+  transition: 0.2s ease;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.category-text a:hover {
+  background-color: #7502ab;
+}

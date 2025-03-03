@@ -13,7 +13,7 @@ export default function MarkerPage() {
         </a>
         <a>Каталог</a>
       </div>
-      <div className="Page">
+      <div className="Page-marker">
         <MarkersCard />
       </div>
       <Footer />

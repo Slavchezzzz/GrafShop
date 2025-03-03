@@ -13,7 +13,7 @@ export default function AccesPage() {
         </a>
         <a>Каталог</a>
       </div>
-      <div className="Page">
+      <div className="Page-accses">
         <AccsesCard />
       </div>
       <Footer />

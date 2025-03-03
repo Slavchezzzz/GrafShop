@@ -4,15 +4,11 @@
   box-sizing: border-box;
   list-style: none;
 }
-body {
-  height: 100vh;
-}
 
 .header {
   top: 0;
   left: 0;
-  /* width: 100%; */
-  /* position: fixed; */
+  height: 100%;
 }
 
 nav.navbar {
@@ -28,7 +24,6 @@ nav.navbar {
   display: flex;
   align-items: center;
   justify-content: space-around;
-  /* height: 100px; */
 }
 
 .header-info {
@@ -201,6 +196,7 @@ header .navbar {
   }
 }
 
+/* Анимация модального окна */
 @keyframes slide-in-left {
   0% {
     transform: translateX(-1000px);

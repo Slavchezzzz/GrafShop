@@ -8,7 +8,7 @@ import { FaShoppingCart } from "react-icons/fa";
 
 export default function CardPopular() {
   return (
-    <div className="Card-info">
+    <div className="container">
       <div className="card-menu">
         {dataCard.map((dataCard, index) => {
           return <Card dataCard={dataCard} key={index} />;

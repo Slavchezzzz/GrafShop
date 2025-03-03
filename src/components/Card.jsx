@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 
 export default function CardMin() {
   return (
-    <div className="Card-info">
+    <div className="container">
       <div className="card-menu">
         {emplayss.map((emplayss, index) => {
           return <Card emplayss={emplayss} key={index} />;
