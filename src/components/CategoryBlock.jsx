@@ -8,7 +8,7 @@ export default function CategoryBlock() {
       <div className="category-des ">
         <h2>Категории товаров</h2>
       </div>
-      <div className="px-4 py-5" id="custom-cards">
+      <div className="px-4 py-4" id="custom-cards">
         <div className="row row-cols-1 row-cols-lg-3 align-items-stretch g-4">
           <div className="col">
             <div className="my-card card card-cover overflow-hidden rounded-4 shadow-lg">

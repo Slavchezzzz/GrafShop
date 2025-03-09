@@ -21,7 +21,7 @@
   background-image: url("/public/spray/spray6.jpg");
   background-repeat: no-repeat;
   background-position: bottom;
-  background-size: 100% 400px;
+  background-size: 100%;
 }
 
 .page-card-info-product h1 {
@@ -30,6 +30,7 @@
   background-size: 480px;
   background-position: top;
   height: 150px;
+  margin-top: 50px;
 }
 
 .Page h1 {
@@ -40,8 +41,8 @@
   font-size: 35px;
 }
 .page-card {
-  /* padding-top: 25px; */
-  margin-top: 30px;
+  padding-top: 25px;
+  /* margin-top: 30px; */
   margin-bottom: 40px;
 }
 

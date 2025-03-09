@@ -20,10 +20,10 @@
 }
 
 .category-des {
-  /* background-image: url("/public/spray/spray5.png");
+  background-image: url("/public/spray/spray7.png");
   background-repeat: no-repeat;
-  background-size: 640px;
-  background-position: center; */
+  background-size: 440px;
+  background-position: right 50% bottom 55%;
 }
 
 .category-des h2 {
@@ -32,6 +32,7 @@
   align-items: center;
   height: 150px;
   margin: 0;
+  color: white;
 }
 
 .my-card {

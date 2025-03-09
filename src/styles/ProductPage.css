@@ -41,8 +41,7 @@
 }
 
 /*  */
-.image-container {
-}
+
 .product-info {
   margin-top: 30px;
   margin-bottom: 20px;
@@ -63,8 +62,10 @@
 .product-button {
   display: flex;
   gap: 30px;
-  margin-top: 25px;
-  margin-bottom: 40px;
+}
+
+.product-down {
+  padding-bottom: 50px;
 }
 
 .button-bucket {
