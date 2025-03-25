@@ -1,43 +1,69 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Carousel from "react-bootstrap/Carousel";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/SliderBoot.css";
-// import ExampleCarouselImage from "components/ExampleCarouselImage";
+import axios from "axios";
 
 export default function ControlledCarousel() {
   const [index, setIndex] = useState(0);
+  const [slides, setSlides] = useState([]); // Состояние для хранения слайдов
+  const [loading, setLoading] = useState(true); // Состояние для загрузки
+  const [error, setError] = useState(null); // Состояние для ошибок
 
+  // Обработчик выбора слайда
   const handleSelect = (selectedIndex) => {
     setIndex(selectedIndex);
   };
 
+  // Загрузка данных из API
+  useEffect(() => {
+    const fetchSlides = async () => {
+      try {
+        const response = await axios.get("http://localhost:8080/news/data"); // Замените на ваш API
+        // Фильтруем слайды, оставляя только те, где is_new_marker === 1
+        const filteredSlides = response.data.data.filter(
+          (slide) => slide.is_new_marker === 1
+        );
+        setSlides(filteredSlides);
+      } catch (error) {
+        console.error("Ошибка при загрузке слайдов: ", error);
+        setError(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSlides();
+  }, []);
+
+  if (loading) {
+    return <div>Загрузка слайдов...</div>; // Индикатор загрузки
+  }
+
+  if (error) {
+    return <div>Ошибка: {error.message}</div>; // Сообщение об ошибке
+  }
+
   return (
     <div className="carusel">
-      <Carousel fade>
-        <Carousel.Item className="slider-block">
-          <img src="../slide/slide1-1.jpg" alt="" />
-          <Carousel.Caption className="slider-text">
-            <h3>
-              Работа интернет-магазина на <br />
-              майские праздники
-            </h3>
-            <a href="#">Подробнее...</a>
-          </Carousel.Caption>
-        </Carousel.Item>
-        <Carousel.Item className="slider-block">
-          <img src="../slide/slide2.jpg" alt="#" />
-          <Carousel.Caption>
-            <h3>Новинки месяца</h3>
-            <a href="#">Подробнее...</a>
-          </Carousel.Caption>
-        </Carousel.Item>
-        <Carousel.Item className="slider-block">
-          <img src="../slide/slide6.jpg" alt="" />
-          <Carousel.Caption>
-            <h3>Скидки в честь открытия магазина!</h3>
-            <a href="#">Подробнее...</a>
-          </Carousel.Caption>
-        </Carousel.Item>
+      <Carousel activeIndex={index} onSelect={handleSelect} fade>
+        {slides.length === 0 ? (
+          <Carousel.Item>
+            <div className="slider-block">
+              <p>Нет слайдов с is_new_marker = 1.</p>
+            </div>
+          </Carousel.Item>
+        ) : (
+          slides.map((slide) => (
+            <Carousel.Item key={slide.id} className="slider-block">
+              <img src={slide.img} alt={slide.description} />
+              <Carousel.Caption className="slider-text">
+                <h3>{slide.name}</h3>
+                <a href="#">Подробнее...</a>
+              </Carousel.Caption>
+            </Carousel.Item>
+          ))
+        )}
       </Carousel>
     </div>
   );

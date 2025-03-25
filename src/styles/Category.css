@@ -76,3 +76,19 @@
 .category-text a:hover {
   background-color: #7502ab;
 }
+
+@media screen and (max-width: 510px) {
+  .category-des {
+    background-size: 380px;
+    background-position: center;
+    font-size: 20px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .category-des {
+    background-size: 330px;
+    background-position: center;
+    font-size: 30px;
+  }
+}

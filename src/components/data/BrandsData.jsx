@@ -51,9 +51,9 @@ export const BrandsData = [
     img: "./Brands/photo8.png",
   },
   {
-    id: 6,
-    name: "Molotow",
-    discription: "Товары для граффити под брендом Molotow",
-    img: "./Brands/photo3.png",
+    id: 9,
+    name: "Dope",
+    discription: "Маркеры и заправки польского бренда Dope",
+    img: "./Brands/photo9.png",
   },
 ];

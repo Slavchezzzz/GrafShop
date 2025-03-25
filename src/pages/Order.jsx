@@ -1,14 +1,40 @@
 import { CartContext } from "../components/data/CartContext.js";
 import { useContext } from "react";
-import React, { useEffect, useState } from "react";
-// import axios from "axios";
+import React, { useState } from "react";
 import Header from "../components/Header.jsx";
 import Footer from "../components/Footer.jsx";
 import "../styles/Order.css";
 
 export default function Order() {
   const { cart, setCart } = useContext(CartContext);
-  const [count, setCount] = useState(1);
+  const [count, setCount] = useState({});
+  const [showModal, setShowModal] = useState(false);
+  const [orderInfo, setOrderInfo] = useState(null);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  // Состояние для выбора способа доставки
+  const [deliveryMethod, setDeliveryMethod] = useState("");
+
+  // Состояние для выбора способа оплаты
+  const [paymentMethod, setPaymentMethod] = useState("");
+
+  // Состояние для выбора типа оплаты
+  const [paymentType, setPaymentType] = useState("");
+
+  // Обработчик для выбора способа доставки
+  const handleDeliveryChange = (method) => {
+    setDeliveryMethod(method);
+  };
+
+  // Обработчик для выбора способа оплаты
+  const handlePaymentMethodChange = (method) => {
+    setPaymentMethod(method);
+  };
+
+  // Обработчик для выбора типа оплаты
+  const handlePaymentTypeChange = (type) => {
+    setPaymentType(type);
+  };
 
   // Функция удаляет товар из корзины
   function handleRemoveItem(itemId) {
@@ -16,11 +42,12 @@ export default function Order() {
     delete updatedCart[itemId];
     setCart(updatedCart);
 
-    const updateCounts = { ...count };
-    delete updateCounts[itemId];
-    setCount(updateCounts);
+    const updatedCounts = { ...count };
+    delete updatedCounts[itemId];
+    setCount(updatedCounts);
   }
 
+  // Увеличение количества товара
   const increment = (itemId) => {
     setCount((prevCounts) => ({
       ...prevCounts,
@@ -28,6 +55,7 @@ export default function Order() {
     }));
   };
 
+  // Уменьшение количества товара
   const decrement = (itemId) => {
     setCount((prevCounts) => {
       const currentCount = prevCounts[itemId] || 1;
@@ -40,30 +68,30 @@ export default function Order() {
       return prevCounts;
     });
   };
+
   // Считаем общую сумму заказа
   const totalPrice = Object.keys(cart).reduce((total, key) => {
     const item = cart[key];
-    return total + item.price;
+    const itemCount = count[key] || 1;
+    return total + item.price * itemCount;
   }, 0);
 
-  //  Считаем общую сумму скидки
+  // Считаем общую сумму скидки
   const salePrice = Object.keys(cart).reduce((total, key) => {
     const item = cart[key];
+    const itemCount = count[key] || 1;
     if (item.old_price !== 0) {
-      let raz = item.old_price - item.price;
-      return total + raz;
+      const discountPerItem = item.old_price - item.price;
+      return total + discountPerItem * itemCount;
     }
-    return 0;
+    return total;
   }, 0);
 
-  let deliveryPrice = 0;
-  const deliveryCalculate = (deliveryPrice) => {
-    if (totalPrice > 1000) {
-      deliveryPrice = 500;
-      return deliveryPrice;
-    }
-    return deliveryPrice;
-  };
+  // Стоимость доставки
+  const deliveryPrice = totalPrice > 1000 ? 500 : 0;
+
+  // Итоговая сумма
+  const finalPrice = totalPrice - salePrice + deliveryPrice;
 
   // Считаем скидку для каждого товара отдельно
   const calculateDiscountedPrice = (old_price, price) => {
@@ -72,6 +100,72 @@ export default function Order() {
     }
     return 0;
   };
+
+  // Проверка, пуста ли корзина
+  const isCartEmpty = Object.keys(cart).length === 0;
+
+  // Генерация случайного номера заказа
+  const generateOrderNumber = () => {
+    return `ORDER-${Math.floor(Math.random() * 1000000)}`;
+  };
+
+  // Проверка заполненности всех полей
+  const validateOrder = () => {
+    if (isCartEmpty) {
+      return "Корзина пуста. Добавьте товары для оформления заказа.";
+    }
+    if (!deliveryMethod) {
+      return "Выберите способ доставки.";
+    }
+    if (!paymentMethod) {
+      return "Выберите способ оплаты.";
+    }
+    if (!paymentType) {
+      return "Выберите тип оплаты.";
+    }
+    return "";
+  };
+
+  // Обработчик для кнопки "Оформить"
+  const handleCheckout = () => {
+    const validationError = validateOrder();
+    if (validationError) {
+      setErrorMessage(validationError);
+      setShowModal(true);
+      return;
+    }
+
+    // Генерация номера заказа
+    const orderNumber = generateOrderNumber();
+
+    // Сохранение информации о заказе
+    setOrderInfo({
+      orderNumber,
+      deliveryMethod,
+      paymentMethod,
+      paymentType,
+      totalPrice,
+      salePrice,
+      deliveryPrice,
+      finalPrice,
+    });
+
+    // Показ модального окна с информацией о заказе
+    setShowModal(true);
+    setErrorMessage("");
+  };
+
+  // Закрытие модального окна
+  const closeModal = () => {
+    setShowModal(false);
+    setOrderInfo(null);
+    setErrorMessage("");
+  };
+
+  const totalItemsInCart = Object.keys(cart).reduce((total, key) => {
+    return total + (count[key] || 1);
+  }, 0);
+
   return (
     <div className="page-order">
       <Header />
@@ -99,15 +193,33 @@ export default function Order() {
                 <div className="checkbox">
                   <h5>Выберите способ доставки</h5>
                   <div className="checkbox-content">
-                    <input type="checkbox" className="checkbox-input"></input>
+                    <input
+                      type="radio"
+                      name="delivery"
+                      className="checkbox-input"
+                      checked={deliveryMethod === "Курьером"}
+                      onChange={() => handleDeliveryChange("Курьером")}
+                    />
                     <span className="checkbox-span">Курьером</span>
                   </div>
                   <div className="checkbox-content">
-                    <input type="checkbox" className="checkbox-input"></input>
+                    <input
+                      type="radio"
+                      name="delivery"
+                      className="checkbox-input"
+                      checked={deliveryMethod === "СДЭК"}
+                      onChange={() => handleDeliveryChange("СДЭК")}
+                    />
                     <span className="checkbox-span">СДЭК</span>
                   </div>
                   <div className="checkbox-content">
-                    <input type="checkbox" className="checkbox-input"></input>
+                    <input
+                      type="radio"
+                      name="delivery"
+                      className="checkbox-input"
+                      checked={deliveryMethod === "Почта России"}
+                      onChange={() => handleDeliveryChange("Почта России")}
+                    />
                     <span className="checkbox-span">Почта России</span>
                   </div>
                 </div>
@@ -120,11 +232,27 @@ export default function Order() {
                   <div className="payment-section">
                     <h5>Выберите способ оплаты</h5>
                     <div className="checkbox-content">
-                      <input type="checkbox" className="checkbox-input"></input>
+                      <input
+                        type="radio"
+                        name="paymentMethod"
+                        className="checkbox-input"
+                        checked={paymentMethod === "Оплата сразу"}
+                        onChange={() =>
+                          handlePaymentMethodChange("Оплата сразу")
+                        }
+                      />
                       <span className="checkbox-span">Оплата сразу</span>
                     </div>
                     <div className="checkbox-content">
-                      <input type="checkbox" className="checkbox-input"></input>
+                      <input
+                        type="radio"
+                        name="paymentMethod"
+                        className="checkbox-input"
+                        checked={paymentMethod === "Оплата при получении"}
+                        onChange={() =>
+                          handlePaymentMethodChange("Оплата при получении")
+                        }
+                      />
                       <span className="checkbox-span">
                         Оплата при получении
                       </span>
@@ -133,21 +261,37 @@ export default function Order() {
                   <div className="payment-section">
                     <h5>Выберите тип оплаты</h5>
                     <div className="checkbox-content">
-                      <input type="checkbox" className="checkbox-input"></input>
+                      <input
+                        type="radio"
+                        name="paymentType"
+                        className="checkbox-input"
+                        checked={paymentType === "Оплата картой"}
+                        onChange={() =>
+                          handlePaymentTypeChange("Оплата картой")
+                        }
+                      />
                       <span className="checkbox-span">Оплата картой</span>
                     </div>
                     <div className="checkbox-content">
-                      <input type="checkbox" className="checkbox-input"></input>
+                      <input
+                        type="radio"
+                        name="paymentType"
+                        className="checkbox-input"
+                        checked={paymentType === "Оплата наличными"}
+                        onChange={() =>
+                          handlePaymentTypeChange("Оплата наличными")
+                        }
+                      />
                       <span className="checkbox-span">Оплата наличными</span>
                     </div>
                   </div>
                 </div>
                 <div className="payment-info">
-                  <p>Количсетво товара в корзине: {Object.keys(cart).length}</p>
+                  <p>Количество товара в корзине: {totalItemsInCart}</p>
                   <p>Скидка: {salePrice} ₽</p>
-                  <p>Доставка: {deliveryCalculate(deliveryPrice)} ₽</p>
-                  <p id="itog">Итого: {totalPrice} ₽</p>
-                  <button>Оформить</button>
+                  <p>Доставка: {deliveryPrice} ₽</p>
+                  <p id="itog">Итого: {finalPrice} ₽</p>
+                  <button onClick={handleCheckout}>Оформить</button>
                 </div>
               </div>
             </div>
@@ -156,7 +300,7 @@ export default function Order() {
           <div className="cart-main">
             {Object.keys(cart).map((key) => {
               return (
-                <div className="card-order">
+                <div className="card-order" key={key}>
                   <img
                     className="bucket-img"
                     src={cart[key].img}
@@ -175,7 +319,7 @@ export default function Order() {
                     <button onClick={() => decrement(key)}>-</button>
                     <p>{count[key] || 1}</p>
                     <button onClick={() => increment(key)}>+</button>
-                    <button onClick={() => handleRemoveItem(cart[key].id)}>
+                    <button onClick={() => handleRemoveItem(key)}>
                       Удалить
                     </button>
                   </div>
@@ -185,6 +329,41 @@ export default function Order() {
           </div>
         </div>
       </div>
+      {/* Модальное окно */}
+      {showModal && (
+        <div className="modal-overlay">
+          <div className="modal-pos">
+            <div className="modal">
+              {errorMessage ? (
+                <>
+                  <h2>Ошибка оформления заказа</h2>
+                  <p>{errorMessage}</p>
+                  <button onClick={closeModal}>Закрыть</button>
+                </>
+              ) : orderInfo ? (
+                <>
+                  <h2>Заказ успешно оформлен!</h2>
+                  <p>Номер заказа: {orderInfo.orderNumber}</p>
+                  <p>Способ доставки: {orderInfo.deliveryMethod}</p>
+                  <p>Способ оплаты: {orderInfo.paymentMethod}</p>
+                  <p>Тип оплаты: {orderInfo.paymentType}</p>
+                  <p>Итоговая сумма: {orderInfo.finalPrice} ₽</p>
+                  <button onClick={closeModal}>Закрыть</button>
+                </>
+              ) : (
+                <>
+                  <h2>Корзина пуста</h2>
+                  <p>
+                    Пожалуйста, добавьте товары в корзину, чтобы оформить заказ.
+                  </p>
+                  <button onClick={closeModal}>Закрыть</button>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
       <Footer />
     </div>
   );

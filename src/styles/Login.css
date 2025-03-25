@@ -146,3 +146,23 @@
 .login-signup button:hover {
   text-decoration: underline;
 }
+
+@media screen and (max-width: 580px) {
+  .main-container {
+    background-size: 550px;
+  }
+}
+
+@media screen and (max-width: 527px) {
+  .main-container {
+    background-size: 630px;
+    padding: 50px;
+  }
+}
+
+@media screen and (max-width: 470px) {
+  .main-container {
+    background-size: 570px;
+    padding: 25px;
+  }
+}

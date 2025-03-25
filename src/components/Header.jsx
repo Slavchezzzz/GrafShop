@@ -66,7 +66,7 @@ function SideBar({ className, onClickClose }) {
 
       <Link to={"/Marker"}>Маркеры</Link>
 
-      <Link to={"/accessories"}>Акссесуары</Link>
+      <Link to={"/accessories"}>Аксессуары</Link>
 
       <Link to={"/NewProduct"}>Новинки</Link>
 

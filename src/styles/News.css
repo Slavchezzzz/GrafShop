@@ -104,14 +104,14 @@
   width: 100%;
   height: 320px;
   object-fit: cover;
-  transition: 5s;
+  transition: 2s;
   display: block;
   filter: brightness(50%);
   cursor: pointer;
 }
 
 .article-wrap-small img:hover {
-  transform: scale(1.08);
+  /* transform: scale(1.08); */
   filter: brightness(100%);
 }
 
