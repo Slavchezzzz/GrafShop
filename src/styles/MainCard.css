@@ -23,73 +23,84 @@
   display: flex;
   flex-direction: column;
   width: 200px;
-  /* height: 350px; */
   background-color: white;
   color: black;
   transition: transform 0.5s;
   box-shadow: 0px 0px 15px white;
   cursor: pointer;
+  border: none;
+}
+
+.card-item-main Link:hover {
+  background-color: white;
 }
 
 .card-item-main:hover {
   -ms-transform: scale(1.1);
-  /* -webkit-transform: scale(1.1); */
   transform: scale(1.05);
 }
 
-.card-item-main a {
+.card-item-main img {
+  width: 200px;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-item-main img:hover {
+  border: none;
+  background-color: none;
+}
+
+.card-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-actions a {
   width: 100px;
   display: flex;
   justify-content: center;
   text-decoration: none;
   color: white;
   font-size: 1rem;
-  border: 1px solid #a800e5;
   border-radius: 10px;
   background-color: #a800e5;
   padding: 7px 14px;
   transition: 300ms ease;
 }
 
-.Card-pos {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  /* margin-top: auto; */
-}
-
-.heart-icon {
+.favorite-icon {
   top: 0;
   width: 24px;
   height: 24px;
   transition: 300ms ease;
 }
 
-.heart-icon:hover {
+.favorite-icon:hover {
   color: #7502ab;
 }
 
-.bucket-icon {
+.cart-icon {
   width: 24px;
   height: 24px;
   transition: 300ms ease;
 }
 
-.bucket-icon:hover,
-.bucket-icon.active {
+.cart-icon:hover,
+.cart-icon.active {
   color: #7502ab;
 }
 
-.card-item-main a:hover {
+.card-actions a:hover {
   background-color: #7502ab;
 }
 
-.old h3 {
+.old-price {
   text-decoration: line-through;
-}
-
-.new h2 {
-  color: #ad0000;
+  text-decoration-color: red;
 }
 
 @media screen and (max-width: 900px) {

@@ -7,12 +7,13 @@ import BrandPage from "./pages/BrandPage";
 import MarkerPage from "./pages/MarkerPage";
 import ProductPage from "./pages/ProductPage";
 import AccesPage from "./pages/AccsesPage";
-import { CartContextProvider } from "./components/data/CartContext";
+import { CartProvider } from "./components/data/CartContext";
+import { ProductsProvider } from "./components/contexts/ProductsContext";
 import Bucket from "./pages/Bucket";
 import NewProductPage from "./pages/NewProductPage";
 import SalePage from "./pages/SalePage";
 import Order from "./pages/Order";
-// import Bucket from "./pages/Bucket";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -62,9 +63,11 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <CartContextProvider>
-      <RouterProvider router={router}></RouterProvider>
-    </CartContextProvider>
+    <ProductsProvider>
+      <CartProvider>
+        <RouterProvider router={router} />
+      </CartProvider>
+    </ProductsProvider>
   );
 }
 

@@ -1,117 +1,62 @@
+import { useContext, useState } from "react";
 import { CartContext } from "../components/data/CartContext.js";
-import { useContext } from "react";
-import React, { useState } from "react";
 import Header from "../components/Header.jsx";
 import Footer from "../components/Footer.jsx";
 import "../styles/Order.css";
 
 export default function Order() {
-  const { cart, setCart } = useContext(CartContext);
-  const [count, setCount] = useState({});
+  // Получаем необходимые методы и данные из контекста корзины
+  const { cart, removeFromCart, updateQuantity, getCartTotal } =
+    useContext(CartContext);
+
+  // Состояния для формы заказа
   const [showModal, setShowModal] = useState(false);
   const [orderInfo, setOrderInfo] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
-
-  // Состояние для выбора способа доставки
   const [deliveryMethod, setDeliveryMethod] = useState("");
-
-  // Состояние для выбора способа оплаты
   const [paymentMethod, setPaymentMethod] = useState("");
-
-  // Состояние для выбора типа оплаты
   const [paymentType, setPaymentType] = useState("");
 
-  // Обработчик для выбора способа доставки
+  // Расчет общей суммы заказа
+  const calculateOrderSummary = () => {
+    const cartItems = Object.values(cart);
+    let subtotal = getCartTotal();
+    let discount = 0;
+
+    // Расчет скидки
+    cartItems.forEach((item) => {
+      if (item.old_price) {
+        discount += (item.old_price - item.price) * item.quantity;
+      }
+    });
+
+    // Расчет стоимости доставки
+    const deliveryPrice = subtotal > 1000 ? 0 : 500;
+    const total = subtotal + deliveryPrice;
+    const itemsCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+
+    return { subtotal, discount, deliveryPrice, total, itemsCount };
+  };
+
+  const { subtotal, discount, deliveryPrice, total, itemsCount } =
+    calculateOrderSummary();
+
+  // Обработчики выбора способов доставки и оплаты
   const handleDeliveryChange = (method) => {
     setDeliveryMethod(method);
   };
 
-  // Обработчик для выбора способа оплаты
   const handlePaymentMethodChange = (method) => {
     setPaymentMethod(method);
   };
 
-  // Обработчик для выбора типа оплаты
   const handlePaymentTypeChange = (type) => {
     setPaymentType(type);
   };
 
-  // Функция удаляет товар из корзины
-  function handleRemoveItem(itemId) {
-    const updatedCart = { ...cart };
-    delete updatedCart[itemId];
-    setCart(updatedCart);
-
-    const updatedCounts = { ...count };
-    delete updatedCounts[itemId];
-    setCount(updatedCounts);
-  }
-
-  // Увеличение количества товара
-  const increment = (itemId) => {
-    setCount((prevCounts) => ({
-      ...prevCounts,
-      [itemId]: (prevCounts[itemId] || 1) + 1,
-    }));
-  };
-
-  // Уменьшение количества товара
-  const decrement = (itemId) => {
-    setCount((prevCounts) => {
-      const currentCount = prevCounts[itemId] || 1;
-      if (currentCount > 1) {
-        return {
-          ...prevCounts,
-          [itemId]: currentCount - 1,
-        };
-      }
-      return prevCounts;
-    });
-  };
-
-  // Считаем общую сумму заказа
-  const totalPrice = Object.keys(cart).reduce((total, key) => {
-    const item = cart[key];
-    const itemCount = count[key] || 1;
-    return total + item.price * itemCount;
-  }, 0);
-
-  // Считаем общую сумму скидки
-  const salePrice = Object.keys(cart).reduce((total, key) => {
-    const item = cart[key];
-    const itemCount = count[key] || 1;
-    if (item.old_price !== 0) {
-      const discountPerItem = item.old_price - item.price;
-      return total + discountPerItem * itemCount;
-    }
-    return total;
-  }, 0);
-
-  // Стоимость доставки
-  const deliveryPrice = totalPrice > 1000 ? 500 : 0;
-
-  // Итоговая сумма
-  const finalPrice = totalPrice - salePrice + deliveryPrice;
-
-  // Считаем скидку для каждого товара отдельно
-  const calculateDiscountedPrice = (old_price, price) => {
-    if (old_price !== 0) {
-      return old_price - price;
-    }
-    return 0;
-  };
-
-  // Проверка, пуста ли корзина
-  const isCartEmpty = Object.keys(cart).length === 0;
-
-  // Генерация случайного номера заказа
-  const generateOrderNumber = () => {
-    return `ORDER-${Math.floor(Math.random() * 1000000)}`;
-  };
-
-  // Проверка заполненности всех полей
+  // Валидация формы перед оформлением заказа
   const validateOrder = () => {
-    if (isCartEmpty) {
+    if (itemsCount === 0) {
       return "Корзина пуста. Добавьте товары для оформления заказа.";
     }
     if (!deliveryMethod) {
@@ -126,7 +71,7 @@ export default function Order() {
     return "";
   };
 
-  // Обработчик для кнопки "Оформить"
+  // Оформление заказа
   const handleCheckout = () => {
     const validationError = validateOrder();
     if (validationError) {
@@ -135,22 +80,18 @@ export default function Order() {
       return;
     }
 
-    // Генерация номера заказа
-    const orderNumber = generateOrderNumber();
-
-    // Сохранение информации о заказе
+    // Создание информации о заказе
     setOrderInfo({
-      orderNumber,
+      orderNumber: `ORDER-${Math.floor(Math.random() * 1000000)}`,
       deliveryMethod,
       paymentMethod,
       paymentType,
-      totalPrice,
-      salePrice,
+      subtotal,
+      discount,
       deliveryPrice,
-      finalPrice,
+      total,
     });
 
-    // Показ модального окна с информацией о заказе
     setShowModal(true);
     setErrorMessage("");
   };
@@ -161,10 +102,6 @@ export default function Order() {
     setOrderInfo(null);
     setErrorMessage("");
   };
-
-  const totalItemsInCart = Object.keys(cart).reduce((total, key) => {
-    return total + (count[key] || 1);
-  }, 0);
 
   return (
     <div className="page-order">
@@ -178,6 +115,7 @@ export default function Order() {
         </a>
         <a>Корзина</a>
       </div>
+
       <div className="main-order">
         <h1>Корзина</h1>
         <div className="back-order">
@@ -225,6 +163,7 @@ export default function Order() {
                 </div>
               </div>
             </div>
+
             <div className="payment">
               <h2>Способ оплаты</h2>
               <div className="description">
@@ -287,48 +226,66 @@ export default function Order() {
                   </div>
                 </div>
                 <div className="payment-info">
-                  <p>Количество товара в корзине: {totalItemsInCart}</p>
-                  <p>Скидка: {salePrice} ₽</p>
+                  <p>Количество товара в корзине: {itemsCount}</p>
+                  <p>Скидка: {discount} ₽</p>
                   <p>Доставка: {deliveryPrice} ₽</p>
-                  <p id="itog">Итого: {finalPrice} ₽</p>
+                  <p id="itog">Итого: {total} ₽</p>
                   <button onClick={handleCheckout}>Оформить</button>
                 </div>
               </div>
             </div>
           </div>
-          {/* блок товаров в корзине */}
+
           <div className="cart-main">
-            {Object.keys(cart).map((key) => {
-              return (
-                <div className="card-order" key={key}>
-                  <img
-                    className="bucket-img"
-                    src={cart[key].img}
-                    width={200}
-                  ></img>
-                  <p>{cart[key].name}</p>
-                  <p>{cart[key].price} ₽</p>
-                  <p>
-                    {calculateDiscountedPrice(
-                      cart[key].old_price,
-                      cart[key].price
-                    )}
-                    ₽
-                  </p>
-                  <div className="clicker">
-                    <button onClick={() => decrement(key)}>-</button>
-                    <p>{count[key] || 1}</p>
-                    <button onClick={() => increment(key)}>+</button>
-                    <button onClick={() => handleRemoveItem(key)}>
-                      Удалить
-                    </button>
+            {Object.keys(cart).length > 0 ? (
+              Object.keys(cart).map((key) => {
+                const item = cart[key];
+                return (
+                  <div className="card-order" key={key}>
+                    <img
+                      className="bucket-img"
+                      src={item.img}
+                      width={200}
+                      alt={item.name}
+                    />
+                    <p>{item.name}</p>
+                    <p>{item.price} ₽</p>
+                    <p>
+                      Скидка: {item.old_price ? item.old_price - item.price : 0}{" "}
+                      ₽
+                    </p>
+
+                    <div className="clicker">
+                      <button
+                        onClick={() => updateQuantity(key, item.quantity - 1)}
+                      >
+                        -
+                      </button>
+                      <p>{item.quantity}</p>
+                      <button
+                        onClick={() => updateQuantity(key, item.quantity + 1)}
+                      >
+                        +
+                      </button>
+                      <button onClick={() => removeFromCart(key)}>
+                        Удалить
+                      </button>
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })
+            ) : (
+              <div className="empty-cart">
+                <p>Ваша корзина пуста</p>
+                <a href="/test" className="continue-shopping">
+                  Продолжить покупки
+                </a>
+              </div>
+            )}
           </div>
         </div>
       </div>
+
       {/* Модальное окно */}
       {showModal && (
         <div className="modal-overlay">
@@ -347,7 +304,7 @@ export default function Order() {
                   <p>Способ доставки: {orderInfo.deliveryMethod}</p>
                   <p>Способ оплаты: {orderInfo.paymentMethod}</p>
                   <p>Тип оплаты: {orderInfo.paymentType}</p>
-                  <p>Итоговая сумма: {orderInfo.finalPrice} ₽</p>
+                  <p>Итоговая сумма: {orderInfo.total} ₽</p>
                   <button onClick={closeModal}>Закрыть</button>
                 </>
               ) : (

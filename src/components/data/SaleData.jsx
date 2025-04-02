@@ -17,7 +17,7 @@ export const SaleData = [
   },
   {
     id: "33",
-    name: "Краска аэрозольная Molotow Burner Chrom",
+    name: "Аэрозольная краска Molotow Burner Chrom",
     ml: "400",
     old_price: 700,
     price: 500,
