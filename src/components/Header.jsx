@@ -6,7 +6,7 @@ import { useContext, useState } from "react";
 import { FiMenu } from "react-icons/fi";
 import { FaHeart } from "react-icons/fa";
 import { FiX } from "react-icons/fi";
-import { CartContext } from "./data/CartContext";
+import { CartContext } from "../components/data/CartContext";
 
 export default function Header() {
   const { cart } = useContext(CartContext);
@@ -31,7 +31,7 @@ export default function Header() {
           />
           <div className="header-logo">
             <Link to={"/"}>
-              <img src="./logo.png"></img>
+              <img src="/logo.png"></img>
             </Link>
           </div>
         </div>

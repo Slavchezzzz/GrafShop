@@ -46,41 +46,141 @@
   background-color: white;
   width: 100%;
   border-radius: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
 .delivery h2 {
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+}
+
+.description {
+  padding: 20px;
+}
+
+/* Персональные данные */
+.personal-info {
+  margin-bottom: 30px;
+}
+
+.personal-info h5 {
+  font-size: 1.1rem;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.input-delivery {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.input-group label {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.input-group input {
+  height: 45px;
+  padding: 0 15px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+
+.input-group input:focus {
+  border-color: #aa00e8;
+  outline-color: #aa00e8;
+  box-shadow: 0 0 0 2px rgba(170, 0, 232, 0.1);
+}
+
+/* Если у вас есть другие поля ввода, добавим и для них */
+input[type="text"],
+input[type="tel"],
+input[type="email"],
+input[type="number"] {
+  height: 45px;
+  padding: 0 15px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+
+input[type="text"]:focus,
+input[type="tel"]:focus,
+input[type="email"]:focus,
+input[type="number"]:focus {
+  border-color: #aa00e8;
+  outline-color: #aa00e8;
+  box-shadow: 0 0 0 2px rgba(170, 0, 232, 0.1);
+}
+
+/* Способы доставки */
+.delivery-methods h2 {
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 5px;
 }
 
-.description {
-  width: 100%;
+.delivery-options {
   display: flex;
   flex-direction: column;
-  padding: 25px;
-  gap: 15px;
+  gap: 10px;
 }
 
-.input-delivery {
+.delivery-option {
+  position: relative;
+}
+
+.delivery-radio {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.delivery-label {
   display: flex;
   flex-direction: column;
-  gap: 25px;
-  padding-bottom: 5px;
-}
-
-.input-delivery input {
-  height: 100%;
-  width: 100%;
-  border: none;
-  outline: none;
-  border-bottom: 2px solid #ccc;
-  border-top: 2px solid transparent;
+  padding: 10px 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  cursor: pointer;
   transition: all 0.2s ease;
 }
 
-.input-delivery input:focus {
-  border-bottom-color: #aa00e8;
+.delivery-radio:checked + .delivery-label {
+  border-color: #aa00e8;
+  background-color: rgba(170, 0, 232, 0.05);
+}
+
+.delivery-title {
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 3px;
+}
+
+.delivery-info {
+  color: #666;
+  font-size: 0.85rem;
+}
+
+.delivery-price {
+  color: #aa00e8;
+  font-weight: 500;
+  font-size: 0.9rem;
+  margin-top: 3px;
 }
 
 /* стили для способа оплаты */
@@ -89,6 +189,8 @@
   background-color: white;
   width: 100%;
   border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .payment h2 {
@@ -103,30 +205,148 @@
 }
 
 .payment #itog {
-  font-size: large;
+  font-size: 1.5rem;
   font-weight: 700;
+  color: #a800e5;
+  margin: 15px 0;
 }
 
 .payment-info button {
-  /* width: 50%; */
-  padding: 10px 50px 10px;
-  border-radius: 10px;
+  width: 100%;
+  max-width: 300px;
+  padding: 12px 24px;
+  border-radius: 8px;
   font-size: 1.1rem;
   font-weight: 600;
   color: white;
   background-color: #a800e5;
-  border: 1px solid #a800e5;
-  transition: 500ms ease;
+  border: none;
+  transition: all 0.3s ease;
 }
 
 .payment-info button:hover {
   background-color: #7502ab;
-  border: 1px solid #7502ab;
+
 }
 
 .payment .checkbox {
   display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 15px 0;
+}
+
+.payment .description {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 25px;
+  gap: 15px;
+}
+
+.payment-methods-container {
+  display: flex;
+  gap: 30px;
+  margin-bottom: 30px;
+}
+
+.payment-section {
+  flex: 1;
+}
+
+.payment-section h5 {
+  font-size: 1.1rem;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.payment-options {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.payment-option {
+  position: relative;
+}
+
+.payment-radio {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.payment-label {
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.payment-radio:checked + .payment-label {
+  border-color: #aa00e8;
+  background-color: rgba(170, 0, 232, 0.05);
+}
+
+.payment-title {
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-bottom: 5px;
+}
+
+.payment-info {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+/* Стили для итоговой информации */
+.order-summary {
+  border-top: 1px solid #eee;
+  padding-top: 20px;
+}
+
+.summary-items {
+  margin-bottom: 20px;
+}
+
+.summary-row {
+  display: flex;
   justify-content: space-between;
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+
+.summary-row.total {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #333;
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+}
+
+.summary-row.discount {
+  color: #e41e31;
+}
+
+.checkout-button {
+  width: 100%;
+  padding: 15px;
+  background-color: #aa00e8;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.checkout-button:hover {
+  background-color: #8b00c1;
 }
 
 /* стили для товаров  */
@@ -305,5 +525,137 @@
   }
 }
 
-@media screen and (max-width: 420px) {
+
+@media screen and (max-width: 768px) {
+  .payment-methods-container {
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .payment-section {
+    width: 100%;
+  }
+  
+  .description {
+    padding: 15px;
+  }
+  
+  .delivery-label {
+    padding: 12px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .input-group input {
+    height: 40px;
+    font-size: 0.9rem;
+  }
+  .payment-label {
+    padding: 12px;
+  }
+  .payment-title {
+    font-size: 1rem;
+  }
+  .payment-info {
+    font-size: 0.85rem;
+  }
+  .summary-row {
+    font-size: 0.9rem;
+  }
+  .summary-row.total {
+    font-size: 1.1rem;
+  }
+}
+
+/* Уменьшаем отступы между опциями доставки */
+.delivery-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Корректируем отступы в контейнере */
+.delivery-methods {
+  margin-bottom: 20px;
+}
+
+/* Если есть заголовок секции доставки */
+.delivery h5 {
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  margin-bottom: 10px;
+}
+
+.empty-cart {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  background-color: white;
+  border-radius: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.empty-cart-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 40px;
+}
+
+.empty-cart-icon {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 20px;
+  color: #aa00e8; /* Фирменный фиолетовый цвет */
+}
+
+.empty-cart h2 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 10px 0;
+}
+
+.empty-cart p {
+  font-size: 16px;
+  color: #666;
+  margin: 0 0 25px 0;
+}
+
+.continue-shopping {
+  display: inline-block;
+  padding: 12px 30px;
+  background-color: #aa00e8;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.continue-shopping:hover {
+  background-color: #8b00c1;
+}
+
+/* Адаптивность */
+@media screen and (max-width: 480px) {
+  .empty-cart-content {
+    padding: 30px 20px;
+  }
+
+  .empty-cart-icon {
+    width: 60px;
+    height: 60px;
+  }
+
+  .empty-cart h2 {
+    font-size: 20px;
+  }
+
+  .empty-cart p {
+    font-size: 14px;
+  }
 }

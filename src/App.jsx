@@ -36,7 +36,7 @@ const router = createBrowserRouter([
     element: <MarkerPage />,
   },
   {
-    path: "/product",
+    path: "/product/:id",
     element: <ProductPage />,
   },
   {

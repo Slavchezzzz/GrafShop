@@ -28,6 +28,7 @@ function ProductCard({ product }) {
   const isInCart = !!cart[product.id];
   const hasDiscount =
     product.old_price > 0 && product.old_price > product.price;
+  const isNewProduct = product.is_new == 1; // Проверка на новинку
 
   return (
     <div className="card-item-main">
@@ -43,12 +44,12 @@ function ProductCard({ product }) {
       </Link>
 
       <div className="card-description">
+        {isNewProduct && <div className="tag-new">Новинка</div>}
         <span className="product-title">{product.name}</span>
         {product.ml && <span className="product-volume"> {product.ml} мл</span>}
-
         <div className="price-container">
-          {hasDiscount && <h2 className="old-price">{product.old_price}₽</h2>}
-          <h2 className="current-price">{product.price}₽</h2>
+          {hasDiscount && <span className="old-price">{product.old_price}₽</span>}
+          <span className="current-price">{product.price}₽</span>
         </div>
       </div>
       <div className="card-actions">

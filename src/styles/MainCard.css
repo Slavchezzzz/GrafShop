@@ -11,112 +11,194 @@
   width: 100%;
   max-width: 1500px;
   justify-content: center;
-  align-items: center;
+  align-items: stretch;
   justify-items: center;
   column-gap: 35px;
-  row-gap: 35px;
+  row-gap: 50px;
   margin: 0 auto;
-  padding-top: 10px;
+  padding: 20px;
 }
 
 .card-item-main {
   display: flex;
   flex-direction: column;
-  width: 200px;
+  width: 100%;
+  max-width: 280px;
+  min-height: 400px;
   background-color: white;
   color: black;
-  transition: transform 0.5s;
-  box-shadow: 0px 0px 15px white;
+  transition: all 0.3s ease;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   border: none;
-}
-
-.card-item-main Link:hover {
-  background-color: white;
+  position: relative;
+  padding: 25px 15px;
+  border-radius: 8px;
 }
 
 .card-item-main:hover {
-  -ms-transform: scale(1.1);
-  transform: scale(1.05);
+  transform: translateY(-5px);
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.15);
 }
 
 .card-item-main img {
-  width: 200px;
-  border: none;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  width: 100%;
+  height: 250px;
+  object-fit: contain;
+  margin-bottom: 15px;
+  transition: transform 0.3s ease;
 }
 
 .card-item-main img:hover {
-  border: none;
-  background-color: none;
+  transform: scale(1.05);
 }
+
+.card-description {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  gap: 8px;
+}
+
+.product-title {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.4;
+  margin-bottom: 5px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  height: 44px;
+}
+
+.product-volume {
+  color: #666;
+  font-size: 14px;
+}
+
+.price-container {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+}
+
+.current-price {
+  font-size: 26px;
+  font-weight: 700;
+  color: #333;
+}
+
+.old-price {
+  font-size: 20px;
+  font-weight: 500;
+  color: #999;
+  text-decoration: line-through;
+  text-decoration-color: #ff4444;
+}
+
+.tag-new {
+  position: absolute;
+  top: 15px;
+  left: -5px;
+  padding: 6px 15px;
+  font-size: 12px;
+  font-weight: bold;
+  color: white;
+  background-color: #a800e5;
+  border-radius: 0 5px 5px 0;
+  z-index: 20;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  line-height: 1.3;
+}
+
+/* .tag-new::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  width: 5px;
+  height: 5px;
+  background-color: #7502ab;
+  clip-path: polygon(0 0, 100% 0, 100% 100%);
+} */
 
 .card-actions {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
 }
 
 .card-actions a {
-  width: 100px;
+  flex-grow: 1;
   display: flex;
   justify-content: center;
   text-decoration: none;
   color: white;
-  font-size: 1rem;
-  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 6px;
   background-color: #a800e5;
-  padding: 7px 14px;
-  transition: 300ms ease;
-}
-
-.favorite-icon {
-  top: 0;
-  width: 24px;
-  height: 24px;
-  transition: 300ms ease;
-}
-
-.favorite-icon:hover {
-  color: #7502ab;
-}
-
-.cart-icon {
-  width: 24px;
-  height: 24px;
-  transition: 300ms ease;
-}
-
-.cart-icon:hover,
-.cart-icon.active {
-  color: #7502ab;
+  padding: 10px 20px;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .card-actions a:hover {
   background-color: #7502ab;
+  transform: translateY(-2px);
 }
 
-.old-price {
-  text-decoration: line-through;
-  text-decoration-color: red;
+.favorite-icon,
+.cart-icon {
+  width: 24px;
+  height: 24px;
+  transition: all 0.3s ease;
+  color: #666;
+  margin-left: 15px;
+}
+
+.favorite-icon:hover,
+.cart-icon:hover {
+  color: #a800e5;
+  transform: scale(1.15);
+}
+
+.cart-icon.active {
+  color: #45a049;
+}
+
+.favorite-icon.active {
+  color: #e91e63;
+}
+
+@media screen and (max-width: 1200px) {
+  .card-menu {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+  }
 }
 
 @media screen and (max-width: 900px) {
   .card-menu {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@media screen and (max-width: 700px) {
-  .card-menu {
     grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
   }
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 600px) {
   .card-menu {
     grid-template-columns: repeat(1, 1fr);
+    padding: 15px;
+  }
+
+  .card-item-main {
+    max-width: 100%;
   }
 }

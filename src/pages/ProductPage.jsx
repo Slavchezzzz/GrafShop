@@ -1,87 +1,177 @@
-import { Descriptions } from "antd";
-import Footer from "../components/Footer";
+import { useParams, Link } from "react-router-dom";
+import { useState, useEffect, useContext } from "react";
+import { ProductsContext } from "../components/contexts/ProductsContext.js";
+import { CartContext } from "../components/data/CartContext";
 import Header from "../components/Header.jsx";
+import Footer from "../components/Footer.jsx";
 import "../styles/ProductPage.css";
-import { useState } from "react";
-import CardPopular from "../components/CardPopular.jsx";
-// import { dataCard } from "../components/data/dataCardPopular";
+import MainCard from "../components/MainCard";
 
 export default function ProductPage() {
-  let [desOpen, setDesOpen] = useState("descriptions");
+  const { id } = useParams();
+  const { products } = useContext(ProductsContext);
+  const { addToCart, isFavorite, toggleFavorite, cart } = useContext(CartContext);
+  const [product, setProduct] = useState(null);
+  const [desOpen, setDesOpen] = useState("descriptions");
+  const [loading, setLoading] = useState(true);
+  const [recommendedProducts, setRecommendedProducts] = useState([]);
 
-  const list = {
+  // Загрузка данных продукта
+  useEffect(() => {
+    if (products.length > 0) {
+      const foundProduct = products.find((p) => p.id === parseInt(id));
+      setProduct(foundProduct);
+      setLoading(false);
+
+      // Получаем рекомендуемые товары только при загрузке продукта
+      if (foundProduct) {
+        const sameCategory = products.filter(p => 
+          p.category_id === foundProduct.category_id && 
+          p.id !== foundProduct.id
+        );
+        
+        // Перемешиваем один раз и сохраняем результат
+        const shuffled = sameCategory
+          .sort(() => Math.random() - 0.5)
+          .slice(0, 4);
+        
+        setRecommendedProducts(shuffled);
+      }
+    }
+  }, [id, products]);
+
+  const tabContent = {
     descriptions: {
       button: "Описание",
-      descript:
-        "Titans — это индонезийский бренд аэрозольной краски, производимый компанией Tanal Paint и разработанный Nevertoolavist, Hard13, Darbotz и Zany 13, которые не первый год в граффити сцене. Краска Titans помогает художникам создавать больше, чем просто искусство по доступной цене. Матовое нанесение. Супер мягкий, отзывчивый клапан. Палитра насчитывает 47 матовых цветов. На баллон подходят все стандартные граффити кэпы, и они будут работать именно так, как вы этого ожидаете. С удобным размером баллона вы получите больше возможностей в движении во время рисования. Донат или цветовой индикатор выкрашен краской, что гарантирует совпадение цвета 99.9%. В краске есть добавка с защитой от уф-лучей, это гарантирует что оригинальный цвет будет долго сохранять свою насыщенность. Стоит скини кэп, аналог банана, краска густая лучше ставить фэт на первый пуск.",
+      content: product?.descriptions || "Описание отсутствует",
     },
     delivery: {
       button: "Доставка",
-      descript:
-        "Минимальная сумма заказа - 500 рублей.Стоимость доставки:При заказе от 10 000 рублей -  бесплатно; При заказе до 10 000 рублей - по тарифам служб доставки. Сборка заказа происходит в течении 7 рабочих дней.",
+      content:
+        "Минимальная сумма заказа - 500 рублей. Стоимость доставки: При заказе от 10 000 рублей - бесплатно; При заказе до 10 000 рублей - по тарифам служб доставки. Сборка заказа происходит в течении 7 рабочих дней.",
     },
     checkout: {
       button: "Оплата",
-      descript:
-        "1. Карты оплаты Visa, MasterCard2. Система онлайн-расчетов WebMoney.(Наш кошелек R 149298403931)2. Система онлайн-расчетов WebMoney.(Наш кошелек R 149298403931)3. Платежная система Яндекс деньги. (Наш кошелек 410011661303308)При использовании этих сервисов, Вы можете быть уверены в полной конфиденциальности финансовых операций и достоверности оплаты.",
+      content:
+        "1. Карты оплаты Visa, MasterCard\n2. Система онлайн-расчетов WebMoney\n3. Платежная система Яндекс.Деньги\nПри использовании этих сервисов, Вы можете быть уверены в полной конфиденциальности.",
     },
   };
 
-  function handleClick(e) {
-    setDesOpen(e.target.closest("li").dataset.tag);
-  }
+  const handleTabClick = (tabKey) => {
+    setDesOpen(tabKey);
+  };
 
-  let listJsx = [];
-  for (let key of Object.keys(list)) {
-    // console.log(list[key]);
-    listJsx.push(
-      <li data-tag={key} key={key} onClick={handleClick}>
-        <button>{list[key].button}</button>
-      </li>
+  // Функция для получения рекомендуемых товаров
+  const getRecommendedProducts = () => {
+    if (!product || !products.length) return [];
+    
+    // Получаем товары той же категории, исключая текущий товар
+    const sameCategory = products.filter(p => 
+      p.category_id === product.category_id && 
+      p.id !== product.id
     );
-  }
+    
+    // Перемешиваем массив и берем первые 4 товара
+    return sameCategory
+      .sort(() => Math.random() - 0.5)
+      .slice(0, 4);
+  };
+
+  if (loading) return <div className="loading">Загрузка...</div>;
+  if (!product) return <div className="error">Продукт не найден</div>;
+
+  const isInCart = !!cart[product.id];
+  const hasDiscount = product.old_price > 0 && product.old_price > product.price;
 
   return (
     <div className="product">
-      <Header></Header>
-      <div className="">
+      <Header />
+
+      <div className="product-container">
+        {/* Хлебные крошки */}
         <div className="path-cont">
-          <a href="/" className="path-des">
+          <Link to="/" className="path-des">
             GraffsShop
-          </a>
-          <a href="/test" className="path-des">
+          </Link>
+          <Link to="/test" className="path-des">
             Каталог
-          </a>
-          <a>Граффити</a>
+          </Link>
+          <span>{product.name}</span>
         </div>
-        {/* Основной блок */}
+
+        {/* Основное содержимое */}
         <div className="product-main">
+          {/* Изображение продукта */}
           <div className="image-container">
-            <img src="./cardNew/card1.png"></img>
+            <img
+              src={product.img || "/placeholder-product.jpg"}
+              alt={product.name}
+              onError={(e) => {
+                e.target.src = "/placeholder-product.jpg";
+              }}
+            />
           </div>
-          {/* Описание продукта */}
+
+          {/* Информация о продукте */}
           <div className="product-info">
-            <div>
-              <h1>Аэрозольная краска Titans 400 мл</h1>
+            <div className="product-header">
+              <h1>{product.name}</h1>
               <div className="product-price">
-                <span>400₽</span>
+                {hasDiscount && (
+                  <span className="old-price">{product.old_price}₽</span>
+                )}
+                <span className="current-price">{product.price}₽</span>
+                {product.ml && (
+                  <span className="volume"> | {product.ml} мл</span>
+                )}
               </div>
             </div>
-            <div className="product-button">
-              <button className="button-bucket">В корзину</button>
-              <button className="button-heart">Добавить в избранное</button>
+
+            {/* Кнопки действий */}
+            <div className="product-actions">
+              <button 
+                className={`button-cart ${isInCart ? 'added' : ''}`}
+                onClick={() => addToCart(product)}
+              >
+                {isInCart ? 'В корзине' : 'В корзину'}
+              </button>
+              <button 
+                className={`button-wishlist ${isFavorite(product.id) ? 'active' : ''}`}
+                onClick={() => toggleFavorite(product.id)}
+              >
+                {isFavorite(product.id) ? 'В избранном' : 'В избранное'}
+              </button>
             </div>
-            <div className="product-description">
-              <ul className="product-list">{listJsx}</ul>
-              <p>{list[desOpen].descript}</p>
+
+            {/* Табы с описанием */}
+            <div className="product-tabs">
+              <div className="tabs-header">
+                {Object.keys(tabContent).map((key) => (
+                  <button
+                    key={key}
+                    className={`tab-button ${desOpen === key ? "active" : ""}`}
+                    onClick={() => handleTabClick(key)}
+                  >
+                    {tabContent[key].button}
+                  </button>
+                ))}
+              </div>
+              <div className="tabs-content">
+                <p>{tabContent[desOpen].content}</p>
+              </div>
             </div>
           </div>
         </div>
-        <div className="product-down">
-          <h2 className="inters">Может быть интересно</h2>
-          <CardPopular />
-        </div>
+
+        {/* Блок рекомендуемых товаров */}
+        {recommendedProducts.length > 0 && (
+          <div className="recommended-products">
+            <h2>Может быть интересно</h2>
+            <MainCard products={recommendedProducts} />
+          </div>
+        )}
       </div>
+
       <Footer />
     </div>
   );
