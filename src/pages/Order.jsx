@@ -129,26 +129,26 @@ export default function Order() {
                   <div className="input-delivery">
                     <div className="input-group">
                       <label htmlFor="fullName">ФИО</label>
-                      <input 
-                        type="text" 
-                        id="fullName" 
-                        placeholder="Введите ваше полное имя" 
+                      <input
+                        type="text"
+                        id="fullName"
+                        placeholder="Введите ваше полное имя"
                       />
                     </div>
                     <div className="input-group">
                       <label htmlFor="phone">Телефон</label>
-                      <input 
-                        type="tel" 
-                        id="phone" 
-                        placeholder="+7 (___) ___-__-__" 
+                      <input
+                        type="tel"
+                        id="phone"
+                        placeholder="+7 (___) ___-__-__"
                       />
                     </div>
                     <div className="input-group">
                       <label htmlFor="email">Email</label>
-                      <input 
-                        type="email" 
-                        id="email" 
-                        placeholder="example@mail.com" 
+                      <input
+                        type="email"
+                        id="email"
+                        placeholder="example@mail.com"
                       />
                     </div>
                   </div>
@@ -185,7 +185,9 @@ export default function Order() {
                       />
                       <label htmlFor="cdek" className="delivery-label">
                         <span className="delivery-title">СДЭК</span>
-                        <span className="delivery-info">Доставка до пункта выдачи</span>
+                        <span className="delivery-info">
+                          Доставка до пункта выдачи
+                        </span>
                         <span className="delivery-price">от 300 ₽</span>
                       </label>
                     </div>
@@ -201,7 +203,9 @@ export default function Order() {
                       />
                       <label htmlFor="post" className="delivery-label">
                         <span className="delivery-title">Почта России</span>
-                        <span className="delivery-info">Доставка до отделения</span>
+                        <span className="delivery-info">
+                          Доставка до отделения
+                        </span>
                         <span className="delivery-price">от 250 ₽</span>
                       </label>
                     </div>
@@ -225,11 +229,15 @@ export default function Order() {
                           name="paymentMethod"
                           className="payment-radio"
                           checked={paymentMethod === "Оплата сразу"}
-                          onChange={() => handlePaymentMethodChange("Оплата сразу")}
+                          onChange={() =>
+                            handlePaymentMethodChange("Оплата сразу")
+                          }
                         />
                         <label htmlFor="payNow" className="payment-label">
                           <span className="payment-title">Оплата сразу</span>
-                          <span className="payment-info">Мгновенное подтверждение</span>
+                          <span className="payment-info">
+                            Мгновенное подтверждение
+                          </span>
                         </label>
                       </div>
 
@@ -240,11 +248,17 @@ export default function Order() {
                           name="paymentMethod"
                           className="payment-radio"
                           checked={paymentMethod === "Оплата при получении"}
-                          onChange={() => handlePaymentMethodChange("Оплата при получении")}
+                          onChange={() =>
+                            handlePaymentMethodChange("Оплата при получении")
+                          }
                         />
                         <label htmlFor="payLater" className="payment-label">
-                          <span className="payment-title">Оплата при получении</span>
-                          <span className="payment-info">Оплата после доставки</span>
+                          <span className="payment-title">
+                            Оплата при получении
+                          </span>
+                          <span className="payment-info">
+                            Оплата после доставки
+                          </span>
                         </label>
                       </div>
                     </div>
@@ -261,11 +275,17 @@ export default function Order() {
                           name="paymentType"
                           className="payment-radio"
                           checked={paymentType === "Банковской картой"}
-                          onChange={() => handlePaymentTypeChange("Банковской картой")}
+                          onChange={() =>
+                            handlePaymentTypeChange("Банковской картой")
+                          }
                         />
                         <label htmlFor="card" className="payment-label">
-                          <span className="payment-title">Банковской картой</span>
-                          <span className="payment-info">Visa, MasterCard, МИР</span>
+                          <span className="payment-title">
+                            Банковской картой
+                          </span>
+                          <span className="payment-info">
+                            Visa, MasterCard, МИР
+                          </span>
                         </label>
                       </div>
 
@@ -280,13 +300,15 @@ export default function Order() {
                         />
                         <label htmlFor="cash" className="payment-label">
                           <span className="payment-title">Наличными</span>
-                          <span className="payment-info">При получении заказа</span>
+                          <span className="payment-info">
+                            При получении заказа
+                          </span>
                         </label>
                       </div>
                     </div>
                   </div>
                 </div>
-                
+
                 {/* Итоговая информация */}
                 <div className="order-summary">
                   <div className="summary-items">

@@ -1,16 +1,14 @@
-import React, { useRef, useState } from "react";
-// Import Swiper React components
+import React from "react";
+
 import { Swiper, SwiperSlide } from "swiper/react";
 import { BrandsData } from "../components/data/BrandsData.jsx";
-
-// Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
+import "swiper/css/navigation";
 
 import "../styles/Infinity.css";
 
-// import required modules
-import { Pagination } from "swiper/modules";
+import { Pagination, Navigation, Autoplay } from "swiper/modules";
 
 export default function InfinitySlider() {
   return (
@@ -24,27 +22,54 @@ export default function InfinitySlider() {
           centeredSlides={true}
           spaceBetween={30}
           grabCursor={true}
+          loop={true}
+          speed={800}
+          effect={'coverflow'}
+          coverflowEffect={{
+            rotate: 0,
+            stretch: 0,
+            depth: 100,
+            modifier: 1,
+            slideShadows: false,
+          }}
+          autoplay={{
+            delay: 3000,
+            disableOnInteraction: false,
+          }}
+          navigation={true}
           pagination={{
             clickable: true,
           }}
-          modules={[Pagination]}
+          breakpoints={{
+            320: {
+              slidesPerView: 1,
+              spaceBetween: 10
+            },
+            768: {
+              slidesPerView: 2,
+              spaceBetween: 20
+            },
+            1024: {
+              slidesPerView: 4,
+              spaceBetween: 30
+            }
+          }}
+          modules={[Pagination, Navigation, Autoplay]}
           className="mySwiper"
         >
-          {BrandsData.map((BrandsData, index) => {
-            return (
-              <SwiperSlide>
-                <div className="Brands-item" key={index}>
-                  <div className="Brand-image">
-                    <img src={BrandsData.img} />
-                  </div>
-                  <div className="Brand-discription">
-                    <h1>{BrandsData.name}</h1>
-                    <span>{BrandsData.discription}</span>
-                  </div>
+          {BrandsData.map((brand, index) => (
+            <SwiperSlide key={index}>
+              <div className="Brands-item">
+                <div className="Brand-image">
+                  <img src={brand.img} alt={brand.name} />
                 </div>
-              </SwiperSlide>
-            );
-          })}
+                <div className="Brand-discription">
+                  <h1>{brand.name}</h1>
+                  <span>{brand.discription}</span>
+                </div>
+              </div>
+            </SwiperSlide>
+          ))}
         </Swiper>
       </div>
     </div>

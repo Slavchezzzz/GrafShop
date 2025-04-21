@@ -79,8 +79,6 @@ body {
 }
 
 .Brands-item:hover {
-  background-color: #a800e5;
-  color: white;
   transform: scale(1.01);
 }
 

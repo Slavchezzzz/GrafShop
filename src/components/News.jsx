@@ -2,6 +2,7 @@ import "../styles/News.css";
 import ControlledCarousel from "./SliderBoot";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { FaCalendarAlt, FaArrowRight } from 'react-icons/fa';
 
 export default function News() {
   const [data, setData] = useState([]);
@@ -28,38 +29,57 @@ export default function News() {
   }, []);
 
   if (loading) {
-    return <div>Загрузка...</div>; // Отображаем индикатор загрузки
+    return (
+      <div className="loading-container">
+        <div className="loading-spinner"></div>
+        <p>Загрузка новостей...</p>
+      </div>
+    );
   }
 
   if (error) {
-    return <div>Ошибка: {error.message}</div>; // Отображаем сообщение об ошибке
+    return (
+      <div className="error-container">
+        <p>Ошибка: {error.message}</p>
+      </div>
+    );
   }
 
   return (
-    <div className="News">
+    <div className="news-section">
       <div className="page-card-news">
         <h1>Новости</h1>
       </div>
-      <div className="container">
+      <div className="news-container">
         {/* Большой блок */}
-        <div className="big-news">
+        <div className="featured-news">
           <ControlledCarousel />
         </div>
         {/* Маленький блок */}
-        <div className="small-news">
+        <div className="news-grid">
           {data.length === 0 ? (
-            <div>Нет новостей с is_new_marker = 0.</div>
+            <div className="no-news">
+              <p>Нет доступных новостей</p>
+            </div>
           ) : (
             data.map((item) => (
-              <div key={item.id} className="article-wrap-small">
-                <div className="article-avatar">
+              <article key={item.id} className="news-card">
+                <div className="news-card-image">
                   <img src={item.img} alt={item.name} />
+                  <div className="news-card-overlay"></div>
                 </div>
-                <div className="article_text">
-                  <p>{item.name}</p>
-                  <a href="">Подробнее...</a>
+                <div className="news-card-content">
+                  <div className="news-meta">
+                    <span className="news-date">
+                      <FaCalendarAlt /> {item.date || 'Без даты'}
+                    </span>
+                  </div>
+                  <h3 className="news-title">{item.name}</h3>
+                  <a href={`/news/${item.id}`} className="read-more">
+                    Подробнее <FaArrowRight />
+                  </a>
                 </div>
-              </div>
+              </article>
             ))
           )}
         </div>

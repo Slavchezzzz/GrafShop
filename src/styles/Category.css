@@ -92,3 +92,230 @@
     font-size: 30px;
   }
 }
+
+.category-section {
+  padding: 40px 0;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+/* Стили для заголовка */
+.category-header {
+  background-image: url("/public/spray/spray7.png");
+  background-repeat: no-repeat;
+  background-size: 440px;
+  background-position: center;
+  height: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.category-header h2 {
+  color: white;
+  /* font-size: 2.5rem; */
+  margin: 0;
+  text-align: center;
+}
+
+/* Контейнер для карточек */
+.category-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  padding: 0 20px;
+}
+
+/* Стили для карточек */
+.category-card {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.category-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.category-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* Стили для изображения */
+.category-image {
+  position: relative;
+  width: 100%;
+  height: 300px;
+  overflow: hidden;
+}
+
+.category-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.category-card:hover .category-image img {
+  transform: scale(1.05);
+}
+
+.category-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.2),
+    rgba(0, 0, 0, 0.6)
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.category-card:hover .category-overlay {
+  opacity: 1;
+}
+
+/* Стили для контента */
+.category-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 25px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+  color: white;
+  transform: translateY(70px);
+  transition: transform 0.3s ease;
+}
+
+.category-card:hover .category-content {
+  transform: translateY(0);
+}
+
+.category-icon {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+  color: #a800e5;
+}
+
+.category-content h3 {
+  font-size: 1.5rem;
+  margin: 0 0 10px 0;
+  font-weight: 600;
+}
+
+.category-content p {
+  font-size: 1rem;
+  margin: 0 0 20px 0;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.3s ease;
+}
+
+.category-card:hover .category-content p {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Стили для кнопки */
+.category-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background-color: #a800e5;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.category-link:hover {
+  background-color: #8600b9;
+  color: white;
+}
+
+.category-link svg {
+  transition: transform 0.3s ease;
+}
+
+.category-link:hover svg {
+  transform: translateX(5px);
+}
+
+/* Адаптивность */
+@media screen and (max-width: 768px) {
+  .category-header {
+    background-size: 380px;
+  }
+
+  .category-header h2 {
+    font-size: 2rem;
+  }
+
+  .category-container {
+    gap: 20px;
+    padding: 0 15px;
+  }
+
+  .category-image {
+    height: 250px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .category-header {
+    background-size: 330px;
+    height: 120px;
+  }
+
+  .category-header h2 {
+    font-size: 1.8rem;
+  }
+
+  .category-content {
+    padding: 20px;
+  }
+
+  .category-content h3 {
+    font-size: 1.3rem;
+  }
+
+  .category-icon {
+    font-size: 2rem;
+  }
+}
+
+/* Анимация появления */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.category-card {
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+.category-card:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.category-card:nth-child(3) {
+  animation-delay: 0.4s;
+}
