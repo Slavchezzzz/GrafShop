@@ -226,7 +226,6 @@ input[type="number"]:focus {
 
 .payment-info button:hover {
   background-color: #7502ab;
-
 }
 
 .payment .checkbox {
@@ -525,21 +524,20 @@ input[type="number"]:focus {
   }
 }
 
-
 @media screen and (max-width: 768px) {
   .payment-methods-container {
     flex-direction: column;
     gap: 20px;
   }
-  
+
   .payment-section {
     width: 100%;
   }
-  
+
   .description {
     padding: 15px;
   }
-  
+
   .delivery-label {
     padding: 12px;
   }
