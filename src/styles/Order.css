@@ -17,7 +17,12 @@
 }
 
 .main-order h1 {
-  margin-top: 0;
+  margin-top: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 100%;
 }
 
 .back-order {
@@ -406,6 +411,7 @@ input[type="number"]:focus {
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 32px;
 }
 
 .clicker button {
@@ -657,3 +663,4 @@ input[type="number"]:focus {
     font-size: 14px;
   }
 }
+

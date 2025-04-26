@@ -1,131 +1,72 @@
 import Header from "../components/Header.jsx";
 import Footer from "../components/Footer.jsx";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { CartContext } from "../components/data/CartContext.js";
+import { MainDataCard } from "../components/data/MainDataCard.jsx";
 import "../styles/Bucket.css";
 import { Link } from "react-router-dom";
 
 export default function Bucket() {
-  const { cart, setCart } = useContext(CartContext);
-  const [count, setCount] = useState(1);
+  const { favorites, toggleFavorite } = useContext(CartContext);
 
-  // Функция удаляет товар из корзины
-  function handleRemoveItem(itemId) {
-    const updatedCart = { ...cart };
-    delete updatedCart[itemId];
-    setCart(updatedCart);
-
-    const updateCounts = { ...count };
-    delete updateCounts[itemId];
-    setCount(updateCounts);
-  }
-
-  const increment = (itemId) => {
-    setCount((prevCounts) => ({
-      ...prevCounts,
-      [itemId]: (prevCounts[itemId] || 1) + 1,
-    }));
-  };
-
-  const decrement = (itemId) => {
-    setCount((prevCounts) => {
-      const currentCount = prevCounts[itemId] || 1;
-      if (currentCount > 1) {
-        return {
-          ...prevCounts,
-          [itemId]: currentCount - 1,
-        };
-      }
-      return prevCounts;
-    });
-  };
-  // Считаем общую сумму заказа
-  const totalPrice = Object.keys(cart).reduce((total, key) => {
-    const item = cart[key];
-    return total + item.price;
-  }, 0);
-
-  //  Считаем общую сумму скидки
-  const salePrice = Object.keys(cart).reduce((total, key) => {
-    const item = cart[key];
-    if (item.old_price !== 0) {
-      let raz = item.old_price - item.price;
-      return total + raz;
-    }
-    return 0;
-  }, 0);
-
-  // Считаем скидку для каждого товара отдельно
-  const calculateDiscountedPrice = (old_price, price) => {
-    if (old_price !== 0) {
-      return old_price - price;
-    }
-    return 0;
-  };
+  // Получаем товары, которые есть в избранном
+  const favoriteProducts = MainDataCard.filter((item) =>
+    favorites.includes(item.id)
+  );
 
   return (
-    <div className="bucket">
+    <div className="bucket-page">
       <Header />
-      <div className="path-cont">
-        <a href="/" className="path-des">
+      <div className="bucket-path-cont">
+        <Link to="/" className="bucket-path-des">
           GraffsShop
-        </a>
-        <a href="/test" className="path-des">
+        </Link>
+        <span className="bucket-path-sep">/</span>
+        <Link to="/test" className="bucket-path-des">
           Каталог
-        </a>
-        <a>Избранное</a>
+        </Link>
+        <span className="bucket-path-sep">/</span>
+        <span className="bucket-path-current">Избранное</span>
       </div>
       <div className="bucket-main">
-        <h1>Избранное</h1>
-        {/* информация о корзине */}
-        {Object.keys(cart).length > 0 ? (
-          <div>
-            <div className="itog">
-              <div className="cart-itog">
-                <p>Количсетво товара в избранном: {Object.keys(cart).length}</p>
-                <p>Скидка: {salePrice}₽</p>
-                <p>Итого: {totalPrice}₽</p>
-              </div>
-            </div>
-          </div>
-        ) : (
-          <p>У вас нет избранного!</p>
-        )}
-        <div className="cart">
-          {/* блок товаров в корзине */}
-          {Object.keys(cart).map((key) => {
-            return (
-              <div className="card-bucket">
-                <div className="card-bucket-des">
-                  <img
-                    className="bucket-img"
-                    src={cart[key].img}
-                    width={200}
-                  ></img>
-                  <p>{cart[key].name}</p>
-                  <p>{cart[key].price}₽</p>
-                  <p>
-                    {calculateDiscountedPrice(
-                      cart[key].old_price,
-                      cart[key].price
+        <h1 className="bucket-title">Избранное</h1>
+        {favoriteProducts.length > 0 ? (
+          <div className="bucket-list">
+            {favoriteProducts.map((item) => (
+              <div className="bucket-card" key={item.id}>
+                <div className="bucket-card-des">
+                  <img className="bucket-img" src={item.img} alt={item.name} />
+                  <div className="bucket-card-info">
+                    <p className="bucket-card-name">{item.name}</p>
+                    <p className="bucket-card-price">{item.price}₽</p>
+                    {item.old_price !== 0 && (
+                      <p className="bucket-card-discount">
+                        Скидка: {item.old_price - item.price}₽
+                      </p>
                     )}
-                    ₽
-                  </p>
-                  <div className="clicker">
-                    <button onClick={() => decrement(key)}>-</button>
-                    <p>{count[key] || 1}</p>
-                    <button onClick={() => increment(key)}>+</button>
-                    <button onClick={() => handleRemoveItem(cart[key].id)}>
-                      Удалить
-                    </button>
+                    <div className="bucket-clicker">
+                      <button
+                        className="bucket-remove-btn"
+                        onClick={() => toggleFavorite(item.id)}
+                      >
+                        Удалить из избранного
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
-            );
-          })}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <div className="bucket-empty">
+            <p>У вас нет избранного!</p>
+            <Link to="/test" className="bucket-empty-link">
+              Перейти в каталог
+            </Link>
+          </div>
+        )}
       </div>
-      <Footer className="footer-bucket" />
+      <Footer />
     </div>
   );
 }

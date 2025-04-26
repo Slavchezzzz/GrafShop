@@ -72,7 +72,7 @@ export default function IndexPage() {
           <div className="page-card" ref={sectionRefs[1]}>
             <Infinity />
           </div>
-          <div className="page-card" ref={sectionRefs[2]}>
+          <div className="page-card page-card-popular" ref={sectionRefs[2]}>
             <div className="page-card-info-product">
               <h1>Популярные товары</h1>
             </div>

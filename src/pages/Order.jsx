@@ -357,7 +357,7 @@ export default function Order() {
                 return (
                   <div className="card-order" key={key}>
                     <img
-                      className="bucket-img"
+                      className="card-img"
                       src={item.img}
                       width={200}
                       alt={item.name}

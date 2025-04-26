@@ -22,13 +22,13 @@ export default function MainCard({ products = [] }) {
 }
 
 function ProductCard({ product }) {
-  const { addToCart, isFavorite, toggleFavorite, cart } =
+  const { addToCart, toggleFavorite, isFavorite, cart } =
     useContext(CartContext);
 
   const isInCart = !!cart[product.id];
   const hasDiscount =
     product.old_price > 0 && product.old_price > product.price;
-  const isNewProduct = product.is_new == 1; // Проверка на новинку
+  const isNewProduct = product.is_new == 1;
 
   return (
     <div className="card-item-main">
@@ -48,7 +48,9 @@ function ProductCard({ product }) {
         <span className="product-title">{product.name}</span>
         {product.ml && <span className="product-volume"> {product.ml} мл</span>}
         <div className="price-container">
-          {hasDiscount && <span className="old-price">{product.old_price}₽</span>}
+          {hasDiscount && (
+            <span className="old-price">{product.old_price}₽</span>
+          )}
           <span className="current-price">{product.price}₽</span>
         </div>
       </div>

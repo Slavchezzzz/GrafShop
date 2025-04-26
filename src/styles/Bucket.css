@@ -5,160 +5,245 @@
   list-style: none;
 }
 
-.bucket {
+.bucket-page {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  min-height: 100vh;
+  background: #fff;
+  color: #000;
 }
 
 .bucket-main {
   flex-grow: 1;
+  padding: 32px 0 32px 0;
 }
 
-h1 {
-  margin-top: 25px;
+.bucket-title {
+  margin-top: 10px;
+  margin-bottom: 32px;
   display: flex;
   justify-content: center;
   align-items: center;
+  color: #000000;
+  letter-spacing: 1px;
 }
 
-/* Блок информации о товарах в корзине  */
+.bucket-path-cont {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.05rem;
+  margin: 18px 0 0 32px;
+}
 
-.itog {
+.bucket-path-des {
+  color: #a18cd1;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+.bucket-path-des:hover {
+  color: #3a0ca3;
+  text-decoration: underline;
+}
+.bucket-path-sep {
+  color: #b8aee0;
+  margin: 0 2px;
+}
+.bucket-path-current {
+  color: #18142a;
+  font-weight: 700;
+}
+
+.bucket-itog {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 24px;
 }
 
-.cart-itog {
-  width: 498px;
+.bucket-itog-info {
+  width: 100%;
+  max-width: 520px;
   display: flex;
   flex-direction: column;
-  background-color: white;
-  padding: 20px 20px 16px;
-  border-radius: 10px;
+  background: #fff;
+  padding: 24px 28px 18px 28px;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px #a18cd122;
   margin-bottom: 10px;
+  gap: 8px;
 }
-.cart-itog p {
-  font-size: 1.3rem;
-  font-family: "Roboto";
-}
-
-.cart-itog a {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 44px;
-  width: 100%;
-  padding: 10px 50px 10px;
-  border-radius: 10px;
-  font-size: 1.1rem;
+.bucket-itog-info p {
+  font-size: 1.15rem;
+  color: #000000;
   font-weight: 600;
-  color: white;
-  background-color: #a800e5;
-  border: 1px solid #a800e5;
-  transition: 500ms ease;
-  text-decoration: none;
+  margin: 0 0 4px 0;
 }
 
-.cart-itog a:hover {
-  background-color: #7502ab;
-  border: 1px solid #7502ab;
-}
-
-/* Таблица товаров в корзине */
-
-.card-bucket {
-  width: 100%;
+.bucket-list {
   display: flex;
-  background-color: white;
-  padding: 20px 20px 16px;
-  border-top: 1px solid black;
-  border-radius: 0;
-}
-
-.card-bucket-des {
-  width: 100%;
-  display: flex;
-  /* justify-content: space-between; */
-  align-items: center;
-}
-
-.card-bucket-des h2 {
-  margin: 0;
-}
-
-.card-bucket-des p {
-  display: flex;
-  margin: 0;
-  width: 25%;
+  flex-wrap: wrap;
   justify-content: center;
+  gap: 24px;
+  margin-top: 18px;
+}
+
+.bucket-card {
+  max-width: 350px;
+  width: 100%;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px #00000022;
+  padding: 18px 24px;
+  display: flex;
+  align-items: center;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.bucket-card:hover {
+  box-shadow: 0 6px 24px #a18cd133;
+  transform: translateY(-2px) scale(1.01);
+}
+
+.bucket-card-des {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
 }
 
 .bucket-img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  display: block;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px #a18cd122;
+  background: #f6f7fb;
+}
+
+.bucket-card-info {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 150px;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
 }
 
-.card-bucket-des p {
-  font-size: 1.5rem;
-  font-weight: 600;
+.bucket-card-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #18142a;
+  margin: 0;
 }
 
-.card-bucket-des button {
-  height: 44px;
-  padding: 10px 50px 10px;
-  border-radius: 10px;
+.bucket-card-price {
   font-size: 1.1rem;
   font-weight: 600;
-  color: white;
-  background-color: #a800e5;
-  border: 1px solid #a800e5;
-  transition: 500ms ease;
+  color: #3a0ca3;
+  margin: 0;
 }
 
-.card-bucket-des button:hover {
-  background-color: #7502ab;
-  border: 1px solid #7502ab;
+.bucket-card-discount {
+  font-size: 1rem;
+  color: #a18cd1;
+  margin: 0;
 }
 
-.clicker {
+.bucket-clicker {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 20px;
+  gap: 10px;
+  margin-top: 8px;
 }
 
-.clicker button {
+.bucket-clicker button {
+  padding: 0 12px;
+  height: 36px;
+  font-size: 1.1rem;
+  border-radius: 8px;
+  background: #f6f7fb;
+  color: #3a0ca3;
+  border: 1.5px solid #a18cd1;
+  font-weight: 700;
+  transition: background 0.2s, color 0.2s;
+  cursor: pointer;
+}
+
+.bucket-clicker button:hover {
+  background: #a18cd1;
+  color: #fff;
+}
+
+.bucket-remove-btn {
+  background: linear-gradient(90deg, #a18cd1 0%, #3a0ca3 100%);
+  color: #fff;
+  border: none;
+  margin-left: 8px;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px #a18cd133;
+}
+
+.bucket-remove-btn:hover {
+  background: #fff;
+  color: #3a0ca3;
+  box-shadow: 0 4px 16px #a18cd133;
+  border: 1.5px solid #a18cd1;
+}
+
+.bucket-empty {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 15px;
-  transition: 500ms ease;
+  margin-top: 48px;
+  gap: 18px;
 }
 
-/* Адаптация страницы */
+.bucket-empty-link {
+  color: #fff;
+  background: linear-gradient(90deg, #a18cd1 0%, #3a0ca3 100%);
+  padding: 10px 32px;
+  border-radius: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  font-size: 1.1rem;
+  transition: background 0.2s, color 0.2s;
+  box-shadow: 0 2px 8px #a18cd133;
+}
 
-@media screen and (max-width: 850px) {
-  .card-bucket {
-    width: 100%;
-    display: flex;
+.bucket-empty-link:hover {
+  background: #fff;
+  color: #3a0ca3;
+  border: 1.5px solid #a18cd1;
+}
+
+@media screen and (max-width: 900px) {
+  .bucket-card-des {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .bucket-card {
+    padding: 12px 8px;
+  }
+  .bucket-itog-info {
+    padding: 18px 8px 12px 8px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .bucket-main {
+    padding: 12px 0 12px 0;
+  }
+  .bucket-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 4px;
   }
   .bucket-img {
-    width: 150px;
-  }
-  .card-bucket-des {
-    flex-direction: column;
-    gap: 0;
-    margin: 0;
-  }
-}
-
-@media screen and (max-width: 510px) {
-  .card-bucket {
-    display: flex;
-    justify-content: center;
+    width: 90px;
+    height: 90px;
   }
 }

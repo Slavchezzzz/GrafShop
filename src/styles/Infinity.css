@@ -20,11 +20,10 @@
   );
 }
 
-.Brands-info h1 {
+/* .Brands-info h1 {
   display: flex;
   justify-content: center;
-  margin-top: 10px;
-}
+} */
 
 .page-card-info {
   height: 150px;
@@ -34,7 +33,7 @@
   background-image: url("/public/spray/spray2.png");
   background-repeat: no-repeat;
   background-size: 320px;
-  background-position: top;
+  background-position: center -15px;
 }
 
 .swiper {
@@ -67,27 +66,25 @@
   color: black;
 }
 
-
 @media (max-width: 768px) {
   .Swiper {
-    slidesPerView: 1;
-    spaceBetween: 10px;
+    slidesperview: 1;
+    spacebetween: 10px;
   }
-  
+
   .Brand-image img {
     max-width: 80%;
     height: auto;
   }
-  
+
   .Brand-discription h1 {
     font-size: 1.2rem;
   }
-  
+
   .Brand-discription span {
     font-size: 0.9rem;
   }
 }
-
 
 .Brands-item {
   display: flex;
@@ -115,12 +112,12 @@
 
 .Brand-image img {
   max-width: 100%;
-  max-height: 150px; 
-  object-fit: contain; 
+  max-height: 150px;
+  object-fit: contain;
 }
 
 .Brand-discription {
-  flex-shrink: 0; 
+  flex-shrink: 0;
   padding: 15px;
   text-align: center;
 }
@@ -140,13 +137,13 @@
 /* Адаптивность для мобильных устройств */
 @media (max-width: 768px) {
   .Brands-item {
-    height: 250px; 
+    height: 250px;
   }
-  
+
   .Brand-image img {
     max-height: 100px;
   }
-  
+
   .Brand-discription {
     padding: 10px;
   }

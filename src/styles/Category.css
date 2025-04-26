@@ -19,22 +19,6 @@
   }
 }
 
-.category-des {
-  background-image: url("/public/spray/spray7.png");
-  background-repeat: no-repeat;
-  background-size: 440px;
-  background-position: right 50% bottom 55%;
-}
-
-.category-des h2 {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 150px;
-  margin: 0;
-  color: white;
-}
-
 .my-card {
   -webkit-animation: scale-up-center 0.4s cubic-bezier(0.39, 0.575, 0.565, 1)
     both;
@@ -100,12 +84,12 @@
 }
 
 /* Стили для заголовка */
-.category-header{
+.category-header {
   background-image: url("/public/spray/spray7.png");
   background-repeat: no-repeat;
   background-size: 440px;
-  background-position: center;
-  height: 110px;
+  background-position: center -70px;
+  height: 120px;
   display: flex;
   justify-content: center;
   align-items: center;
