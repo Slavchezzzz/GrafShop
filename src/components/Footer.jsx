@@ -1,75 +1,74 @@
 import "../styles/Footer.css";
-import { FaInstagramSquare } from "react-icons/fa";
-import { FaTelegram } from "react-icons/fa";
-import { FaFacebookSquare } from "react-icons/fa";
-import "bootstrap/dist/css/bootstrap.min.css";
+import { FaInstagramSquare, FaTelegram, FaFacebookSquare, FaPhone, FaEnvelope, FaMapMarkerAlt, FaArrowUp, FaVk, FaYoutube } from "react-icons/fa";
 
 export default function Footer() {
+  const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
+
   return (
     <footer>
       <section className="footer">
         <div className="container">
-          <div className="row">
-            <div className="col-md-3 col-6">
-              <h4>Контакты</h4>
-              <ul className="list-unstyled">
+          <div className="footer-grid">
+            {/* Логотип и бренд */}
+            <div className="footer-brand simple">
+              <img src="/logo.png" alt="Graffs Shop" className="footer-logo-simple" />
+              <span className="footer-title">Graffs Shop</span>
+            </div>
+            {/* Контакты */}
+            <div>
+              <h4>Связаться с нами</h4>
+              <ul>
                 <li>
-                  <a href="">Адреса магазинов</a>
+                  <FaMapMarkerAlt className="footer-contact-icon" />
+                  <span>г. Москва, ул. Примерная, 12</span>
                 </li>
                 <li>
-                  <a href="tel:8 800 707 25 45 ">8 800 707 25 45</a>
+                  <FaPhone className="footer-contact-icon" />
+                  <a href="tel:88007072545">8 800 707 25 45</a>
                 </li>
                 <li>
-                  <a href="">graffsshop@gmail.com</a>
+                  <FaEnvelope className="footer-contact-icon" />
+                  <a href="mailto:graffsshop@gmail.com">graffsshop@gmail.com</a>
                 </li>
               </ul>
             </div>
-            <div className="col-md-3 col-6">
-              <h4>Информация</h4>
-              <ul className="list-unstyled">
-                <li>
-                  <a href="">Главная</a>
-                </li>
-                <li>
-                  <a href="">О нас</a>
-                </li>
-                <li>
-                  <a href="">Отзывы</a>
-                </li>
-                <li>
-                  <a href="">Контакты</a>
-                </li>
+            {/* Информация */}
+            <div>
+              <h4>О магазине</h4>
+              <ul>
+                <li><a href="#">Главная страница</a></li>
+                <li><a href="#">О компании</a></li>
+                <li><a href="#">Отзывы клиентов</a></li>
+                <li><a href="#">Контакты</a></li>
               </ul>
             </div>
-            <div className="col-md-3 col-6">
-              <h4>Помощь</h4>
-              <ul className="list-unstyled">
-                <li>
-                  <a href="">Как оформить заказ</a>
-                </li>
-                <li>
-                  <a href="">Обмен и возврат</a>
-                </li>
-                <li>
-                  <a href="">Оплата и доставка</a>
-                </li>
-                <li>
-                  <a href="">Контакты</a>
-                </li>
+            {/* Помощь */}
+            <div>
+              <h4>Помощь покупателю</h4>
+              <ul>
+                <li><a href="#">Как сделать заказ</a></li>
+                <li><a href="#">Обмен и возврат</a></li>
+                <li><a href="#">Оплата и доставка</a></li>
+                <li><a href="#">Частые вопросы</a></li>
               </ul>
             </div>
-            <div className="col-md-3 col-6">
-              <h4>Мы в сети</h4>
+            {/* Соцсети */}
+            <div>
+              <h4>Мы в соцсетях</h4>
               <div className="footer-icon">
-                <FaFacebookSquare className="fot-icon" />
-                <FaInstagramSquare className="fot-icon" />
-                <FaTelegram className="fot-icon" />
+                <a href="#" aria-label="ВКонтакте"><FaVk className="fot-icon" /></a>
+                <a href="#" aria-label="Telegram"><FaTelegram className="fot-icon" /></a>
+                <a href="#" aria-label="YouTube"><FaYoutube className="fot-icon" /></a>
               </div>
+              <p className="footer-social-text">Подписывайтесь на нас, чтобы быть в курсе новинок и акций!</p>
             </div>
           </div>
           <div className="under-footer">
-            <a href="">Политика конфиденциальности</a>
-            <p>© Graffs shop 2024</p>
+            <a href="#">Политика конфиденциальности</a>
+            <p>© Graffs Shop, 2025. Все права защищены.</p>
+            <button className="footer-up" onClick={scrollToTop} aria-label="Наверх">
+              <FaArrowUp />
+            </button>
           </div>
         </div>
       </section>

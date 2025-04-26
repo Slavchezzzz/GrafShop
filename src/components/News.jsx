@@ -2,7 +2,7 @@ import "../styles/News.css";
 import ControlledCarousel from "./SliderBoot";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { FaCalendarAlt, FaArrowRight } from 'react-icons/fa';
+import { FaCalendarAlt, FaArrowRight } from "react-icons/fa";
 
 export default function News() {
   const [data, setData] = useState([]);
@@ -71,7 +71,7 @@ export default function News() {
                 <div className="news-card-content">
                   <div className="news-meta">
                     <span className="news-date">
-                      <FaCalendarAlt /> {item.date || 'Без даты'}
+                      <FaCalendarAlt /> {item.date || "Без даты"}
                     </span>
                   </div>
                   <h3 className="news-title">{item.name}</h3>

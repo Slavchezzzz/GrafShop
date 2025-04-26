@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useRef } from "react";
 import { Link } from "react-router-dom";
 import Header from "../components/Header.jsx";
 import "../styles/indexPage.css";
@@ -15,6 +15,27 @@ export default function IndexPage() {
   const [newProductsPage, setNewProductsPage] = useState(1);
   const [popularProductsPage, setPopularProductsPage] = useState(1);
   const productsPerSection = 4;
+
+  // refs для секций
+  const sectionRefs = [useRef(null), useRef(null), useRef(null), useRef(null)];
+
+  useEffect(() => {
+    const observer = new window.IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+    sectionRefs.forEach(ref => {
+      if (ref.current) observer.observe(ref.current);
+    });
+    return () => observer.disconnect();
+  }, [sectionRefs]);
 
   // Фильтрация новинок
   const newProducts = products.filter((product) => product.is_new);
@@ -41,30 +62,23 @@ export default function IndexPage() {
       <HeaderPhoto />
       <div className="container">
         <main className="Page">
-          {/* Секция новинок */}
-          <div className="page-card">
+          <div className="page-card" ref={sectionRefs[0]}>
             <CategoryBlock />
             <div className="page-card-info-product">
               <h1>Новые поступления</h1>
             </div>
             <MainCard products={currentNewProducts} />
           </div>
-
-          {/* Бесконечный слайдер */}
-          <div className="page-card">
+          <div className="page-card" ref={sectionRefs[1]}>
             <Infinity />
           </div>
-
-          {/* Секция популярных товаров */}
-          <div className="page-card">
+          <div className="page-card" ref={sectionRefs[2]}>
             <div className="page-card-info-product">
               <h1>Популярные товары</h1>
             </div>
             <MainCard products={currentPopularProducts} />
           </div>
-
-          {/* Новости */}
-          <div className="page-card">
+          <div className="page-card" ref={sectionRefs[3]}>
             <News />
           </div>
         </main>

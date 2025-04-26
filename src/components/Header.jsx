@@ -57,7 +57,6 @@ export default function Header() {
     </header>
   );
 }
-
 function SideBar({ className, onClickClose }) {
   return (
     <ul id="open" className={"menu-links" + (className ? " " + className : "")}>
@@ -76,3 +75,4 @@ function SideBar({ className, onClickClose }) {
     </ul>
   );
 }
+

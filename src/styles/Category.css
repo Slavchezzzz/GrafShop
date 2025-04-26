@@ -100,12 +100,12 @@
 }
 
 /* Стили для заголовка */
-.category-header {
+.category-header{
   background-image: url("/public/spray/spray7.png");
   background-repeat: no-repeat;
   background-size: 440px;
   background-position: center;
-  height: 150px;
+  height: 110px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -114,7 +114,6 @@
 
 .category-header h2 {
   color: white;
-  /* font-size: 2.5rem; */
   margin: 0;
   text-align: center;
 }

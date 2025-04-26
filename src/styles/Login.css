@@ -72,27 +72,48 @@
 }
 
 .input-faild input {
-  position: absolute;
-  height: 100%;
   width: 100%;
-  padding: 0 35px;
-  border: none;
+  height: 100%;
+  padding: 0 16px 0 44px;
+  border: 1.5px solid #ccc;
+  border-radius: 8px;
+  background: #f7f7fa;
+  color: #18142a;
+  font-size: 1.05rem;
+  font-weight: 500;
   outline: none;
-  border-bottom: 2px solid #ccc;
-  border-top: 2px solid transparent;
-  transition: all 0.2s ease;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-shadow: none;
 }
 
 .input-faild input:focus {
-  border-bottom-color: #aa00e8;
+  border-color: #aa00e8;
+  background: #fff;
 }
 
 .input-faild .input-icon {
   position: absolute;
+  left: 14px;
   top: 50%;
   transform: translateY(-50%);
-  color: #999;
-  font-size: 15px;
+  color: #aa00e8;
+  font-size: 1.15rem;
+  pointer-events: none;
+}
+
+.input-faild input::placeholder {
+  color: #b8aee0;
+  opacity: 1;
+  font-weight: 400;
+}
+
+.input-error {
+  color: #ff6b81;
+  font-size: 0.97rem;
+  margin-top: 4px;
+  margin-bottom: -10px;
+  text-align: left;
+  padding-left: 8px;
 }
 
 .checkbox-text {
@@ -100,6 +121,17 @@
   align-items: center;
   justify-content: space-between;
   margin-top: 20px;
+}
+
+.checkbox-content {
+  display: flex;
+  align-items: center;
+}
+
+.checkbox-input {
+  accent-color: #a18cd1;
+  width: 18px;
+  height: 18px;
 }
 
 .checkbox-span {
@@ -166,3 +198,25 @@
     padding: 25px;
   }
 }
+
+/* Только для формы логина/регистрации */
+.main-reg .input-faild input,
+.main-log .input-faild input {
+  padding-left: 44px !important;
+}
+.forgot-password-btn {
+  background: none;
+  border: none;
+  color: #a18cd1;
+  font-size: 0.98rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: color 0.2s;
+  padding: 0;
+}
+
+.forgot-password-btn:hover {
+  color: #3a0ca3;
+  text-decoration: underline;
+}
+
