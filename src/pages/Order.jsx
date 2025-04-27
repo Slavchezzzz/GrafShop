@@ -3,6 +3,7 @@ import { CartContext } from "../components/data/CartContext.js";
 import Header from "../components/Header.jsx";
 import Footer from "../components/Footer.jsx";
 import "../styles/Order.css";
+import { Link } from "react-router-dom";
 import { FaShoppingCart } from "react-icons/fa";
 
 export default function Order() {
@@ -107,14 +108,16 @@ export default function Order() {
   return (
     <div className="page-order">
       <Header />
-      <div className="path-cont">
-        <a href="/" className="path-des">
+      <div className="bucket-path-cont">
+        <Link to="/" className="bucket-path-des">
           GraffsShop
-        </a>
-        <a href="/test" className="path-des">
+        </Link>
+        <span className="bucket-path-sep">/</span>
+        <Link to="/test" className="bucket-path-des">
           Каталог
-        </a>
-        <a>Корзина</a>
+        </Link>
+        <span className="bucket-path-sep">/</span>
+        <span className="bucket-path-current">Корзина</span>
       </div>
 
       <div className="main-order">

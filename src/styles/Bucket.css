@@ -141,7 +141,7 @@
 .bucket-card-price {
   font-size: 1.1rem;
   font-weight: 600;
-  color: #3a0ca3;
+  color: #a800e5;
   margin: 0;
 }
 
@@ -163,16 +163,15 @@
   height: 36px;
   font-size: 1.1rem;
   border-radius: 8px;
-  background: #f6f7fb;
-  color: #3a0ca3;
-  border: 1.5px solid #a18cd1;
+  background: #a800e5;
+  color: white;
   font-weight: 700;
   transition: background 0.2s, color 0.2s;
   cursor: pointer;
 }
 
 .bucket-clicker button:hover {
-  background: #a18cd1;
+  background: #7502ab;
   color: #fff;
 }
 
@@ -189,7 +188,6 @@
   background: #fff;
   color: #3a0ca3;
   box-shadow: 0 4px 16px #a18cd133;
-  border: 1.5px solid #a18cd1;
 }
 
 .bucket-empty {
@@ -202,7 +200,8 @@
 
 .bucket-empty-link {
   color: #fff;
-  background: linear-gradient(90deg, #a18cd1 0%, #3a0ca3 100%);
+  /* background: linear-gradient(90deg, #a18cd1 0%, #3a0ca3 100%); */
+  background-color: #aa00e8;
   padding: 10px 32px;
   border-radius: 12px;
   font-weight: 700;
@@ -213,9 +212,9 @@
 }
 
 .bucket-empty-link:hover {
-  background: #fff;
-  color: #3a0ca3;
-  border: 1.5px solid #a18cd1;
+  background: #7502ab;
+  color: #ffffff;
+  /* border: 1.5px solid #a18cd1; */
 }
 
 @media screen and (max-width: 900px) {

@@ -2,16 +2,17 @@ import Header from "../components/Header.jsx";
 import Footer from "../components/Footer.jsx";
 import { useContext } from "react";
 import { CartContext } from "../components/data/CartContext.js";
-import { MainDataCard } from "../components/data/MainDataCard.jsx";
+import { ProductsContext } from "../components/contexts/ProductsContext.js";
 import "../styles/Bucket.css";
 import { Link } from "react-router-dom";
 
-export default function Bucket() {
+export default function Bucket({ product }) {
   const { favorites, toggleFavorite } = useContext(CartContext);
+  const { products, isLoading, error } = useContext(ProductsContext);
 
-  // Получаем товары, которые есть в избранном
-  const favoriteProducts = MainDataCard.filter((item) =>
-    favorites.includes(item.id)
+  // Фильтруем все товары по избранным ID
+  const favoriteItems = products.filter((product) =>
+    favorites.includes(product.id)
   );
 
   return (
@@ -30,26 +31,37 @@ export default function Bucket() {
       </div>
       <div className="bucket-main">
         <h1 className="bucket-title">Избранное</h1>
-        {favoriteProducts.length > 0 ? (
+        {favoriteItems.length > 0 ? (
           <div className="bucket-list">
-            {favoriteProducts.map((item) => (
-              <div className="bucket-card" key={item.id}>
+            {favoriteItems.map((product) => (
+              <div className="bucket-card" key={product.id}>
                 <div className="bucket-card-des">
-                  <img className="bucket-img" src={item.img} alt={item.name} />
+                  <Link to={`/product/${product.id}`}>
+                    <img
+                      src={product.img || "/placeholder-product.jpg"}
+                      className="card-img"
+                      alt={product.name}
+                      onError={(e) => {
+                        e.target.src = "/placeholder-product.jpg";
+                      }}
+                    />
+                  </Link>
                   <div className="bucket-card-info">
-                    <p className="bucket-card-name">{item.name}</p>
-                    <p className="bucket-card-price">{item.price}₽</p>
-                    {item.old_price !== 0 && (
-                      <p className="bucket-card-discount">
-                        Скидка: {item.old_price - item.price}₽
-                      </p>
-                    )}
+                    <p className="bucket-card-name">{product.name}</p>
+                    <p className="bucket-card-price">{product.price}₽</p>
+                    <p className="bucket-card-discount">
+                      Скидка:{" "}
+                      {product.old_price
+                        ? product.old_price - product.price
+                        : 0}{" "}
+                      ₽
+                    </p>
                     <div className="bucket-clicker">
                       <button
                         className="bucket-remove-btn"
-                        onClick={() => toggleFavorite(item.id)}
+                        onClick={() => toggleFavorite(product.id)}
                       >
-                        Удалить из избранного
+                        Удалить
                       </button>
                     </div>
                   </div>

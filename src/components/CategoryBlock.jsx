@@ -30,7 +30,7 @@ export default function CategoryBlock() {
   return (
     <section className="category-section">
       <div className="category-header">
-        <h2>Категории товаров</h2>
+        <h1>Категории товаров</h1>
       </div>
       <div className="category-container">
         {categories.map((category, index) => (

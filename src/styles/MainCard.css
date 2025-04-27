@@ -212,23 +212,3 @@
 .category-section {
   margin-bottom: 56px;
 }
-
-.page-card-info-product {
-  padding: 0;
-  background-image: url("/public/spray/sprey.png");
-  background-repeat: no-repeat;
-  background-size: 500px;
-  background-position: center top;
-  padding: 60px 0 40px 0;
-  border-radius: 20px;
-}
-
-.page-card-info-product h1 {
-  margin-top: 0;
-  margin-bottom: 32px;
-  height: auto;
-  color: white;
-  text-align: center;
-  font-size: 35px;
-  background: none;
-}

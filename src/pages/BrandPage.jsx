@@ -1,6 +1,7 @@
 import Header from "../components/Header.jsx";
 import Footer from "../components/Footer.jsx";
 import "../styles/BrandsPage.css";
+import { Link } from "react-router-dom";
 import { useBrands } from "../hooks/useBrands";
 
 export default function BrandPage() {
@@ -39,11 +40,16 @@ const ErrorDisplay = ({ message }) => (
 );
 
 const Breadcrumbs = () => (
-  <div className="path-cont">
-    <a href="/" className="path-des">
+  <div className="bucket-path-cont">
+    <Link to="/" className="bucket-path-des">
       GraffsShop
-    </a>
-    <a>Бренды</a>
+    </Link>
+    <span className="bucket-path-sep">/</span>
+    <Link to="/test" className="bucket-path-des">
+      Каталог
+    </Link>
+    <span className="bucket-path-sep">/</span>
+    <span className="bucket-path-current">Бренды</span>
   </div>
 );
 

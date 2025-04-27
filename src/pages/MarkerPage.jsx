@@ -34,11 +34,16 @@ export default function MarkerPage() {
   return (
     <div className="layout">
       <Header />
-      <div className="path-cont">
-        <Link to="/" className="path-des">
+      <div className="bucket-path-cont">
+        <Link to="/" className="bucket-path-des">
           GraffsShop
         </Link>
-        <span>Каталог</span>
+        <span className="bucket-path-sep">/</span>
+        <Link to="/test" className="bucket-path-des">
+          Каталог
+        </Link>
+        <span className="bucket-path-sep">/</span>
+        <span className="bucket-path-current">Маркеры</span>
       </div>
 
       <div className="Page-graf">

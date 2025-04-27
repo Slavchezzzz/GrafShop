@@ -10,7 +10,8 @@ import MainCard from "../components/MainCard";
 export default function ProductPage() {
   const { id } = useParams();
   const { products } = useContext(ProductsContext);
-  const { addToCart, isFavorite, toggleFavorite, cart } = useContext(CartContext);
+  const { addToCart, isFavorite, toggleFavorite, cart } =
+    useContext(CartContext);
   const [product, setProduct] = useState(null);
   const [desOpen, setDesOpen] = useState("descriptions");
   const [loading, setLoading] = useState(true);
@@ -25,16 +26,17 @@ export default function ProductPage() {
 
       // Получаем рекомендуемые товары только при загрузке продукта
       if (foundProduct) {
-        const sameCategory = products.filter(p => 
-          p.category_id === foundProduct.category_id && 
-          p.id !== foundProduct.id
+        const sameCategory = products.filter(
+          (p) =>
+            p.category_id === foundProduct.category_id &&
+            p.id !== foundProduct.id
         );
-        
+
         // Перемешиваем один раз и сохраняем результат
         const shuffled = sameCategory
           .sort(() => Math.random() - 0.5)
           .slice(0, 4);
-        
+
         setRecommendedProducts(shuffled);
       }
     }
@@ -64,24 +66,22 @@ export default function ProductPage() {
   // Функция для получения рекомендуемых товаров
   const getRecommendedProducts = () => {
     if (!product || !products.length) return [];
-    
+
     // Получаем товары той же категории, исключая текущий товар
-    const sameCategory = products.filter(p => 
-      p.category_id === product.category_id && 
-      p.id !== product.id
+    const sameCategory = products.filter(
+      (p) => p.category_id === product.category_id && p.id !== product.id
     );
-    
+
     // Перемешиваем массив и берем первые 4 товара
-    return sameCategory
-      .sort(() => Math.random() - 0.5)
-      .slice(0, 4);
+    return sameCategory.sort(() => Math.random() - 0.5).slice(0, 4);
   };
 
   if (loading) return <div className="loading">Загрузка...</div>;
   if (!product) return <div className="error">Продукт не найден</div>;
 
   const isInCart = !!cart[product.id];
-  const hasDiscount = product.old_price > 0 && product.old_price > product.price;
+  const hasDiscount =
+    product.old_price > 0 && product.old_price > product.price;
 
   return (
     <div className="product">
@@ -89,13 +89,15 @@ export default function ProductPage() {
 
       <div className="product-container">
         {/* Хлебные крошки */}
-        <div className="path-cont">
-          <Link to="/" className="path-des">
+        <div className="bucket-path-cont">
+          <Link to="/" className="bucket-path-des">
             GraffsShop
           </Link>
-          <Link to="/test" className="path-des">
+          <span className="bucket-path-sep">/</span>
+          <Link to="/test" className="bucket-path-des">
             Каталог
           </Link>
+          <span className="bucket-path-sep">/</span>
           <span>{product.name}</span>
         </div>
 
@@ -129,17 +131,19 @@ export default function ProductPage() {
 
             {/* Кнопки действий */}
             <div className="product-actions">
-              <button 
-                className={`button-cart ${isInCart ? 'added' : ''}`}
+              <button
+                className={`button-cart ${isInCart ? "added" : ""}`}
                 onClick={() => addToCart(product)}
               >
-                {isInCart ? 'В корзине' : 'В корзину'}
+                {isInCart ? "В корзине" : "В корзину"}
               </button>
-              <button 
-                className={`button-wishlist ${isFavorite(product.id) ? 'active' : ''}`}
+              <button
+                className={`button-wishlist ${
+                  isFavorite(product.id) ? "active" : ""
+                }`}
                 onClick={() => toggleFavorite(product.id)}
               >
-                {isFavorite(product.id) ? 'В избранном' : 'В избранное'}
+                {isFavorite(product.id) ? "В избранном" : "В избранное"}
               </button>
             </div>
 

@@ -36,14 +36,16 @@ export default function NewProductPage() {
   return (
     <div className="layout">
       <Header />
-      <div className="path-cont">
-        <Link to="/" className="path-des">
+      <div className="bucket-path-cont">
+        <Link to="/" className="bucket-path-des">
           GraffsShop
         </Link>
-        <Link to="/test" className="path-des">
+        <span className="bucket-path-sep">/</span>
+        <Link to="/test" className="bucket-path-des">
           Каталог
         </Link>
-        <span>Скидки</span>
+        <span className="bucket-path-sep">/</span>
+        <span className="bucket-path-current">Скидки</span>
       </div>
 
       <div className="Page-graf">
