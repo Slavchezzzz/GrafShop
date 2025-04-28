@@ -13,6 +13,7 @@ import Bucket from "./pages/Bucket";
 import NewProductPage from "./pages/NewProductPage";
 import SalePage from "./pages/SalePage";
 import Order from "./pages/Order";
+import BrandCardPage from "./pages/BrandCardPage";
 
 const router = createBrowserRouter([
   {
@@ -58,6 +59,10 @@ const router = createBrowserRouter([
   {
     path: "/Order",
     element: <Order />,
+  },
+  {
+    path: "/BrandCardPage/:brandId",
+    element: <BrandCardPage />,
   },
 ]);
 

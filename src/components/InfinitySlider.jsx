@@ -9,8 +9,15 @@ import "swiper/css/navigation";
 import "../styles/Infinity.css";
 
 import { Pagination, Navigation, Autoplay } from "swiper/modules";
+import { useBrands } from "../hooks/useBrands";
+import BrandCard from "./BrandCard";
 
 export default function InfinitySlider() {
+  const { brands, loading, error } = useBrands();
+
+  if (loading) return <div className="loading">Загрузка...</div>;
+  if (error) return <div className="error-message">{error}</div>;
+
   return (
     <div className="slider">
       <div className="page-card-info">
@@ -20,7 +27,7 @@ export default function InfinitySlider() {
         <Swiper
           slidesPerView={4}
           centeredSlides={true}
-          spaceBetween={30}
+          spaceBetween={2}
           grabCursor={true}
           loop={true}
           speed={800}
@@ -43,31 +50,23 @@ export default function InfinitySlider() {
           breakpoints={{
             320: {
               slidesPerView: 1,
-              spaceBetween: 10
+              spaceBetween: 1
             },
             768: {
               slidesPerView: 2,
-              spaceBetween: 20
+              spaceBetween: 2
             },
             1024: {
               slidesPerView: 4,
-              spaceBetween: 30
+              spaceBetween: 2
             }
           }}
           modules={[Pagination, Navigation, Autoplay]}
           className="mySwiper"
         >
-          {BrandsData.map((brand, index) => (
-            <SwiperSlide key={index}>
-              <div className="Brands-item">
-                <div className="Brand-image">
-                  <img src={brand.img} alt={brand.name} />
-                </div>
-                <div className="Brand-discription">
-                  <h1>{brand.name}</h1>
-                  <span>{brand.discription}</span>
-                </div>
-              </div>
+          {brands.map((brand) => (
+            <SwiperSlide key={brand.id}>
+              <BrandCard brand={brand} />
             </SwiperSlide>
           ))}
         </Swiper>

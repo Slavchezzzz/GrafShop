@@ -1,0 +1,77 @@
+.pagecard-item {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  padding: 18px 14px 14px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 440px;         
+  height: 260px;     
+  border: 2px solid transparent;
+  transition: border 0.2s, box-shadow 0.2s;
+  margin: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.pagecard-image-link {
+  display: block;
+  width: 150px;         
+  height: 140px;
+  margin-bottom: 12px;
+}
+
+.pagecard-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 12px;
+  background: none;
+  display: block;
+}
+
+.pagecard-title {
+  font-size: 1.3rem;    
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 10px;
+  margin-top: 2px;
+  text-align: center;
+  max-width: 100%;
+  overflow: visible;
+  text-overflow: unset;
+  white-space: normal;
+  transition: color 0.2s;
+  word-break: break-word;
+}
+
+.pagecard-description {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.pagecard-text {
+  font-size: 1rem;
+  color: #666;
+  text-align: center;
+  min-height: 36px;
+  max-height: 48px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+/* Активная карточка в слайдере */
+.swiper-slide-active .pagecard-item {
+  border: 2px solid #a800e5;
+  box-shadow: 0 4px 16px rgba(25, 118, 210, 0.13);
+}
+
+.swiper-slide-active .pagecard-title {
+  color: #a800e5;
+}

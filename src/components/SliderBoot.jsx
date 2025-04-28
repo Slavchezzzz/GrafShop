@@ -3,11 +3,12 @@ import Carousel from "react-bootstrap/Carousel";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/SliderBoot.css";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 export default function ControlledCarousel() {
-  const [index, setIndex] = useState(0);
   const [slides, setSlides] = useState([]); // Состояние для хранения слайдов
   const [loading, setLoading] = useState(true); // Состояние для загрузки
+  const [index, setIndex] = useState(0);
   const [error, setError] = useState(null); // Состояние для ошибок
 
   // Обработчик выбора слайда
@@ -59,7 +60,7 @@ export default function ControlledCarousel() {
               <img src={slide.img} alt={slide.description} />
               <Carousel.Caption className="slider-text">
                 <h3>{slide.name}</h3>
-                <a href="#">Подробнее...</a>
+                <Link to={"/test"}>Подробнее</Link>
               </Carousel.Caption>
             </Carousel.Item>
           ))

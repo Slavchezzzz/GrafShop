@@ -6,6 +6,7 @@ import Header from "../components/Header.jsx";
 import Footer from "../components/Footer.jsx";
 import "../styles/ProductPage.css";
 import MainCard from "../components/MainCard";
+import {useNavigate } from "react-router-dom";
 
 export default function ProductPage() {
   const { id } = useParams();
@@ -16,6 +17,7 @@ export default function ProductPage() {
   const [desOpen, setDesOpen] = useState("descriptions");
   const [loading, setLoading] = useState(true);
   const [recommendedProducts, setRecommendedProducts] = useState([]);
+  const navigate = useNavigate();
 
   // Загрузка данных продукта
   useEffect(() => {
@@ -100,9 +102,11 @@ export default function ProductPage() {
           <span className="bucket-path-sep">/</span>
           <span>{product.name}</span>
         </div>
-
         {/* Основное содержимое */}
         <div className="product-main">
+        <button className="brand-back-btn" onClick={() => navigate(-1)}>
+          ← Назад
+        </button>
           {/* Изображение продукта */}
           <div className="image-container">
             <img

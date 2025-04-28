@@ -5,6 +5,7 @@ import { CartContext } from "../components/data/CartContext.js";
 import { ProductsContext } from "../components/contexts/ProductsContext.js";
 import "../styles/Bucket.css";
 import { Link } from "react-router-dom";
+import MainCard from "../components/MainCard.jsx";
 
 export default function Bucket({ product }) {
   const { favorites, toggleFavorite } = useContext(CartContext);
@@ -33,41 +34,7 @@ export default function Bucket({ product }) {
         <h1 className="bucket-title">Избранное</h1>
         {favoriteItems.length > 0 ? (
           <div className="bucket-list">
-            {favoriteItems.map((product) => (
-              <div className="bucket-card" key={product.id}>
-                <div className="bucket-card-des">
-                  <Link to={`/product/${product.id}`}>
-                    <img
-                      src={product.img || "/placeholder-product.jpg"}
-                      className="card-img"
-                      alt={product.name}
-                      onError={(e) => {
-                        e.target.src = "/placeholder-product.jpg";
-                      }}
-                    />
-                  </Link>
-                  <div className="bucket-card-info">
-                    <p className="bucket-card-name">{product.name}</p>
-                    <p className="bucket-card-price">{product.price}₽</p>
-                    <p className="bucket-card-discount">
-                      Скидка:{" "}
-                      {product.old_price
-                        ? product.old_price - product.price
-                        : 0}{" "}
-                      ₽
-                    </p>
-                    <div className="bucket-clicker">
-                      <button
-                        className="bucket-remove-btn"
-                        onClick={() => toggleFavorite(product.id)}
-                      >
-                        Удалить
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
+            <MainCard products={favoriteItems} />
           </div>
         ) : (
           <div className="bucket-empty">

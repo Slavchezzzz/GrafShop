@@ -66,11 +66,13 @@ const BrandsList = ({ brands }) => (
 const BrandItem = ({ brand }) => (
   <div className="Brands-item">
     <div className="Brand-image">
-      <img
-        src={brand.img}
-        alt={brand.name}
-        onError={(e) => (e.target.src = "/images/default-brand.jpg")}
-      />
+      <Link to={`/BrandCardPage/${brand.id}`}>
+        <img
+          src={brand.img}
+          alt={brand.name}
+          onError={(e) => (e.target.src = "/images/default-brand.jpg")}
+        />
+      </Link>
     </div>
     <div className="Brand-discription">
       <h1>{brand.title}</h1>
