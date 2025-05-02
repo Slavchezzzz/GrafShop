@@ -1,23 +1,87 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { ProductsContext } from "../components/contexts/ProductsContext.js";
 import Header from "../components/Header.jsx";
 import Footer from "../components/Footer.jsx";
 import MainCard from "../components/MainCard.jsx";
+import CatalogFilters from "../components/CatalogFilters";
 import "../styles/testPage.css";
 
 export default function TestPage() {
   const { products, isLoading, error } = useContext(ProductsContext);
   const [currentPage, setCurrentPage] = useState(1);
-  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [priceRange, setPriceRange] = useState({ min: 0, max: 100000 });
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [selectedBrand, setSelectedBrand] = useState("all");
+  const [sortBy, setSortBy] = useState("default");
+  const [showNewProducts, setShowNewProducts] = useState(false);
   const productsPerPage = 8;
 
-  // Фильтрация продуктов при изменении products
-  useEffect(() => {
-    const filtered = products.filter((product) => product.category_id === 1);
-    setFilteredProducts(filtered);
-    setCurrentPage(1); // Сброс на первую страницу при изменении фильтра
+  // Получаем уникальные категории
+  const categories = useMemo(() => {
+    const uniqueCategories = new Map();
+    products.forEach((product) => {
+      if (!uniqueCategories.has(product.category_id)) {
+        uniqueCategories.set(product.category_id, {
+          id: product.category_id,
+          name: product.category_name || `Категория ${product.category_id}`
+        });
+      }
+    });
+    return Array.from(uniqueCategories.values());
   }, [products]);
+
+  // Получаем уникальные бренды
+  const brands = useMemo(() => {
+    const uniqueBrands = new Map();
+    products.forEach((product) => {
+      if (product.brand_id && !uniqueBrands.has(product.brand_id)) {
+        uniqueBrands.set(product.brand_id, {
+          id: product.brand_id,
+          name: product.brand_name || `Бренд ${product.brand_id}`
+        });
+      }
+    });
+    return Array.from(uniqueBrands.values());
+  }, [products]);
+
+  // Фильтрация и сортировка продуктов
+  const filteredProducts = useMemo(() => {
+    let result = [...products];
+
+    // Применяем фильтры
+    result = result.filter((product) => {
+      const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesPrice = product.price >= priceRange.min && product.price <= priceRange.max;
+      const matchesCategory = selectedCategory === "all" || product.category_id === parseInt(selectedCategory);
+      const matchesBrand = selectedBrand === "all" || product.brand_id === parseInt(selectedBrand);
+      const matchesNewProducts = !showNewProducts || product.is_new === true;
+      
+      return matchesSearch && matchesPrice && matchesCategory && matchesBrand && matchesNewProducts;
+    });
+
+    // Применяем сортировку
+    switch (sortBy) {
+      case "price-asc":
+        result.sort((a, b) => a.price - b.price);
+        break;
+      case "price-desc":
+        result.sort((a, b) => b.price - a.price);
+        break;
+      case "name-asc":
+        result.sort((a, b) => a.name.localeCompare(b.name));
+        break;
+      case "name-desc":
+        result.sort((a, b) => b.name.localeCompare(a.name));
+        break;
+      default:
+        // По умолчанию - без сортировки
+        break;
+    }
+
+    return result;
+  }, [products, searchTerm, priceRange, selectedCategory, selectedBrand, sortBy, showNewProducts]);
 
   // Пагинация
   const indexOfLastProduct = currentPage * productsPerPage;
@@ -27,6 +91,11 @@ export default function TestPage() {
     indexOfLastProduct
   );
   const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+
+  // Сброс на первую страницу при изменении фильтров
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, priceRange, selectedCategory, selectedBrand, sortBy, showNewProducts]);
 
   if (isLoading) return <div className="loading">Загрузка...</div>;
   if (error) return <div className="error">Ошибка: {error.message}</div>;
@@ -47,8 +116,29 @@ export default function TestPage() {
       </div>
 
       <div className="Page-graf">
+        {/* Фильтры */}
+        <CatalogFilters
+          onSearch={setSearchTerm}
+          onPriceFilter={setPriceRange}
+          onCategoryFilter={setSelectedCategory}
+          onBrandFilter={setSelectedBrand}
+          onSortChange={setSortBy}
+          onNewProductsFilter={setShowNewProducts}
+          categories={categories}
+          brands={brands}
+          minPrice={0}
+          maxPrice={100000}
+        />
+
+        {/* Количество найденных товаров */}
+        <div className="products-count">
+          Найдено товаров: {filteredProducts.length}
+        </div>
+
+        {/* Список товаров */}
         <MainCard products={currentProducts} />
 
+        {/* Пагинация */}
         {filteredProducts.length > productsPerPage && (
           <div className="pagination">
             <button

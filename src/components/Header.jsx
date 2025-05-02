@@ -63,15 +63,17 @@ function SideBar({ className, onClickClose }) {
       <FiX className="header-fix js-burger-close" onClick={onClickClose} />
       <Link to={"/test"}>Граффити</Link>
 
-      <Link to={"/Marker"}>Маркеры</Link>
+      {/* <Link to={"/Marker"}>Маркеры</Link> */}
 
-      <Link to={"/accessories"}>Аксессуары</Link>
 
       <Link to={"/NewProduct"}>Новинки</Link>
 
       <Link to={"/SalePage"}>Скидки</Link>
 
       <Link to={"/Brand"}>Бренды</Link>
+
+      <Link to={"/news"}>Новости</Link>
+
     </ul>
   );
 }

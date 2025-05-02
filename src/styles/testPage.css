@@ -22,40 +22,69 @@ body {
 }
 
 .layout {
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
-  flex: 1 0 auto;
 }
 
-.Page {
-  flex: 1 0 auto;
-  margin-top: auto;
-  padding-bottom: 20px;
+.bucket-path-cont {
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
 }
 
-Footer {
-  flex-shrink: 0;
-  margin-top: auto;
+.bucket-path-des {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.bucket-path-des:hover {
+  text-decoration: underline;
+}
+
+.bucket-path-sep {
+  margin: 0 8px;
+  color: #6c757d;
+}
+
+.bucket-path-current {
+  color: #6c757d;
+}
+
+.Page-graf {
+  flex: 1;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.products-count {
+  margin: 20px 0;
+  font-size: 16px;
+  color: #6c757d;
 }
 
 .pagination {
   display: flex;
   justify-content: center;
-  margin: 20px 0;
-  gap: 5px;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+  padding: 20px 0;
 }
 
 .pagination button {
-  padding: 5px 10px;
-  border: 1px solid #ddd;
-  background: white;
-  cursor: pointer;
+  padding: 8px 16px;
+  border: 1px solid #dee2e6;
+  background-color: white;
   border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .pagination button:hover:not(:disabled) {
-  background: #7502ab;
+  background-color: #7502ab;
   color: white;
 }
 
@@ -65,6 +94,36 @@ Footer {
 }
 
 .pagination button.active {
-  background: #a800e5;
+  background-color: #a800e5;
   color: white;
+  border-color: #a800e5;
+}
+
+.loading,
+.error {
+  text-align: center;
+  padding: 40px;
+  font-size: 18px;
+}
+
+.error {
+  color: #dc3545;
+}
+
+.footer {
+  margin-top: auto;
+}
+
+@media (max-width: 768px) {
+  .Page-graf {
+    padding: 10px;
+  }
+
+  .pagination {
+    flex-wrap: wrap;
+  }
+
+  .pagination button {
+    padding: 6px 12px;
+  }
 }

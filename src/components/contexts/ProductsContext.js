@@ -35,7 +35,9 @@ export function ProductsProvider({ children }) {
           is_new: product.is_new_products === 1,
           is_popular: product.is_popular === 1,
           category_id: product.category_id,
+          category_name: product.category_name,
           brand_id: product.brand_id,
+          brand_name: product.brand_name,
           descriptions: product.descriptions || "",
         }))
       );

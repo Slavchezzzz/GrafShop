@@ -14,6 +14,8 @@ import NewProductPage from "./pages/NewProductPage";
 import SalePage from "./pages/SalePage";
 import Order from "./pages/Order";
 import BrandCardPage from "./pages/BrandCardPage";
+import NewsPage from './pages/NewsPage.jsx';
+import NewsDetailPage from './pages/NewsDetailPage.jsx';
 
 const router = createBrowserRouter([
   {
@@ -63,6 +65,14 @@ const router = createBrowserRouter([
   {
     path: "/BrandCardPage/:brandId",
     element: <BrandCardPage />,
+  },
+  {
+    path: "/news",
+    element: <NewsPage />,
+  },
+  {
+    path: "/news/:id",
+    element: <NewsDetailPage />,
   },
 ]);
 

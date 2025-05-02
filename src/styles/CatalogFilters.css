@@ -1,0 +1,245 @@
+.catalog-filters {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.filters-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  gap: 16px;
+}
+
+.search-container {
+  flex: 1;
+  position: relative;
+}
+
+.search-input {
+  width: 100%;
+  padding: 12px 16px;
+  padding-left: 40px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  background-color: #f9fafb;
+  color: #1f2937;
+  text-indent: 25px;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #a800e5;
+  box-shadow: 0 0 0 3px rgba(168, 0, 229, 0.1);
+  background-color: #ffffff;
+}
+
+.search-container::before {
+  content: "🔍";
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: #6b7280;
+}
+
+.sort-container {
+  min-width: 200px;
+}
+
+.sort-select {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 14px;
+  background-color: #f9fafb;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #1f2937;
+}
+
+.sort-select:focus {
+  outline: none;
+  border-color: #a800e5;
+  box-shadow: 0 0 0 3px rgba(168, 0, 229, 0.1);
+  background-color: #ffffff;
+}
+
+.filters-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  padding-top: 20px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.price-filter,
+.category-filter,
+.brand-filter {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.price-filter h3,
+.category-filter h3,
+.brand-filter h3 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: #4b5563;
+}
+
+.price-inputs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.price-inputs input {
+  flex: 1;
+  padding: 10px 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  background-color: #f9fafb;
+  color: #1f2937;
+}
+
+.price-inputs input:focus {
+  outline: none;
+  border-color: #a800e5;
+  box-shadow: 0 0 0 3px rgba(168, 0, 229, 0.1);
+  background-color: #ffffff;
+}
+
+.price-inputs span {
+  color: #6b7280;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.category-select,
+.brand-select {
+  padding: 10px 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  font-size: 14px;
+  background-color: #f9fafb;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #1f2937;
+}
+
+.category-select:focus,
+.brand-select:focus {
+  outline: none;
+  border-color: #a800e5;
+  box-shadow: 0 0 0 3px rgba(168, 0, 229, 0.1);
+  background-color: #ffffff;
+}
+
+.new-products-filter {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0;
+  border: none;
+  background-color: transparent;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+  padding: 8px 0;
+}
+
+.checkbox-input {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #a800e5;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  appearance: none;
+  position: relative;
+  margin: 0;
+}
+
+.checkbox-input:checked {
+  background-color: #a800e5;
+  border-color: #a800e5;
+}
+
+.checkbox-input:checked::after {
+  content: "✓";
+  position: absolute;
+  color: white;
+  font-size: 10px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.checkbox-text-inp {
+  font-size: 14px;
+  color: #4b5563;
+  font-weight: 500;
+  line-height: 1;
+  margin-top: 0px;
+
+}
+
+@media (max-width: 1024px) {
+  .filters-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .filters-header {
+    flex-direction: column;
+  }
+
+  .search-container,
+  .sort-container {
+    width: 100%;
+  }
+
+  .filters-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .catalog-filters {
+    padding: 16px;
+  }
+
+  .price-inputs {
+    flex-direction: column;
+  }
+
+  .price-inputs span {
+    display: none;
+  }
+
+  .search-input,
+  .sort-select,
+  .category-select,
+  .brand-select,
+  .price-inputs input {
+    padding: 10px 12px;
+  }
+} 
