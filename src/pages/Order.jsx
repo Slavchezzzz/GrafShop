@@ -363,9 +363,9 @@ export default function Order() {
                       className="card-img"
                       src={item.img}
                       width={200}
-                      alt={item.name}
+                      alt={item.title}
                     />
-                    <p>{item.name}</p>
+                    <p>{item.title}</p>
                     <p>{item.price} ₽</p>
                     <p>
                       Скидка: {item.old_price ? item.old_price - item.price : 0}{" "}

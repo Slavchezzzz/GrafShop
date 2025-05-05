@@ -100,7 +100,7 @@ export default function ProductPage() {
             Каталог
           </Link>
           <span className="bucket-path-sep">/</span>
-          <span>{product.name}</span>
+          <span>{product.title}</span>
         </div>
         {/* Основное содержимое */}
         <div className="product-main">
@@ -111,17 +111,18 @@ export default function ProductPage() {
           <div className="image-container">
             <img
               src={product.img || "/placeholder-product.jpg"}
-              alt={product.name}
+              alt={product.title}
               onError={(e) => {
                 e.target.src = "/placeholder-product.jpg";
               }}
             />
+            {product.is_new_products === 1 && <div className="tag-new">Новинка</div>}
           </div>
 
           {/* Информация о продукте */}
           <div className="product-info">
             <div className="product-header">
-              <h1>{product.name}</h1>
+              <h1>{product.title}</h1>
               <div className="product-price">
                 {hasDiscount && (
                   <span className="old-price">{product.old_price}₽</span>

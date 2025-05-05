@@ -15,7 +15,9 @@ export default function NewProductPage() {
   // Фильтрация новинок
   useEffect(() => {
     if (products) {
-      const newProducts = products.filter((product) => product.is_new == 1);
+      console.log('Filtering new products:', products); // Отладочный лог
+      const newProducts = products.filter((product) => product.is_new_products === 1);
+      console.log('Filtered new products:', newProducts); // Отладочный лог
       setFilteredProducts(newProducts);
       setCurrentPage(1);
     }

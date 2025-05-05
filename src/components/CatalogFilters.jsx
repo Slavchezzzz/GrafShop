@@ -124,8 +124,8 @@ const CatalogFilters = ({
           >
             <option value="all">Все категории</option>
             {categories.map((category) => (
-              <option key={category.id} value={category.id}>
-                {category.name}
+              <option key={category.id} value={category.category_title}>
+                {category.category_title}
               </option>
             ))}
           </select>
@@ -140,8 +140,8 @@ const CatalogFilters = ({
           >
             <option value="all">Все бренды</option>
             {brands.map((brand) => (
-              <option key={brand.id} value={brand.id}>
-                {brand.name}
+              <option key={brand.id} value={brand.brand_title}>
+                {brand.brand_title}
               </option>
             ))}
           </select>

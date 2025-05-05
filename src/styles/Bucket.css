@@ -33,7 +33,7 @@
   align-items: center;
   gap: 8px;
   font-size: 1.05rem;
-  margin: 18px 0 0 32px;
+  /* margin: 18px 0 0 32px; */
 }
 
 .bucket-path-des {

@@ -22,10 +22,10 @@ export default function TestPage() {
   const categories = useMemo(() => {
     const uniqueCategories = new Map();
     products.forEach((product) => {
-      if (!uniqueCategories.has(product.category_id)) {
+      if (product.category_id && !uniqueCategories.has(product.category_id)) {
         uniqueCategories.set(product.category_id, {
           id: product.category_id,
-          name: product.category_name || `Категория ${product.category_id}`
+          category_title: product.category_title
         });
       }
     });
@@ -39,7 +39,7 @@ export default function TestPage() {
       if (product.brand_id && !uniqueBrands.has(product.brand_id)) {
         uniqueBrands.set(product.brand_id, {
           id: product.brand_id,
-          name: product.brand_name || `Бренд ${product.brand_id}`
+          brand_title: product.brand_title
         });
       }
     });
@@ -52,11 +52,12 @@ export default function TestPage() {
 
     // Применяем фильтры
     result = result.filter((product) => {
-      const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesSearch = searchTerm === "" || 
+        (product.title && product.title.toLowerCase().includes(searchTerm.toLowerCase()));
       const matchesPrice = product.price >= priceRange.min && product.price <= priceRange.max;
-      const matchesCategory = selectedCategory === "all" || product.category_id === parseInt(selectedCategory);
-      const matchesBrand = selectedBrand === "all" || product.brand_id === parseInt(selectedBrand);
-      const matchesNewProducts = !showNewProducts || product.is_new === true;
+      const matchesCategory = selectedCategory === "all" || product.category_title === selectedCategory;
+      const matchesBrand = selectedBrand === "all" || product.brand_title === selectedBrand;
+      const matchesNewProducts = !showNewProducts || product.is_new_products === 1;
       
       return matchesSearch && matchesPrice && matchesCategory && matchesBrand && matchesNewProducts;
     });
@@ -70,10 +71,18 @@ export default function TestPage() {
         result.sort((a, b) => b.price - a.price);
         break;
       case "name-asc":
-        result.sort((a, b) => a.name.localeCompare(b.name));
+        result.sort((a, b) => {
+          const titleA = a.title || "";
+          const titleB = b.title || "";
+          return titleA.localeCompare(titleB);
+        });
         break;
       case "name-desc":
-        result.sort((a, b) => b.name.localeCompare(a.name));
+        result.sort((a, b) => {
+          const titleA = a.title || "";
+          const titleB = b.title || "";
+          return titleB.localeCompare(titleA);
+        });
         break;
       default:
         // По умолчанию - без сортировки

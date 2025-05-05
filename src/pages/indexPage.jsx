@@ -38,7 +38,7 @@ export default function IndexPage() {
   }, [sectionRefs]);
 
   // Фильтрация новинок
-  const newProducts = products.filter((product) => product.is_new);
+  const newProducts = products.filter((product) => product.is_new_products);
   const newProductsIndex = newProductsPage * productsPerSection;
   const currentNewProducts = newProducts.slice(
     newProductsIndex - productsPerSection,

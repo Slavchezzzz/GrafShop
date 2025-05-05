@@ -24,22 +24,29 @@ export function ProductsProvider({ children }) {
       // Проверяем структуру ответа и извлекаем массив продуктов
       const productsData = response.data?.data || response.data || [];
 
+      console.log('Raw product data:', productsData[0]); // Лог первого продукта
+      console.log('is_new_products value:', productsData[0]?.is_new_products); // Лог значения is_new_products
+
       setProducts(
-        productsData.map((product) => ({
-          id: product.id,
-          name: product.title,
-          price: product.price,
-          old_price: product.old_price || 0,
-          img: product.img,
-          ml: product.ml,
-          is_new: product.is_new_products === 1,
-          is_popular: product.is_popular === 1,
-          category_id: product.category_id,
-          category_name: product.category_name,
-          brand_id: product.brand_id,
-          brand_name: product.brand_name,
-          descriptions: product.descriptions || "",
-        }))
+        productsData.map((product) => {
+          const mappedProduct = {
+            id: product.id,
+            title: product.title,
+            price: product.price,
+            old_price: product.old_price || 0,
+            img: product.img,
+            ml: product.ml,
+            is_new_products: product.is_new_products,
+            is_popular: product.is_popular,
+            category_id: product.category_id,
+            category_title: product.category_title,
+            brand_id: product.brand_id,
+            brand_title: product.brand_title,
+            descriptions: product.descriptions || "",
+          };
+          console.log('Mapped product:', mappedProduct); // Лог преобразованного продукта
+          return mappedProduct;
+        })
       );
     } catch (err) {
       console.error("Ошибка загрузки товаров:", err);
@@ -65,7 +72,7 @@ export function ProductsProvider({ children }) {
 
   const getPopularProducts = () => products.filter((p) => p.is_popular);
 
-  const getNewProducts = () => products.filter((p) => p.is_new);
+  const getNewProducts = () => products.filter((p) => p.is_new_products);
 
   return (
     <ProductsContext.Provider
