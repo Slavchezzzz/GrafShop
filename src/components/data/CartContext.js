@@ -8,13 +8,22 @@ export function CartProvider({ children }) {
 
   const contextValue = useMemo(() => {
     const addToCart = (product) => {
-      setCart((prev) => ({
-        ...prev,
-        [product.id]: {
-          ...product,
-          quantity: (prev[product.id]?.quantity || 0) + 1,
-        },
-      }));
+      setCart((prev) => {
+        // Если товар уже в корзине - удаляем его
+        if (prev[product.id]) {
+          const newCart = { ...prev };
+          delete newCart[product.id];
+          return newCart;
+        }
+        // Если товара нет в корзине - добавляем
+        return {
+          ...prev,
+          [product.id]: {
+            ...product,
+            quantity: 1,
+          },
+        };
+      });
     };
 
     const removeFromCart = (productId) => {
