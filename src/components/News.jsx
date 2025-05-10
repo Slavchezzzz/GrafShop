@@ -1,6 +1,6 @@
 import "../styles/News.css";
 import ControlledCarousel from "./SliderBoot";
-import axios from "axios";
+import api from "../config/axios";
 import React, { useEffect, useState } from "react";
 import { FaCalendarAlt, FaArrowRight } from "react-icons/fa";
 
@@ -12,14 +12,18 @@ export default function News() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/news/data");
-        // Фильтруем данные, оставляя только те, где is_new_marker === 0
-        const filteredData = response.data.data.filter(
-          (item) => item.is_new_marker === 0
-        );
-        setData(filteredData);
+        const response = await api.get("/news/data");
+        if (response.data.success) {
+          // Фильтруем данные, оставляя только те, где is_new_marker === 0
+          const filteredData = response.data.data.filter(
+            (item) => item.is_new_marker === 0
+          );
+          setData(filteredData);
+        } else {
+          throw new Error(response.data.message || 'Ошибка при получении данных');
+        }
       } catch (error) {
-        console.log("Ошибка при получении данных: ", error);
+        console.error("Ошибка при получении данных: ", error);
         setError(error);
       } finally {
         setLoading(false);

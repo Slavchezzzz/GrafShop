@@ -218,3 +218,30 @@ header .navbar {
     opacity: 0;
   }
 }
+
+.user-menu {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.user-login {
+  color: #a800e5;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.logout-button {
+  background-color: #ff4d4f;
+  color: white;
+  border: none;
+  padding: 5px 15px;
+  border-radius: 13px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.logout-button:hover {
+  background-color: #ff7875;
+}

@@ -1,8 +1,8 @@
 import "../styles/Header.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
 import { FaShoppingCart } from "react-icons/fa";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { FiMenu } from "react-icons/fi";
 import { FaHeart } from "react-icons/fa";
 import { FiX } from "react-icons/fi";
@@ -10,7 +10,34 @@ import { CartContext } from "../components/data/CartContext";
 
 export default function Header() {
   const { cart } = useContext(CartContext);
-  let [cartOpen, setCartOpen] = useState(false);
+  const [cartOpen, setCartOpen] = useState(false);
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Функция для получения данных пользователя
+    const getUserData = () => {
+      const userData = localStorage.getItem('user');
+      if (userData) {
+        setUser(JSON.parse(userData));
+      }
+    };
+
+    // Получаем данные при первой загрузке
+    getUserData();
+
+    // Добавляем слушатель события изменения localStorage
+    window.addEventListener('storage', (e) => {
+      if (e.key === 'user') {
+        getUserData();
+      }
+    });
+
+    // Очищаем слушатель при размонтировании компонента
+    return () => {
+      window.removeEventListener('storage', getUserData);
+    };
+  }, []);
 
   function cliclOpen() {
     setCartOpen(true);
@@ -19,6 +46,13 @@ export default function Header() {
   function clickClose() {
     setCartOpen(false);
   }
+
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+    setUser(null);
+    navigate('/');
+  };
 
   return (
     <header>
@@ -31,7 +65,7 @@ export default function Header() {
           />
           <div className="header-logo">
             <Link to={"/"}>
-              <img src="/logo.png"></img>
+              <img src="/logo.png" alt="Logo" />
             </Link>
           </div>
         </div>
@@ -49,14 +83,26 @@ export default function Header() {
           <Link to="/bucket">
             <FaHeart className="icon" />
           </Link>
-          <Link className="link-to-login" to={"/login"}>
-            Войти
-          </Link>
+          {user ? (
+            <div className="user-menu">
+              <Link to="/profile" className="user-name">
+                {user.login}
+              </Link>
+              <button onClick={handleLogout} className="logout-button">
+                Выйти
+              </button>
+            </div>
+          ) : (
+            <Link to="/login" className="login-link">
+              Войти
+            </Link>
+          )}
         </div>
       </nav>
     </header>
   );
 }
+
 function SideBar({ className, onClickClose }) {
   return (
     <ul id="open" className={"menu-links" + (className ? " " + className : "")}>

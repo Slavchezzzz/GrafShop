@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Carousel from "react-bootstrap/Carousel";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/SliderBoot.css";
-import axios from "axios";
+import api from "../config/axios";
 import { Link } from "react-router-dom";
 
 export default function ControlledCarousel() {
@@ -20,12 +20,16 @@ export default function ControlledCarousel() {
   useEffect(() => {
     const fetchSlides = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/news/data"); // Замените на ваш API
-        // Фильтруем слайды, оставляя только те, где is_new_marker === 1
-        const filteredSlides = response.data.data.filter(
-          (slide) => slide.is_new_marker === 1
-        );
-        setSlides(filteredSlides);
+        const response = await api.get("/news/data");
+        if (response.data.success) {
+          // Фильтруем слайды, оставляя только те, где is_new_marker === 1
+          const filteredSlides = response.data.data.filter(
+            (slide) => slide.is_new_marker === 1
+          );
+          setSlides(filteredSlides);
+        } else {
+          throw new Error(response.data.message || 'Ошибка при получении данных');
+        }
       } catch (error) {
         console.error("Ошибка при загрузке слайдов: ", error);
         setError(error);
@@ -60,7 +64,7 @@ export default function ControlledCarousel() {
               <img src={slide.img} alt={slide.description} />
               <Carousel.Caption className="slider-text">
                 <h3>{slide.name}</h3>
-                <Link to={"/test"}>Подробнее</Link>
+                <Link to={`/news/${slide.id}`}>Подробнее</Link>
               </Carousel.Caption>
             </Carousel.Item>
           ))
