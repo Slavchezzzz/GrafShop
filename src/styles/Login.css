@@ -20,7 +20,8 @@
   padding: 40px 20px;
 }
 
-.main-reg, .main-log {
+.main-reg,
+.main-log {
   position: relative;
   padding: 40px;
   width: 100%;
@@ -42,7 +43,7 @@
 .title::before {
   content: "";
   position: absolute;
-  left: 50%;
+  left: 25px;
   bottom: -8px;
   transform: translateX(-50%);
   height: 3px;
@@ -79,7 +80,7 @@
   left: 14px;
   top: 50%;
   transform: translateY(-50%);
-  color: #460857;
+  color: #aa00e8;
   font-size: 18px;
   pointer-events: none;
 }
@@ -116,7 +117,7 @@ input[type="email"]:focus,
 input[type="password"]:focus,
 input[type="tel"]:focus,
 input[type="number"]:focus {
-  border-color: #460857;
+  border-color: #aa00e8;
   background: #fff;
   box-shadow: 0 0 0 2px rgba(70, 8, 87, 0.1);
   outline: none;
@@ -153,7 +154,7 @@ input[type="number"]:focus {
 .checkbox-input {
   width: 18px;
   height: 18px;
-  accent-color: #460857;
+  accent-color: #aa00e8;
 }
 
 .checkbox-span {
@@ -164,7 +165,7 @@ input[type="number"]:focus {
 .log-button button {
   width: 100%;
   height: 50px;
-  background: #460857;
+  background: #aa00e8;
   color: white;
   border: none;
   border-radius: 8px;
@@ -245,21 +246,25 @@ input[type="number"]:focus {
 }
 
 @media screen and (max-width: 480px) {
-  .main-reg, .main-log {
+  .main-reg,
+  .main-log {
     padding: 30px 20px;
   }
-  
+
   .title {
     font-size: 22px;
   }
-  
+
   .input-faild input {
     height: 45px;
     font-size: 15px;
   }
-  
+
   .log-button button {
     height: 45px;
   }
 }
 
+form {
+  margin-top: 15px;
+}

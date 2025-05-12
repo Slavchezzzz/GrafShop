@@ -109,28 +109,6 @@
   box-shadow: 0 0 0 2px rgba(170, 0, 232, 0.1);
 }
 
-/* Если у вас есть другие поля ввода, добавим и для них */
-input[type="text"],
-input[type="tel"],
-input[type="email"],
-input[type="number"] {
-  height: 45px;
-  padding: 0 15px;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  font-size: 1rem;
-  transition: all 0.2s ease;
-}
-
-input[type="text"]:focus,
-input[type="tel"]:focus,
-input[type="email"]:focus,
-input[type="number"]:focus {
-  border-color: #aa00e8;
-  outline-color: #aa00e8;
-  box-shadow: 0 0 0 2px rgba(170, 0, 232, 0.1);
-}
-
 /* Способы доставки */
 .delivery-methods h2 {
   display: flex;
