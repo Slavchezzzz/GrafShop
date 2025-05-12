@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { CartContext } from "../components/data/CartContext.js";
+import { useCart } from "../components/data/CartContext.js";
 import Header from "../components/Header.jsx";
 import Footer from "../components/Footer.jsx";
 import "../styles/Order.css";
@@ -8,8 +8,7 @@ import { FaShoppingCart } from "react-icons/fa";
 
 export default function Order() {
   // Получаем необходимые методы и данные из контекста корзины
-  const { cart, removeFromCart, updateQuantity, getCartTotal } =
-    useContext(CartContext);
+  const { cart, removeFromCart, updateQuantity, getCartTotal } = useCart();
 
   // Состояния для формы заказа
   const [showModal, setShowModal] = useState(false);

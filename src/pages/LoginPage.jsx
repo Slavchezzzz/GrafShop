@@ -138,7 +138,7 @@ function RegisterPage({ onLoginClick }) {
                 name="login"
                 value={formData.login}
                 onChange={handleChange}
-                className={`name-log ${errors.login ? 'error-input' : ''}`}
+                className={errors.login ? 'error-input' : ''}
                 placeholder="Логин"
                 required
               />
@@ -152,7 +152,7 @@ function RegisterPage({ onLoginClick }) {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className={`input-email ${errors.email ? 'error-input' : ''}`}
+                className={errors.email ? 'error-input' : ''}
                 placeholder="Email"
                 required
               />
@@ -166,7 +166,7 @@ function RegisterPage({ onLoginClick }) {
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
-                className={`input-password ${errors.password ? 'error-input' : ''}`}
+                className={errors.password ? 'error-input' : ''}
                 placeholder="Пароль"
                 required
               />
@@ -180,7 +180,7 @@ function RegisterPage({ onLoginClick }) {
                 name="confirmPassword"
                 value={formData.confirmPassword}
                 onChange={handleChange}
-                className={`input-password ${errors.confirmPassword ? 'error-input' : ''}`}
+                className={errors.confirmPassword ? 'error-input' : ''}
                 placeholder="Подтвердите пароль"
                 required
               />
@@ -315,7 +315,7 @@ function Login({ onRegisterClick }) {
                 name="login"
                 value={formData.login}
                 onChange={handleChange}
-                className={`input-email ${errors.login ? 'error-input' : ''}`}
+                className={errors.login ? 'error-input' : ''}
                 placeholder="Логин"
                 required
               />
@@ -329,7 +329,7 @@ function Login({ onRegisterClick }) {
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
-                className={`input-password ${errors.password ? 'error-input' : ''}`}
+                className={errors.password ? 'error-input' : ''}
                 placeholder="Пароль"
                 required
               />

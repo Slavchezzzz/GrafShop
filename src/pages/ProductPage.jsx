@@ -1,7 +1,7 @@
 import { useParams, Link } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
 import { ProductsContext } from "../components/contexts/ProductsContext.js";
-import { CartContext } from "../components/data/CartContext";
+import { useCart } from "../components/data/CartContext";
 import Header from "../components/Header.jsx";
 import Footer from "../components/Footer.jsx";
 import "../styles/ProductPage.css";
@@ -11,8 +11,7 @@ import {useNavigate } from "react-router-dom";
 export default function ProductPage() {
   const { id } = useParams();
   const { products } = useContext(ProductsContext);
-  const { addToCart, isFavorite, toggleFavorite, cart } =
-    useContext(CartContext);
+  const { addToCart, isFavorite, toggleFavorite, cart } = useCart();
   const [product, setProduct] = useState(null);
   const [desOpen, setDesOpen] = useState("descriptions");
   const [loading, setLoading] = useState(true);

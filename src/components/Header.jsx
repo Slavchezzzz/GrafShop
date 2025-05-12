@@ -6,10 +6,10 @@ import { useContext, useState, useEffect } from "react";
 import { FiMenu } from "react-icons/fi";
 import { FaHeart } from "react-icons/fa";
 import { FiX } from "react-icons/fi";
-import { CartContext } from "../components/data/CartContext";
+import { useCart } from "../components/data/CartContext";
 
 export default function Header() {
-  const { cart } = useContext(CartContext);
+  const { cart } = useCart();
   const [cartOpen, setCartOpen] = useState(false);
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
@@ -88,9 +88,6 @@ export default function Header() {
               <Link to="/profile" className="user-name">
                 {user.login}
               </Link>
-              <button onClick={handleLogout} className="logout-button">
-                Выйти
-              </button>
             </div>
           ) : (
             <Link to="/login" className="login-link">
@@ -108,9 +105,6 @@ function SideBar({ className, onClickClose }) {
     <ul id="open" className={"menu-links" + (className ? " " + className : "")}>
       <FiX className="header-fix js-burger-close" onClick={onClickClose} />
       <Link to={"/test"}>Граффити</Link>
-
-      {/* <Link to={"/Marker"}>Маркеры</Link> */}
-
 
       <Link to={"/NewProduct"}>Новинки</Link>
 

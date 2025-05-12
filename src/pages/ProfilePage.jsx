@@ -1,7 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import MainCard from '../components/MainCard';
+import { useCart } from '../components/data/CartContext';
+import { ProductsContext } from '../components/contexts/ProductsContext';
 import '../styles/ProfilePage.css';
 
 export default function ProfilePage() {
@@ -9,6 +12,12 @@ export default function ProfilePage() {
   const [user, setUser] = useState(null);
   const [activeTab, setActiveTab] = useState('profile');
   const [orders, setOrders] = useState([]);
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const { favorites } = useCart();
+  const { products } = useContext(ProductsContext);
+
+  // Фильтруем избранные товары
+  const favoriteProducts = products.filter(product => favorites.includes(product.id));
 
   useEffect(() => {
     const userData = localStorage.getItem('user');
@@ -19,6 +28,26 @@ export default function ProfilePage() {
     setUser(JSON.parse(userData));
     // TODO: Загрузка истории заказов с сервера
   }, [navigate]);
+
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+    localStorage.removeItem('cart');
+    localStorage.removeItem('favorites');
+    navigate('/');
+  };
+
+  const handleLogoutClick = () => {
+    setShowLogoutModal(true);
+  };
+
+  const handleLogoutConfirm = () => {
+    handleLogout();
+  };
+
+  const handleLogoutCancel = () => {
+    setShowLogoutModal(false);
+  };
 
   if (!user) {
     return null;
@@ -121,7 +150,19 @@ export default function ProfilePage() {
           {activeTab === 'favorites' && (
             <div className="favorites">
               <h3>Избранные товары</h3>
-              <p>Здесь будет список избранных товаров</p>
+              {favoriteProducts.length > 0 ? (
+                <MainCard products={favoriteProducts} />
+              ) : (
+                <div className="no-favorites">
+                  <p>У вас пока нет избранных товаров</p>
+                  <button 
+                    className="browse-products-button"
+                    onClick={() => navigate('/test')}
+                  >
+                    Перейти в каталог
+                  </button>
+                </div>
+              )}
             </div>
           )}
 
@@ -146,11 +187,35 @@ export default function ProfilePage() {
                   <button type="submit" className="save-button">Сохранить изменения</button>
                 </form>
               </div>
+              <div className="settings-group">
+                <h4>Управление аккаунтом</h4>
+                <button onClick={handleLogoutClick} className="logout-button">
+                  Выйти из аккаунта
+                </button>
+              </div>
             </div>
           )}
         </div>
       </div>
       <Footer />
+
+      {/* Модальное окно подтверждения выхода */}
+      {showLogoutModal && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h3>Подтверждение выхода</h3>
+            <p>Вы уверены, что хотите выйти из аккаунта?</p>
+            <div className="modal-buttons">
+              <button onClick={handleLogoutConfirm} className="confirm-button">
+                Да, выйти
+              </button>
+              <button onClick={handleLogoutCancel} className="cancel-button">
+                Отмена
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 } 

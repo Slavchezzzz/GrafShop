@@ -1,21 +1,74 @@
-import { createContext, useState, useMemo } from "react";
+import { createContext, useContext, useState, useEffect, useMemo } from 'react';
 
-export const CartContext = createContext();
+const CartContext = createContext();
 
 export function CartProvider({ children }) {
   const [cart, setCart] = useState({});
   const [favorites, setFavorites] = useState([]);
+  const [user, setUser] = useState(null);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+
+  // Загрузка данных пользователя при инициализации
+  useEffect(() => {
+    const userData = localStorage.getItem('user');
+    if (userData) {
+      setUser(JSON.parse(userData));
+    }
+  }, []);
+
+  // Очистка корзины и избранного при выходе из аккаунта
+  useEffect(() => {
+    const handleStorageChange = (e) => {
+      if (e.key === 'user') {
+        if (!e.newValue) {
+          // Если пользователь вышел (user удален из localStorage)
+          setCart({});
+          setFavorites([]);
+          localStorage.removeItem('cart');
+          localStorage.removeItem('favorites');
+        } else {
+          // Если пользователь вошел
+          setUser(JSON.parse(e.newValue));
+        }
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
+
+  // Загрузка корзины и избранного при изменении пользователя
+  useEffect(() => {
+    if (user) {
+      const savedCart = localStorage.getItem('cart');
+      const savedFavorites = localStorage.getItem('favorites');
+      if (savedCart) setCart(JSON.parse(savedCart));
+      if (savedFavorites) setFavorites(JSON.parse(savedFavorites));
+    }
+  }, [user]);
+
+  // Сохранение корзины в localStorage при изменении
+  useEffect(() => {
+    if (user) {
+      localStorage.setItem('cart', JSON.stringify(cart));
+    }
+  }, [cart, user]);
+
+  // Сохранение избранного в localStorage при изменении
+  useEffect(() => {
+    if (user) {
+      localStorage.setItem('favorites', JSON.stringify(favorites));
+    }
+  }, [favorites, user]);
 
   const contextValue = useMemo(() => {
     const addToCart = (product) => {
       setCart((prev) => {
-        // Если товар уже в корзине - удаляем его
         if (prev[product.id]) {
           const newCart = { ...prev };
           delete newCart[product.id];
           return newCart;
         }
-        // Если товара нет в корзине - добавляем
         return {
           ...prev,
           [product.id]: {
@@ -48,19 +101,25 @@ export function CartProvider({ children }) {
       }));
     };
 
+    const toggleFavorite = (productId) => {
+      if (!user) {
+        setShowAuthModal(true);
+        return;
+      }
+      setFavorites((prev) =>
+        prev.includes(productId)
+          ? prev.filter((id) => id !== productId)
+          : [...prev, productId]
+      );
+    };
+
     return {
       cart,
       favorites,
       addToCart,
       removeFromCart,
       updateQuantity,
-      toggleFavorite: (productId) => {
-        setFavorites((prev) =>
-          prev.includes(productId)
-            ? prev.filter((id) => id !== productId)
-            : [...prev, productId]
-        );
-      },
+      toggleFavorite,
       isFavorite: (productId) => favorites.includes(productId),
       getCartTotal: () =>
         Object.values(cart).reduce(
@@ -68,10 +127,41 @@ export function CartProvider({ children }) {
           0
         ),
       clearCart: () => setCart({}),
+      showAuthModal,
+      setShowAuthModal,
     };
-  }, [cart, favorites]);
+  }, [cart, favorites, user]);
 
   return (
-    <CartContext.Provider value={contextValue}>{children}</CartContext.Provider>
+    <CartContext.Provider value={contextValue}>
+      {children}
+      {showAuthModal && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h3>Требуется авторизация</h3>
+            <p>Чтобы добавить товар в избранное, необходимо войти в аккаунт или зарегистрироваться</p>
+            <div className="modal-buttons">
+              <button onClick={() => window.location.href = '/login'} className="confirm-button">
+                Войти
+              </button>
+              <button onClick={() => window.location.href = '/register'} className="confirm-button">
+                Зарегистрироваться
+              </button>
+              <button onClick={() => setShowAuthModal(false)} className="cancel-button">
+                Отмена
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </CartContext.Provider>
   );
+}
+
+export function useCart() {
+  const context = useContext(CartContext);
+  if (!context) {
+    throw new Error('useCart must be used within a CartProvider');
+  }
+  return context;
 }

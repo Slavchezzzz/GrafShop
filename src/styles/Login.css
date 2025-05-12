@@ -8,97 +8,70 @@
 .LogPage {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  min-height: 100vh;
+  background-color: #f5f5f5;
 }
 
 .main-container {
-  height: 100vh;
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-image: url("/public/spray/spray4\ .png");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: 650px;
-  padding: 100px;
+  padding: 40px 20px;
 }
 
-.main-reg {
+.main-reg, .main-log {
   position: relative;
-  flex-direction: column;
-  padding: 30px;
-  width: 400px;
-  border: 1px solid white;
-  border-radius: 10px;
+  padding: 40px;
+  width: 100%;
+  max-width: 400px;
   background-color: white;
-  box-shadow: 0 5px 10px rgb(0, 0, 0, 1);
-  overflow: hidden;
-}
-
-.main-log {
-  position: relative;
-  flex-direction: column;
-  padding: 30px;
-  max-width: 430px;
-  width: 400px;
-  border: 1px solid white;
-  border-radius: 10px;
-  background-color: white;
-  box-shadow: 0 5px 10px rgb(0, 0, 0, 1);
-  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .title {
   position: relative;
-  font-size: 27px;
+  font-size: 24px;
   font-weight: 600;
+  color: #333;
+  margin-bottom: 30px;
+  text-align: center;
 }
 
 .title::before {
   content: "";
   position: absolute;
-  left: 0;
-  bottom: 0;
+  left: 50%;
+  bottom: -8px;
+  transform: translateX(-50%);
   height: 3px;
-  width: 30px;
-  background-color: #aa00e8;
+  width: 50px;
+  background-color: #460857;
   border-radius: 25px;
 }
 
 .input-faild {
   position: relative;
-  height: 50px;
-  margin-top: 16px;
-  margin-bottom: 8px;
+  margin-bottom: 20px;
 }
 
 .input-faild input {
   width: 100%;
-  height: 100%;
+  height: 50px;
   padding: 0 16px 0 44px;
-  border: 1.5px solid #ccc;
+  border: 1px solid #e0e0e0;
   border-radius: 8px;
-  background: #f7f7fa;
-  color: #18142a;
-  font-size: 1.05rem;
-  font-weight: 500;
-  outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
-  box-shadow: none;
+  background: #f8f8f8;
+  color: #333;
+  font-size: 16px;
+  transition: all 0.3s ease;
 }
 
-.input-faild input.error-input {
-  border-color: #ff4d4f;
-}
-
-.input-faild input.error-input:focus {
-  box-shadow: 0 0 0 2px rgba(255, 77, 79, 0.2);
-}
-
-.input-faild input:focus {
-  border-color: #4CAF50;
-  outline: none;
-  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+.input-faild input::placeholder {
+  color: #999;
+  font-size: 14px;
+  opacity: 1;
 }
 
 .input-faild .input-icon {
@@ -106,159 +79,136 @@
   left: 14px;
   top: 50%;
   transform: translateY(-50%);
-  color: #aa00e8;
-  font-size: 1.15rem;
+  color: #460857;
+  font-size: 18px;
   pointer-events: none;
 }
 
-.input-faild input::placeholder {
-  color: #b8aee0;
+/* Унифицированные стили для всех типов полей ввода */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="tel"],
+input[type="number"] {
+  width: 100%;
+  height: 50px;
+  padding: 0 16px 0 44px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background: #f8f8f8;
+  color: #333;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+input[type="text"]::placeholder,
+input[type="email"]::placeholder,
+input[type="password"]::placeholder,
+input[type="tel"]::placeholder,
+input[type="number"]::placeholder {
+  color: #999;
+  font-size: 14px;
   opacity: 1;
-  font-weight: 400;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="tel"]:focus,
+input[type="number"]:focus {
+  border-color: #460857;
+  background: #fff;
+  box-shadow: 0 0 0 2px rgba(70, 8, 87, 0.1);
+  outline: none;
+}
+
+.input-faild input.error-input {
+  border-color: #ff4d4f;
+}
+
+.input-faild input.error-input:focus {
+  box-shadow: 0 0 0 2px rgba(255, 77, 79, 0.1);
 }
 
 .login-error {
   color: #ff4d4f;
-  font-size: 12px;
-  margin-top: 2px;
-  margin-bottom: 8px;
+  font-size: 13px;
+  margin-top: 4px;
   padding-left: 4px;
-  line-height: 1.2;
-  min-height: 16px;
 }
 
 .checkbox-text {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 20px;
+  margin: 20px 0;
 }
 
 .checkbox-content {
   display: flex;
   align-items: center;
+  gap: 8px;
 }
 
 .checkbox-input {
-  accent-color: #a18cd1;
   width: 18px;
   height: 18px;
+  accent-color: #460857;
 }
 
 .checkbox-span {
-  padding-left: 5px;
-}
-
-.log-button {
-  align-items: center;
-  justify-content: center;
-  margin-top: 20px;
-}
-
-.log-button input {
-  border: none;
-  color: #fff;
-  font-size: 20px;
-  font-weight: 500;
-  letter-spacing: 1px;
-  border-radius: 6px;
-  background-color: #aa00e8;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  width: 100%;
-  height: 50px;
-}
-
-.log-button input:hover {
-  background-color: #8700b8;
-}
-
-.login-signup {
-  text-align: center;
-}
-
-.login-signup button {
-  margin-left: 5px;
-  border: none;
-  cursor: pointer;
-  color: #8700b8;
-  font-size: 1rem;
-  background-color: white;
-}
-
-.login-signup button:hover {
-  text-decoration: underline;
-}
-
-@media screen and (max-width: 580px) {
-  .main-container {
-    background-size: 550px;
-  }
-}
-
-@media screen and (max-width: 527px) {
-  .main-container {
-    background-size: 630px;
-    padding: 50px;
-  }
-}
-
-@media screen and (max-width: 470px) {
-  .main-container {
-    background-size: 570px;
-    padding: 25px;
-  }
-}
-
-/* Только для формы логина/регистрации */
-.main-reg .input-faild input,
-.main-log .input-faild input {
-  padding-left: 44px !important;
-}
-.forgot-password-btn {
-  background: none;
-  border: none;
-  color: #a18cd1;
-  font-size: 0.98rem;
-  cursor: pointer;
-  font-weight: 600;
-  transition: color 0.2s;
-  padding: 0;
-}
-
-.forgot-password-btn:hover {
-  color: #3a0ca3;
-  text-decoration: underline;
-}
-
-.error {
-  color: #ff6b81;
-  font-size: 0.97rem;
-  margin-top: 4px;
-  margin-bottom: -10px;
-  text-align: left;
-  /* padding-left: 8px; */
+  color: #666;
+  font-size: 14px;
 }
 
 .log-button button {
   width: 100%;
-  padding: 12px;
-  background: #4CAF50;
+  height: 50px;
+  background: #460857;
   color: white;
   border: none;
-  border-radius: 4px;
-  cursor: pointer;
+  border-radius: 8px;
   font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
   transition: background-color 0.3s;
 }
 
 .log-button button:hover {
-  background: #45a049;
+  background: #5a0a6e;
 }
 
 .log-button button:disabled {
   background: #cccccc;
   cursor: not-allowed;
+}
+
+.login-signup {
+  text-align: center;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+}
+
+.login-signup span {
+  color: #666;
+  font-size: 14px;
+}
+
+.login-signup button {
+  margin-left: 8px;
+  background: none;
+  border: none;
+  color: #460857;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.login-signup button:hover {
+  color: #5a0a6e;
+  text-decoration: underline;
 }
 
 .success-modal {
@@ -272,47 +222,44 @@
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  animation: fadeIn 0.3s ease-in-out;
 }
 
 .success-modal-content {
-  background-color: white;
+  background: white;
   padding: 30px;
-  border-radius: 10px;
+  border-radius: 12px;
   text-align: center;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  animation: slideIn 0.3s ease-in-out;
+  max-width: 400px;
+  width: 90%;
 }
 
 .success-modal-content h2 {
-  color: #4CAF50;
+  color: #460857;
   margin-bottom: 15px;
-  font-size: 24px;
+  font-size: 20px;
 }
 
 .success-modal-content p {
   color: #666;
-  margin: 0;
-  font-size: 16px;
+  font-size: 14px;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
+@media screen and (max-width: 480px) {
+  .main-reg, .main-log {
+    padding: 30px 20px;
   }
-  to {
-    opacity: 1;
+  
+  .title {
+    font-size: 22px;
   }
-}
-
-@keyframes slideIn {
-  from {
-    transform: translateY(-20px);
-    opacity: 0;
+  
+  .input-faild input {
+    height: 45px;
+    font-size: 15px;
   }
-  to {
-    transform: translateY(0);
-    opacity: 1;
+  
+  .log-button button {
+    height: 45px;
   }
 }
 

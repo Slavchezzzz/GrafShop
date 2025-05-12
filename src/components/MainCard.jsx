@@ -1,7 +1,7 @@
 // MainCard.jsx
 import { useContext, useState } from "react";
 import "../styles/MainCard.css";
-import { CartContext } from "./data/CartContext.js";
+import { useCart } from "./data/CartContext.js";
 import { FaHeart, FaShoppingCart } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Notification from "./Notification.jsx";
@@ -40,7 +40,7 @@ export default function MainCard({ products = [] }) {
 }
 
 function ProductCard({ product, showNotification }) {
-  const { addToCart, toggleFavorite, isFavorite, cart } = useContext(CartContext);
+  const { addToCart, toggleFavorite, isFavorite, cart } = useCart();
 
   const isInCart = !!cart[product.id];
   const hasDiscount = product.old_price > 0 && product.old_price > product.price;
