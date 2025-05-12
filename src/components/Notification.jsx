@@ -1,7 +1,7 @@
-    import { useEffect } from 'react';
+import { useEffect } from 'react';
 import '../styles/Notification.css';
 
-export default function Notification({ message, onClose }) {
+export default function Notification({ message, type = 'success', onClose }) {
   useEffect(() => {
     const timer = setTimeout(() => {
       onClose();
@@ -12,7 +12,7 @@ export default function Notification({ message, onClose }) {
 
   return (
     <div className="notification">
-      <div className="notification-content">
+      <div className={`notification-content ${type}`}>
         <span className="notification-message">{message}</span>
       </div>
     </div>

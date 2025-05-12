@@ -49,10 +49,8 @@ export function CartProvider({ children }) {
 
   // Сохранение корзины в localStorage при изменении
   useEffect(() => {
-    if (user) {
-      localStorage.setItem('cart', JSON.stringify(cart));
-    }
-  }, [cart, user]);
+    localStorage.setItem('cart', JSON.stringify(cart));
+  }, [cart]);
 
   // Сохранение избранного в localStorage при изменении
   useEffect(() => {

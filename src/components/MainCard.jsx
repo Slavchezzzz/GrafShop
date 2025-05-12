@@ -1,27 +1,16 @@
 // MainCard.jsx
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import "../styles/MainCard.css";
 import { useCart } from "./data/CartContext.js";
 import { FaHeart, FaShoppingCart } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import Notification from "./Notification.jsx";
+import { useNotification } from "./contexts/NotificationContext";
 
 export default function MainCard({ products = [] }) {
-  const [notification, setNotification] = useState(null);
-
-  const showNotification = (message) => {
-    setNotification(message);
-  };
-
-  const hideNotification = () => {
-    setNotification(null);
-  };
+  const { showNotification } = useNotification();
 
   return (
     <div className="Card-info">
-      {notification && (
-        <Notification message={notification} onClose={hideNotification} />
-      )}
       <div className="card-menu">
         {products && products.length > 0 ? (
           products.map((product) => (
@@ -47,17 +36,21 @@ function ProductCard({ product, showNotification }) {
 
   const handleAddToCart = () => {
     addToCart(product);
-    showNotification(isInCart 
-      ? `Товар "${product.title}" удален из корзины` 
-      : `Товар "${product.title}" добавлен в корзину`
+    showNotification(
+      isInCart 
+        ? `Товар "${product.title}" удален из корзины` 
+        : `Товар "${product.title}" добавлен в корзину`,
+      isInCart ? 'error' : 'success'
     );
   };
 
   const handleToggleFavorite = () => {
     toggleFavorite(product.id);
-    showNotification(isFavorite(product.id)
-      ? `Товар "${product.title}" удален из избранного`
-      : `Товар "${product.title}" добавлен в избранное`
+    showNotification(
+      isFavorite(product.id)
+        ? `Товар "${product.title}" удален из избранного`
+        : `Товар "${product.title}" добавлен в избранное`,
+      isFavorite(product.id) ? 'error' : 'success'
     );
   };
 

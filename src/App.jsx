@@ -9,6 +9,7 @@ import ProductPage from "./pages/ProductPage";
 import AccesPage from "./pages/AccsesPage";
 import { CartProvider } from "./components/data/CartContext";
 import { ProductsProvider } from "./components/contexts/ProductsContext";
+import { NotificationProvider } from "./components/contexts/NotificationContext";
 import Bucket from "./pages/Bucket";
 import NewProductPage from "./pages/NewProductPage";
 import SalePage from "./pages/SalePage";
@@ -85,7 +86,9 @@ function App() {
   return (
     <ProductsProvider>
       <CartProvider>
-        <RouterProvider router={router} />
+        <NotificationProvider>
+          <RouterProvider router={router} />
+        </NotificationProvider>
       </CartProvider>
     </ProductsProvider>
   );
