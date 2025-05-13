@@ -23,6 +23,8 @@
 .notification-content.error {
   background-color: #f44336;
   color: white;
+  padding: 15px 25px;
+  
 }
 
 .notification-message {

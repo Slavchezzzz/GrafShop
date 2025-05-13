@@ -40,22 +40,34 @@ export default function ProfilePage() {
     try {
       setLoading(true);
       setError(null);
+      const token = localStorage.getItem('token');
+      
+      if (!token) {
+        throw new Error('Требуется авторизация');
+      }
+
       const response = await fetch('/api/order/history', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
           'X-Requested-With': 'XMLHttpRequest',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
+          'Authorization': `Bearer ${token}`
         },
         credentials: 'include'
       });
 
       if (!response.ok) {
-        throw new Error('Ошибка при получении истории заказов');
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || 'Ошибка при получении истории заказов');
       }
 
       const data = await response.json();
+      
+      if (!data || !Array.isArray(data.orders)) {
+        throw new Error('Неверный формат данных');
+      }
+
       setOrders(data.orders);
     } catch (err) {
       setError(err.message);
@@ -85,6 +97,14 @@ export default function ProfilePage() {
       5: 'Отменен'
     };
     return statuses[statusId] || 'Неизвестный статус';
+  };
+
+  const formatPrice = (price) => {
+    return new Intl.NumberFormat('ru-RU', {
+      style: 'currency',
+      currency: 'RUB',
+      minimumFractionDigits: 2
+    }).format(price);
   };
 
   const handleLogout = () => {
@@ -193,22 +213,22 @@ export default function ProfilePage() {
                             <div key={item.id} className="order-item">
                               <span className="item-name">{item.product_name}</span>
                               <span className="item-quantity">x{item.quantity}</span>
-                              <span className="item-price">{item.unit_price} ₽</span>
+                              <span className="item-price">{formatPrice(item.unit_price)}</span>
                             </div>
                           ))}
                         </div>
                         <div className="order-summary">
                           <div className="summary-row">
                             <span>Товары:</span>
-                            <span>{order.subtotal} ₽</span>
+                            <span>{formatPrice(order.subtotal)}</span>
                           </div>
                           <div className="summary-row">
                             <span>Доставка:</span>
-                            <span>{order.delivery_price} ₽</span>
+                            <span>{formatPrice(order.delivery_price)}</span>
                           </div>
                           <div className="summary-row total">
                             <span>Итого:</span>
-                            <span>{order.total_amount} ₽</span>
+                            <span>{formatPrice(order.total_amount)}</span>
                           </div>
                         </div>
                       </div>

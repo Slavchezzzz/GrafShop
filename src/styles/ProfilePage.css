@@ -12,6 +12,8 @@
   padding: 0 20px;
   display: flex;
   gap: 30px;
+  align-items: flex-start;
+  min-height: 600px;
 }
 
 .profile-sidebar {
@@ -20,6 +22,11 @@
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 20px;
+  min-height: 100%;
+  height: 100%;
+  position: sticky;
+  top: 30px;
+  align-self: flex-start;
 }
 
 .profile-avatar {
@@ -78,11 +85,12 @@
 }
 
 .profile-content {
-  flex: 1;
+  flex: 1 1 0;
   background: white;
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 30px;
+  min-width: 0;
 }
 
 .profile-info h3,
@@ -134,130 +142,139 @@
 }
 
 .order-card {
+  display: flex;
+  gap: 32px;
   background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 20px;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(170, 0, 232, 0.07);
+  padding: 28px 32px;
+  align-items: flex-start;
+  margin-bottom: 16px;
+  transition: box-shadow 0.2s;
+  border: 1px solid #f0e6fa;
+}
+
+.order-card:hover {
+  box-shadow: 0 4px 16px rgba(170, 0, 232, 0.13);
 }
 
 .order-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-  padding-bottom: 15px;
-  border-bottom: 1px solid #eee;
-}
-
-.order-info {
+  min-width: 160px;
+  border-right: 1px solid #f5f5f5;
+  padding-right: 24px;
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  align-items: flex-start;
+  gap: 12px;
 }
 
 .order-number {
   font-weight: bold;
-  font-size: 18px;
-  color: #333;
+  font-size: 20px;
+  color: #222;
 }
 
 .order-date {
-  color: #666;
+  color: #888;
   font-size: 14px;
 }
 
 .order-status {
-  padding: 6px 12px;
-  border-radius: 20px;
+  margin-top: 8px;
+  padding: 4px 14px;
+  border-radius: 16px;
   font-size: 14px;
   font-weight: 500;
-}
-
-.status-1 { background: #e3f2fd; color: #1976d2; }
-.status-2 { background: #fff3e0; color: #f57c00; }
-.status-3 { background: #e8f5e9; color: #388e3c; }
-.status-4 { background: #f3e5f5; color: #7b1fa2; }
-.status-5 { background: #ffebee; color: #d32f2f; }
-
-.order-details {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 20px;
-  margin-bottom: 15px;
+  background: #e3f2fd;
+  color: #1976d2;
+  display: inline-block;
 }
 
 .order-items {
+  flex: 2;
   display: flex;
   flex-direction: column;
   gap: 10px;
+  padding-right: 24px;
 }
 
 .order-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 0;
-  border-bottom: 1px solid #f5f5f5;
+  border-bottom: 1px dashed #eee;
+  padding: 6px 0;
 }
 
 .item-name {
-  flex: 1;
   color: #333;
+  font-size: 16px;
+  flex: 1;
 }
 
 .item-quantity {
-  color: #666;
+  color: #888;
   margin: 0 10px;
+  font-size: 15px;
 }
 
 .item-price {
   font-weight: 500;
-  color: #333;
+  color: #222;
+  font-size: 16px;
+  min-width: 80px;
+  text-align: right;
 }
 
 .order-summary {
   background: #f8f9fa;
-  padding: 15px;
-  border-radius: 6px;
+  border-radius: 8px;
+  padding: 16px 20px;
+  min-width: 180px;
+  margin-right: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
 }
 
 .summary-row {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 8px;
+  width: 100%;
   color: #666;
+  font-size: 15px;
 }
 
 .summary-row.total {
-  margin-top: 10px;
-  padding-top: 10px;
-  border-top: 1px solid #dee2e6;
   font-weight: bold;
-  color: #333;
-  font-size: 16px;
+  color: #aa00e8;
+  font-size: 18px;
+  margin-top: 8px;
 }
 
 .order-delivery {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-  padding-top: 15px;
-  border-top: 1px solid #eee;
+  min-width: 180px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 15px;
 }
 
 .delivery-info, .payment-info {
+  margin-bottom: 8px;
+  gap: 10px;
   display: flex;
   flex-direction: column;
-  gap: 5px;
 }
 
 .delivery-method, .payment-method {
-  font-weight: 500;
-  color: #333;
+  font-weight: 600;
+  color: #222;
 }
 
 .delivery-address, .payment-type {
-  color: #666;
+  color: #888;
   font-size: 14px;
 }
 
@@ -272,20 +289,97 @@
   color: #d32f2f;
 }
 
-@media (max-width: 768px) {
-  .order-details,
-  .order-delivery {
-    grid-template-columns: 1fr;
-  }
-
-  .order-header {
+@media (max-width: 1200px) {
+  .profile-container {
     flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
+    gap: 20px;
+    min-height: unset;
   }
+  .profile-sidebar {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    position: static;
+    margin-bottom: 20px;
+    border-radius: 10px;
+  }
+  .profile-content {
+    padding: 16px;
+    width: 100%;
+    min-width: 0;
+  }
+  .orders-history {
+    width: 100%;
+    min-width: 0;
+  }
+}
 
+@media (max-width: 700px) {
+  .order-card {
+    flex-direction: column;
+    gap: 18px;
+    padding: 16px 10px;
+    min-width: 0;
+    margin-bottom: 18px;
+  }
+  .order-header {
+    min-width: 0;
+    border-right: none;
+    border-bottom: 1px solid #f5f5f5;
+    padding-right: 0;
+    padding-bottom: 12px;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 0;
+  }
+  .order-number {
+    font-size: 17px;
+  }
   .order-status {
-    align-self: flex-start;
+    font-size: 13px;
+    margin-top: 0;
+    margin-left: auto;
+  }
+  .order-items {
+    padding-right: 0;
+    gap: 6px;
+  }
+  .order-item {
+    font-size: 15px;
+    padding: 4px 0;
+  }
+  .order-summary {
+    min-width: 0;
+    margin-right: 0;
+    padding: 12px 10px;
+    font-size: 15px;
+    width: 100%;
+  }
+  .summary-row.total {
+    font-size: 16px;
+  }
+  .order-delivery {
+    min-width: 0;
+    font-size: 14px;
+    gap: 4px;
+  }
+}
+
+@media (max-width: 500px) {
+  .profile-content {
+    padding: 6px;
+  }
+  .order-card {
+    padding: 8px 2px;
+    border-radius: 8px;
+  }
+  .order-header {
+    padding-bottom: 8px;
+  }
+  .order-summary {
+    padding: 8px 4px;
+    border-radius: 6px;
   }
 }
 
@@ -425,20 +519,6 @@
   color: #333;
 }
 
-@media (max-width: 768px) {
-  .profile-container {
-    flex-direction: column;
-  }
-
-  .profile-sidebar {
-    width: 100%;
-  }
-
-  .profile-content {
-    margin-top: 20px;
-  }
-}
-
 /* Стили для избранных товаров */
 .favorites {
   padding: 20px 0;
@@ -467,5 +547,5 @@
 }
 
 .browse-products-button:hover {
-  background: #8a00c2;
+  background: #8700b8;
 } 
