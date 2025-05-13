@@ -3,12 +3,12 @@ import { useCart } from "../components/data/CartContext.js";
 import Header from "../components/Header.jsx";
 import Footer from "../components/Footer.jsx";
 import "../styles/Order.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaShoppingCart } from "react-icons/fa";
 
 export default function Order() {
-  // Получаем необходимые методы и данные из контекста корзины
-  const { cart, removeFromCart, updateQuantity, getCartTotal } = useCart();
+  const navigate = useNavigate();
+  const { cart, removeFromCart, updateQuantity, getCartTotal, clearCart } = useCart();
 
   // Состояния для формы заказа
   const [showModal, setShowModal] = useState(false);
@@ -17,6 +17,23 @@ export default function Order() {
   const [deliveryMethod, setDeliveryMethod] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("");
   const [paymentType, setPaymentType] = useState("");
+  
+  // Новые состояния для формы
+  const [formData, setFormData] = useState({
+    fullName: "",
+    phone: "",
+    email: "",
+    address: ""
+  });
+
+  // Обработчик изменения полей формы
+  const handleInputChange = (e) => {
+    const { id, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [id]: value
+    }));
+  };
 
   // Расчет общей суммы заказа
   const calculateOrderSummary = () => {
@@ -33,9 +50,9 @@ export default function Order() {
 
     // Расчет стоимости доставки в зависимости от способа
     let deliveryPrice = 0;
-    if (subtotal > 1000) {
+    if (subtotal >= 1000) {
       deliveryPrice = 0; // Бесплатная доставка при заказе от 1000
-    } else {
+    } else if (deliveryMethod) {
       switch (deliveryMethod) {
         case "Курьером":
           deliveryPrice = 500;
@@ -57,8 +74,7 @@ export default function Order() {
     return { subtotal, discount, deliveryPrice, total, itemsCount };
   };
 
-  const { subtotal, discount, deliveryPrice, total, itemsCount } =
-    calculateOrderSummary();
+  const { subtotal, discount, deliveryPrice, total, itemsCount } = calculateOrderSummary();
 
   // Обработчики выбора способов доставки и оплаты
   const handleDeliveryChange = (method) => {
@@ -71,6 +87,13 @@ export default function Order() {
 
   const handlePaymentTypeChange = (type) => {
     setPaymentType(type);
+  };
+
+  // Обработчик изменения количества товара
+  const handleQuantityChange = (key, newQuantity) => {
+    if (newQuantity > 0) {
+      updateQuantity(key, newQuantity);
+    }
   };
 
   // Валидация формы перед оформлением заказа
@@ -87,11 +110,28 @@ export default function Order() {
     if (!paymentType) {
       return "Выберите тип оплаты.";
     }
+    if (!formData.fullName.trim()) {
+      return "Введите ваше ФИО.";
+    }
+    if (!formData.phone.trim()) {
+      return "Введите номер телефона.";
+    }
+    if (deliveryMethod === "Курьером" && !formData.address.trim()) {
+      return "Введите адрес доставки.";
+    }
+    if (deliveryMethod !== "Курьером" && !formData.email.trim()) {
+      return "Введите email.";
+    }
     return "";
   };
 
   // Оформление заказа
-  const handleCheckout = () => {
+  const handleCheckout = async (e) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    
     const validationError = validateOrder();
     if (validationError) {
       setErrorMessage(validationError);
@@ -99,20 +139,66 @@ export default function Order() {
       return;
     }
 
-    // Создание информации о заказе
-    setOrderInfo({
-      orderNumber: `ORDER-${Math.floor(Math.random() * 1000000)}`,
-      deliveryMethod,
-      paymentMethod,
-      paymentType,
-      subtotal,
-      discount,
-      deliveryPrice,
-      total,
-    });
+    try {
+      const orderData = {
+        customer_name: formData.fullName,
+        phone: formData.phone,
+        email: formData.email,
+        address: formData.address,
+        delivery_method: deliveryMethod,
+        payment_method: paymentMethod,
+        payment_type: paymentType,
+        subtotal,
+        delivery_price: deliveryPrice,
+        total,
+        items: Object.values(cart).map(item => ({
+          product_id: item.id,
+          quantity: item.quantity,
+          unit_price: item.price,
+          subtotal: item.price * item.quantity
+        }))
+      };
 
-    setShowModal(true);
-    setErrorMessage("");
+      const response = await fetch('/api/order/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        credentials: 'include',
+        body: JSON.stringify(orderData)
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Ошибка при создании заказа');
+      }
+
+      const result = await response.json();
+
+      // Создание информации о заказе
+      setOrderInfo({
+        orderNumber: result.order_number,
+        deliveryMethod,
+        paymentMethod,
+        paymentType,
+        subtotal,
+        discount,
+        deliveryPrice,
+        total,
+      });
+
+      // Очищаем корзину после успешного заказа
+      clearCart();
+
+      setShowModal(true);
+      setErrorMessage("");
+    } catch (error) {
+      setErrorMessage(error.message || "Произошла ошибка при оформлении заказа. Пожалуйста, попробуйте позже.");
+      setShowModal(true);
+    }
   };
 
   // Закрытие модального окна
@@ -126,68 +212,56 @@ export default function Order() {
     <div className="page-order">
       <Header />
       <div className="bucket-path-cont">
-        <Link to="/" className="bucket-path-des">
-          GraffsShop
-        </Link>
-        <span className="bucket-path-sep">/</span>
-        <Link to="/test" className="bucket-path-des">
-          Каталог
-        </Link>
-        <span className="bucket-path-sep">/</span>
-        <span className="bucket-path-current">Корзина</span>
+        <div className="bucket-path">
+          <Link to="/">Главная</Link>
+          <span>/</span>
+          <Link to="/cart">Корзина</Link>
+          <span>/</span>
+          <span>Оформление заказа</span>
+        </div>
       </div>
 
-      <div className="main-order">
-        <h1>Корзина</h1>
-        <div className="back-order">
-          <div className="order-info">
-            <div className="delivery">
-              <h2>Личные данные</h2>
-              <div className="description">
-                {/* Персональные данные */}
-                <div className="personal-info">
-                  <div className="input-delivery">
-                    <div className="input-group">
-                      <label htmlFor="fullName">ФИО</label>
-                      <input
-                        type="text"
-                        id="fullName"
-                        placeholder="Введите ваше полное имя"
-                      />
-                    </div>
-                    <div className="input-group">
-                      <label htmlFor="phone">Телефон</label>
-                      <input
-                        type="tel"
-                        id="phone"
-                        placeholder="+7 (___) ___-__-__"
-                      />
-                    </div>
-                    {deliveryMethod === "Курьером" ? (
-                      <div className="input-group">
-                        <label htmlFor="address">Адрес доставки</label>
-                        <input
-                          type="text"
-                          id="address"
-                          placeholder="Введите адрес доставки"
-                        />
-                      </div>
-                    ) : (
-                      <div className="input-group">
-                        <label htmlFor="email">Email</label>
-                        <input
-                          type="email"
-                          id="email"
-                          placeholder="example@mail.com"
-                        />
-                      </div>
-                    )}
-                  </div>
-                </div>
+      <main className="main-order">
+        <h1>Оформление заказа</h1>
 
-                {/* Способы доставки */}
+        {Object.keys(cart).length === 0 ? (
+          <div className="empty-cart">
+            <div className="empty-cart-content">
+              <div className="empty-cart-icon">
+                <FaShoppingCart />
+              </div>
+              <h2>Ваша корзина пуста</h2>
+              <p>Добавьте товары в корзину, чтобы оформить заказ</p>
+              <Link to="/test" className="continue-shopping">
+                Продолжить покупки
+              </Link>
+            </div>
+          </div>
+        ) : (
+          <div className="back-order">
+            <div className="order-info">
+              <div className="cart-main">
+                {Object.entries(cart).map(([key, item]) => (
+                  <div key={key} className="card-order">
+                    <img src={item.image} alt={item.name} />
+                    <div>
+                      <h2>{item.name}</h2>
+                      <p>{item.price} ₽</p>
+                      <div className="clicker">
+                        <button onClick={() => handleQuantityChange(key, item.quantity - 1)}>-</button>
+                        <span>{item.quantity}</span>
+                        <button onClick={() => handleQuantityChange(key, item.quantity + 1)}>+</button>
+                      </div>
+                    </div>
+                    <button onClick={() => removeFromCart(key)}>Удалить</button>
+                  </div>
+                ))}
+              </div>
+
+              <div className="delivery">
+                <h2>Способ доставки</h2>
                 <div className="delivery-methods">
-                  <h2>Способ доставки</h2>
+                  <h5>Выберите способ доставки</h5>
                   <div className="delivery-options">
                     <div className="delivery-option">
                       <input
@@ -200,11 +274,10 @@ export default function Order() {
                       />
                       <label htmlFor="courier" className="delivery-label">
                         <span className="delivery-title">Курьером</span>
-                        <span className="delivery-info">Доставка до двери</span>
-                        <span className="delivery-price">от 500 ₽</span>
+                        <span className="delivery-info">Доставка курьером до двери</span>
+                        <span className="delivery-price">500 ₽</span>
                       </label>
                     </div>
-
                     <div className="delivery-option">
                       <input
                         type="radio"
@@ -216,13 +289,10 @@ export default function Order() {
                       />
                       <label htmlFor="cdek" className="delivery-label">
                         <span className="delivery-title">СДЭК</span>
-                        <span className="delivery-info">
-                          Доставка до пункта выдачи
-                        </span>
-                        <span className="delivery-price">от 300 ₽</span>
+                        <span className="delivery-info">Доставка до пункта выдачи</span>
+                        <span className="delivery-price">300 ₽</span>
                       </label>
                     </div>
-
                     <div className="delivery-option">
                       <input
                         type="radio"
@@ -234,132 +304,154 @@ export default function Order() {
                       />
                       <label htmlFor="post" className="delivery-label">
                         <span className="delivery-title">Почта России</span>
-                        <span className="delivery-info">
-                          Доставка до отделения
-                        </span>
-                        <span className="delivery-price">от 250 ₽</span>
+                        <span className="delivery-info">Доставка почтой России</span>
+                        <span className="delivery-price">250 ₽</span>
                       </label>
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
 
-            <div className="payment">
-              <h2>Оплата</h2>
-              <div className="description">
+                <div className="description">
+                  <div className="personal-info">
+                    <h5>Персональные данные</h5>
+                    <div className="input-delivery">
+                      <div className="input-group">
+                        <label htmlFor="fullName">ФИО</label>
+                        <input
+                          type="text"
+                          id="fullName"
+                          value={formData.fullName}
+                          onChange={handleInputChange}
+                          placeholder="Введите ваше ФИО"
+                        />
+                      </div>
+                      <div className="input-group">
+                        <label htmlFor="phone">Телефон</label>
+                        <input
+                          type="tel"
+                          id="phone"
+                          value={formData.phone}
+                          onChange={handleInputChange}
+                          placeholder="Введите номер телефона"
+                        />
+                      </div>
+                      {deliveryMethod === "Курьером" ? (
+                        <div className="input-group">
+                          <label htmlFor="address">Адрес доставки</label>
+                          <input
+                            type="text"
+                            id="address"
+                            value={formData.address}
+                            onChange={handleInputChange}
+                            placeholder="Введите адрес доставки"
+                          />
+                        </div>
+                      ) : (
+                        <div className="input-group">
+                          <label htmlFor="email">Email</label>
+                          <input
+                            type="email"
+                            id="email"
+                            value={formData.email}
+                            onChange={handleInputChange}
+                            placeholder="Введите email"
+                          />
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="payment">
+                <h2>Способ оплаты</h2>
                 <div className="payment-methods-container">
-                  {/* Способ оплаты */}
                   <div className="payment-section">
                     <h5>Способ оплаты</h5>
                     <div className="payment-options">
                       <div className="payment-option">
                         <input
                           type="radio"
-                          id="payNow"
-                          name="paymentMethod"
+                          id="card"
+                          name="payment"
                           className="payment-radio"
-                          checked={paymentMethod === "Оплата сразу"}
-                          onChange={() =>
-                            handlePaymentMethodChange("Оплата сразу")
-                          }
+                          checked={paymentMethod === "Картой"}
+                          onChange={() => handlePaymentMethodChange("Картой")}
                         />
-                        <label htmlFor="payNow" className="payment-label">
-                          <span className="payment-title">Оплата сразу</span>
-                          <span className="payment-info">
-                            Мгновенное подтверждение
-                          </span>
+                        <label htmlFor="card" className="payment-label">
+                          <span className="payment-title">Банковской картой</span>
                         </label>
                       </div>
-
                       <div className="payment-option">
                         <input
                           type="radio"
-                          id="payLater"
-                          name="paymentMethod"
+                          id="cash"
+                          name="payment"
                           className="payment-radio"
-                          checked={paymentMethod === "Оплата при получении"}
-                          onChange={() =>
-                            handlePaymentMethodChange("Оплата при получении")
-                          }
+                          checked={paymentMethod === "Наличными"}
+                          onChange={() => handlePaymentMethodChange("Наличными")}
                         />
-                        <label htmlFor="payLater" className="payment-label">
-                          <span className="payment-title">
-                            Оплата при получении
-                          </span>
-                          <span className="payment-info">
-                            Оплата после доставки
-                          </span>
+                        <label htmlFor="cash" className="payment-label">
+                          <span className="payment-title">Наличными при получении</span>
                         </label>
                       </div>
                     </div>
                   </div>
 
-                  {/* Тип оплаты */}
                   <div className="payment-section">
                     <h5>Тип оплаты</h5>
                     <div className="payment-options">
                       <div className="payment-option">
                         <input
                           type="radio"
-                          id="card"
+                          id="full"
                           name="paymentType"
                           className="payment-radio"
-                          checked={paymentType === "Банковской картой"}
-                          onChange={() =>
-                            handlePaymentTypeChange("Банковской картой")
-                          }
+                          checked={paymentType === "Полная оплата"}
+                          onChange={() => handlePaymentTypeChange("Полная оплата")}
                         />
-                        <label htmlFor="card" className="payment-label">
-                          <span className="payment-title">
-                            Банковской картой
-                          </span>
-                          <span className="payment-info">
-                            Visa, MasterCard, МИР
-                          </span>
+                        <label htmlFor="full" className="payment-label">
+                          <span className="payment-title">Полная оплата</span>
                         </label>
                       </div>
-
                       <div className="payment-option">
                         <input
                           type="radio"
-                          id="cash"
+                          id="partial"
                           name="paymentType"
                           className="payment-radio"
-                          checked={paymentType === "Наличными"}
-                          onChange={() => handlePaymentTypeChange("Наличными")}
+                          checked={paymentType === "Частичная оплата"}
+                          onChange={() => handlePaymentTypeChange("Частичная оплата")}
                         />
-                        <label htmlFor="cash" className="payment-label">
-                          <span className="payment-title">Наличными</span>
-                          <span className="payment-info">
-                            При получении заказа
-                          </span>
+                        <label htmlFor="partial" className="payment-label">
+                          <span className="payment-title">Частичная оплата</span>
                         </label>
                       </div>
                     </div>
                   </div>
                 </div>
 
-                {/* Итоговая информация */}
-                <div className="order-summary">
-                  <div className="summary-items">
-                    <div className="summary-row">
-                      <span>Товары ({itemsCount})</span>
-                      <span>{subtotal} ₽</span>
-                    </div>
-                    {discount > 0 && (
-                      <div className="summary-row discount">
-                        <span>Скидка</span>
-                        <span>-{discount} ₽</span>
+                <div className="payment-info">
+                  <div className="order-summary">
+                    <div className="summary-items">
+                      <div className="summary-row">
+                        <span>Товары ({itemsCount}):</span>
+                        <span>{subtotal} ₽</span>
                       </div>
-                    )}
-                    <div className="summary-row">
-                      <span>Доставка</span>
-                      <span>{deliveryPrice} ₽</span>
-                    </div>
-                    <div className="summary-row total">
-                      <span>Итого</span>
-                      <span>{total} ₽</span>
+                      {discount > 0 && (
+                        <div className="summary-row discount">
+                          <span>Скидка:</span>
+                          <span>-{discount} ₽</span>
+                        </div>
+                      )}
+                      <div className="summary-row">
+                        <span>Доставка:</span>
+                        <span>{deliveryPrice} ₽</span>
+                      </div>
+                      <div className="summary-row total">
+                        <span>Итого:</span>
+                        <span>{total} ₽</span>
+                      </div>
                     </div>
                   </div>
                   <button onClick={handleCheckout} className="checkout-button">
@@ -369,97 +461,36 @@ export default function Order() {
               </div>
             </div>
           </div>
-          {/* Пустая корзина */}
-          <div className="cart-main">
-            {itemsCount === 0 ? (
-              <div className="empty-cart">
-                <div className="empty-cart-content">
-                  <FaShoppingCart className="empty-cart-icon" />
-                  <h2>Ваша корзина пуста</h2>
-                  <p>Добавьте товары, чтобы сделать заказ</p>
-                  <a href="/test" className="continue-shopping">
-                    Продолжить покупки
-                  </a>
-                </div>
-              </div>
-            ) : (
-              Object.keys(cart).map((key) => {
-                const item = cart[key];
-                return (
-                  <div className="card-order" key={key}>
-                    <img
-                      className="card-img"
-                      src={item.img}
-                      width={200}
-                      alt={item.title}
-                    />
-                    <p>{item.title}</p>
-                    <p>{item.price} ₽</p>
-                    <p>
-                      Скидка: {item.old_price ? item.old_price - item.price : 0}{" "}
-                      ₽
-                    </p>
+        )}
+      </main>
 
-                    <div className="clicker">
-                      <button
-                        onClick={() => updateQuantity(key, item.quantity - 1)}
-                      >
-                        -
-                      </button>
-                      <p>{item.quantity}</p>
-                      <button
-                        onClick={() => updateQuantity(key, item.quantity + 1)}
-                      >
-                        +
-                      </button>
-                      <button onClick={() => removeFromCart(key)}>
-                        Удалить
-                      </button>
-                    </div>
-                  </div>
-                );
-              })
-            )}
-          </div>
-        </div>
-      </div>
+      <Footer />
 
-      {/* Модальное окно */}
       {showModal && (
         <div className="modal-overlay">
           <div className="modal-pos">
             <div className="modal">
               {errorMessage ? (
                 <>
-                  <h2>Ошибка оформления заказа</h2>
+                  <h2>Ошибка</h2>
                   <p>{errorMessage}</p>
-                  <button onClick={closeModal}>Закрыть</button>
-                </>
-              ) : orderInfo ? (
-                <>
-                  <h2>Заказ успешно оформлен!</h2>
-                  <p>Номер заказа: {orderInfo.orderNumber}</p>
-                  <p>Способ доставки: {orderInfo.deliveryMethod}</p>
-                  <p>Способ оплаты: {orderInfo.paymentMethod}</p>
-                  <p>Тип оплаты: {orderInfo.paymentType}</p>
-                  <p>Итоговая сумма: {orderInfo.total} ₽</p>
                   <button onClick={closeModal}>Закрыть</button>
                 </>
               ) : (
                 <>
-                  <h2>Корзина пуста</h2>
-                  <p>
-                    Пожалуйста, добавьте товары в корзину, чтобы оформить заказ.
-                  </p>
-                  <button onClick={closeModal}>Закрыть</button>
+                  <h2>Заказ успешно оформлен!</h2>
+                  <p>Номер вашего заказа: {orderInfo.orderNumber}</p>
+                  <p>Способ доставки: {orderInfo.deliveryMethod}</p>
+                  <p>Способ оплаты: {orderInfo.paymentMethod}</p>
+                  <p>Тип оплаты: {orderInfo.paymentType}</p>
+                  <p>Сумма заказа: {orderInfo.total} ₽</p>
+                  <button onClick={() => navigate('/')}>Вернуться на главную</button>
                 </>
               )}
             </div>
           </div>
         </div>
       )}
-
-      <Footer />
     </div>
   );
 }

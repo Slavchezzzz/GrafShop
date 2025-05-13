@@ -16,9 +16,10 @@ export function ProductsProvider({ children }) {
       const response = await axios.get("http://localhost:8080/products/data", {
         timeout: 10000,
         headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
         },
+        withCredentials: true
       });
 
       // Проверяем структуру ответа и извлекаем массив продуктов

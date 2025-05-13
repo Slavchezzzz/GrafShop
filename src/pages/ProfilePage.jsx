@@ -13,6 +13,8 @@ export default function ProfilePage() {
   const [activeTab, setActiveTab] = useState('profile');
   const [orders, setOrders] = useState([]);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const { favorites } = useCart();
   const { products } = useContext(ProductsContext);
 
@@ -26,8 +28,64 @@ export default function ProfilePage() {
       return;
     }
     setUser(JSON.parse(userData));
-    // TODO: Загрузка истории заказов с сервера
   }, [navigate]);
+
+  useEffect(() => {
+    if (activeTab === 'orders') {
+      fetchOrders();
+    }
+  }, [activeTab]);
+
+  const fetchOrders = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await fetch('/api/order/history', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        credentials: 'include'
+      });
+
+      if (!response.ok) {
+        throw new Error('Ошибка при получении истории заказов');
+      }
+
+      const data = await response.json();
+      setOrders(data.orders);
+    } catch (err) {
+      setError(err.message);
+      console.error('Ошибка при загрузке заказов:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('ru-RU', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  };
+
+  const getStatusText = (statusId) => {
+    const statuses = {
+      1: 'Новый',
+      2: 'В обработке',
+      3: 'Отправлен',
+      4: 'Доставлен',
+      5: 'Отменен'
+    };
+    return statuses[statusId] || 'Неизвестный статус';
+  };
 
   const handleLogout = () => {
     localStorage.removeItem('user');
@@ -114,35 +172,61 @@ export default function ProfilePage() {
           {activeTab === 'orders' && (
             <div className="orders-history">
               <h3>История заказов</h3>
-              {orders.length > 0 ? (
+              {loading && <div className="loading">Загрузка истории заказов...</div>}
+              {error && <div className="error">{error}</div>}
+              {!loading && !error && orders.length > 0 ? (
                 <div className="orders-list">
                   {orders.map(order => (
                     <div key={order.id} className="order-card">
                       <div className="order-header">
-                        <span className="order-number">Заказ #{order.id}</span>
-                        <span className="order-date">{new Date(order.date).toLocaleDateString()}</span>
-                        <span className={`order-status ${order.status}`}>{order.status}</span>
+                        <div className="order-info">
+                          <span className="order-number">Заказ #{order.id}</span>
+                          <span className="order-date">{formatDate(order.order_date)}</span>
+                        </div>
+                        <span className={`order-status status-${order.status_id}`}>
+                          {getStatusText(order.status_id)}
+                        </span>
                       </div>
-                      <div className="order-items">
-                        {order.items.map(item => (
-                          <div key={item.id} className="order-item">
-                            <img src={item.image} alt={item.name} />
-                            <div className="item-details">
-                              <h4>{item.name}</h4>
-                              <p>Количество: {item.quantity}</p>
-                              <p>Цена: {item.price} ₽</p>
+                      <div className="order-details">
+                        <div className="order-items">
+                          {order.items.map(item => (
+                            <div key={item.id} className="order-item">
+                              <span className="item-name">{item.product_name}</span>
+                              <span className="item-quantity">x{item.quantity}</span>
+                              <span className="item-price">{item.unit_price} ₽</span>
                             </div>
+                          ))}
+                        </div>
+                        <div className="order-summary">
+                          <div className="summary-row">
+                            <span>Товары:</span>
+                            <span>{order.subtotal} ₽</span>
                           </div>
-                        ))}
+                          <div className="summary-row">
+                            <span>Доставка:</span>
+                            <span>{order.delivery_price} ₽</span>
+                          </div>
+                          <div className="summary-row total">
+                            <span>Итого:</span>
+                            <span>{order.total_amount} ₽</span>
+                          </div>
+                        </div>
                       </div>
-                      <div className="order-total">
-                        <span>Итого: {order.total} ₽</span>
+                      <div className="order-delivery">
+                        <div className="delivery-info">
+                          <span className="delivery-method">{order.delivery_method}</span>
+                          <span className="delivery-address">{order.address}</span>
+                        </div>
+                        <div className="payment-info">
+                          <span className="payment-method">{order.payment_method}</span>
+                          <span className="payment-type">{order.payment_type}</span>
+                        </div>
                       </div>
                     </div>
                   ))}
                 </div>
               ) : (
-                <p className="no-orders">У вас пока нет заказов</p>
+                !loading && !error && <p className="no-orders">У вас пока нет заказов</p>
               )}
             </div>
           )}

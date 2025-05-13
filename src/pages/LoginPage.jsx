@@ -267,7 +267,7 @@ function Login({ onRegisterClick }) {
     setIsSubmitting(true);
     try {
       console.log('Отправка запроса на вход');
-      const response = await api.post("/auth/login", {
+      const response = await api.post("/site/login", {
         login: formData.login,
         password: formData.password
       });
