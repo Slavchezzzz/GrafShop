@@ -6,7 +6,6 @@ export function CartProvider({ children }) {
   const [cart, setCart] = useState({});
   const [favorites, setFavorites] = useState([]);
   const [user, setUser] = useState(null);
-  const [showAuthModal, setShowAuthModal] = useState(false);
 
   // Загрузка данных пользователя при инициализации
   useEffect(() => {
@@ -100,10 +99,6 @@ export function CartProvider({ children }) {
     };
 
     const toggleFavorite = (productId) => {
-      if (!user) {
-        setShowAuthModal(true);
-        return;
-      }
       setFavorites((prev) =>
         prev.includes(productId)
           ? prev.filter((id) => id !== productId)
@@ -125,33 +120,12 @@ export function CartProvider({ children }) {
           0
         ),
       clearCart: () => setCart({}),
-      showAuthModal,
-      setShowAuthModal,
     };
   }, [cart, favorites, user]);
 
   return (
     <CartContext.Provider value={contextValue}>
       {children}
-      {showAuthModal && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <h3>Требуется авторизация</h3>
-            <p>Чтобы добавить товар в избранное, необходимо войти в аккаунт или зарегистрироваться</p>
-            <div className="modal-buttons">
-              <button onClick={() => window.location.href = '/login'} className="confirm-button">
-                Войти
-              </button>
-              <button onClick={() => window.location.href = '/register'} className="confirm-button">
-                Зарегистрироваться
-              </button>
-              <button onClick={() => setShowAuthModal(false)} className="cancel-button">
-                Отмена
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </CartContext.Provider>
   );
 }

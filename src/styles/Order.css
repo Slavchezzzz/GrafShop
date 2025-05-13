@@ -346,6 +346,7 @@
   border: 1px solid white;
   border-radius: 15px;
   margin-bottom: 10px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
 }
 
 .card-order h2 {

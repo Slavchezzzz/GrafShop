@@ -31,8 +31,26 @@ export default function Order() {
       }
     });
 
-    // Расчет стоимости доставки
-    const deliveryPrice = subtotal > 1000 ? 0 : 500;
+    // Расчет стоимости доставки в зависимости от способа
+    let deliveryPrice = 0;
+    if (subtotal > 1000) {
+      deliveryPrice = 0; // Бесплатная доставка при заказе от 1000
+    } else {
+      switch (deliveryMethod) {
+        case "Курьером":
+          deliveryPrice = 500;
+          break;
+        case "СДЭК":
+          deliveryPrice = 300;
+          break;
+        case "Почта России":
+          deliveryPrice = 250;
+          break;
+        default:
+          deliveryPrice = 0;
+      }
+    }
+
     const total = subtotal + deliveryPrice;
     const itemsCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
@@ -145,14 +163,25 @@ export default function Order() {
                         placeholder="+7 (___) ___-__-__"
                       />
                     </div>
-                    <div className="input-group">
-                      <label htmlFor="email">Email</label>
-                      <input
-                        type="email"
-                        id="email"
-                        placeholder="example@mail.com"
-                      />
-                    </div>
+                    {deliveryMethod === "Курьером" ? (
+                      <div className="input-group">
+                        <label htmlFor="address">Адрес доставки</label>
+                        <input
+                          type="text"
+                          id="address"
+                          placeholder="Введите адрес доставки"
+                        />
+                      </div>
+                    ) : (
+                      <div className="input-group">
+                        <label htmlFor="email">Email</label>
+                        <input
+                          type="email"
+                          id="email"
+                          placeholder="example@mail.com"
+                        />
+                      </div>
+                    )}
                   </div>
                 </div>
 
