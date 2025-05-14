@@ -9,8 +9,12 @@ const api = axios.create({
     }
 });
 
-// Добавляем перехватчик для отладки запросов
+// Добавляем перехватчик для добавления токена к каждому запросу
 api.interceptors.request.use(request => {
+    const token = localStorage.getItem('token');
+    if (token) {
+        request.headers['Authorization'] = `Bearer ${token}`;
+    }
     console.log('Отправляемый запрос:', {
         url: request.url,
         method: request.method,
@@ -28,6 +32,12 @@ api.interceptors.response.use(
     },
     error => {
         console.error('Ошибка запроса:', error.response?.data || error);
+        // Если токен истек или недействителен, очищаем localStorage и перенаправляем на страницу входа
+        if (error.response?.status === 401) {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            window.location.href = '/login';
+        }
         return Promise.reject(error);
     }
 );

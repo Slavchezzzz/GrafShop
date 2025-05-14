@@ -102,12 +102,18 @@ function RegisterPage({ onLoginClick }) {
 
       if (response.data.success) {
         setShowSuccessModal(true);
-        // Сохраняем данные пользователя
-        const userData = {
-          login: formData.login,
-          email: formData.email
-        };
+        // Сохраняем данные пользователя и токен
+        const userData = response.data.data.user;
+        const token = response.data.data.token;
+        console.log('Полученные данные пользователя:', userData);
+        console.log('Полученный токен:', token);
         localStorage.setItem('user', JSON.stringify(userData));
+        localStorage.setItem('token', token);
+        // Проверяем, что данные сохранились
+        console.log('Сохраненные данные в localStorage:', {
+          user: localStorage.getItem('user'),
+          token: localStorage.getItem('token')
+        });
         // Вызываем событие изменения localStorage
         window.dispatchEvent(new Event('storage'));
         // Автоматически переключаем на форму входа через 2 секунды
@@ -267,7 +273,7 @@ function Login({ onRegisterClick }) {
     setIsSubmitting(true);
     try {
       console.log('Отправка запроса на вход');
-      const response = await api.post("/site/login", {
+      const response = await api.post("/auth/login", {
         login: formData.login,
         password: formData.password
       });
@@ -275,21 +281,25 @@ function Login({ onRegisterClick }) {
       console.log('Ответ сервера:', response.data);
 
       if (response.data.success) {
-        // Сохраняем токен и данные пользователя
-        localStorage.setItem('token', response.data.data.token);
-        localStorage.setItem('user', JSON.stringify(response.data.data.user));
-        
+        setShowSuccessModal(true);
+        // Сохраняем данные пользователя и токен
+        const userData = response.data.data.user;
+        const token = response.data.data.token;
+        console.log('Полученные данные пользователя:', userData);
+        console.log('Полученный токен:', token);
+        localStorage.setItem('user', JSON.stringify(userData));
+        localStorage.setItem('token', token);
+        // Проверяем, что данные сохранились
+        console.log('Сохраненные данные в localStorage:', {
+          user: localStorage.getItem('user'),
+          token: localStorage.getItem('token')
+        });
         // Вызываем событие изменения localStorage
         window.dispatchEvent(new Event('storage'));
-        
-        // Показываем модальное окно успешного входа
-        setShowSuccessModal(true);
-        
-        // Перенаправляем на главную страницу через 1 секунду
+        // Перенаправляем на главную страницу через 2 секунды
         setTimeout(() => {
-          setShowSuccessModal(false);
           navigate('/');
-        }, 1000);
+        }, 2000);
       } else {
         setErrors({ submit: response.data.message });
       }

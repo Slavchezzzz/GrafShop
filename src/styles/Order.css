@@ -41,6 +41,7 @@
 
 .order-info {
   display: flex;
+  flex-direction: column;
   padding: 20px;
   justify-content: space-between;
   width: 100%;
@@ -71,10 +72,6 @@
   justify-content: center;
   align-items: center;
   margin: 0;
-}
-
-.description {
-  /* padding: 20px; */
 }
 
 /* Персональные данные */
@@ -392,9 +389,10 @@
 }
 
 .order-card-image img {
-  width: 100%;
-  height: 100%;
+  width: 180px;
+  height: 180px;
   object-fit: contain;
+  display: block;
 }
 
 .order-card-info {
@@ -593,21 +591,51 @@
 
 /* Адаптация страницы */
 
-@media screen and (max-width: 800px) {
-  .order-card {
+@media screen and (max-width: 700px){
+  .delivery-payment-container {
     flex-direction: column;
-    width: 100%;
-    gap: 5px;
   }
-  .order-card p {
+  .order-card-info{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center
+  }
+  .order-card-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+  }
+  .order-card-image img {
+    width: 180px;
+    height: 180px;
+  }
+  .order-card-remove{
     width: 100%;
   }
 }
 
-@media screen and (max-width: 550px) {
-  .payment-info button {
-    padding: 5px 25px 5px;
+@media screen and (max-width: 600px) {
+  .order-card-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
   }
+  .order-card-image img {
+    display: block;
+    /* max-width: 120px; */
+    height: auto;
+    object-fit: contain;
+    width: 180px;
+    height: 180px;
+  }
+}
+
+@media screen and (max-width: 550px) {
   .payment .checkbox {
     flex-direction: column;
   }
@@ -616,76 +644,6 @@
   }
 }
 
-@media screen and (max-width: 768px) {
-  .order-info {
-    flex-direction: column;
-  }
-
-  .delivery-payment-container, .cart-main {
-    width: 100%;
-    flex: unset;
-  }
-
-  .delivery, .payment {
-    width: 100%;
-  }
-
-  .payment-methods-container {
-    flex-direction: column;
-    gap: 20px;
-  }
-
-  .payment-section {
-    width: 100%;
-  }
-
-  .description {
-    padding: 15px;
-  }
-
-  .delivery-label {
-    padding: 12px;
-  }
-
-  .order-card {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-
-  .order-card-image {
-    width: 150px;
-    height: 150px;
-  }
-
-  .order-card-info {
-    width: 100%;
-    align-items: center;
-  }
-
-  .order-card-quantity {
-    justify-content: center;
-  }
-
-  .order-card-remove {
-    width: 100%;
-    margin-top: 10px;
-  }
-
-  .order-info {
-    flex-direction: column;
-  }
-}
-
-@media screen and (max-width: 680px) {
-
-  .delivery-payment-container, .cart-main {
-    width: 100%;
-    /* flex: unset; */
-    display: flex;
-    flex-direction: column;
-  }
-}
 @media screen and (max-width: 480px) {
   .input-group input {
     height: 40px;
@@ -710,14 +668,48 @@
     padding: 15px;
   }
   .order-card-image {
-    width: 120px;
-    height: 120px;
+    width: 110px;
+    height: 110px;
   }
   .order-card-title {
     font-size: 1.1rem;
   }
   .order-card-price {
     font-size: 1.2rem;
+  }
+  .order-card-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+  }
+  .order-card-image img {
+    width: 150px;
+    height: 150px;
+  }
+}
+
+/* Адаптивность */
+@media screen and (max-width: 480px) {
+  .empty-cart-content {
+    padding: 30px 20px;
+  }
+
+  .empty-cart-icon {
+    width: 60px;
+    height: 60px;
+  }
+
+  .empty-cart h2 {
+    font-size: 20px;
+  }
+
+  .empty-cart p {
+    font-size: 14px;
+  }
+  .payment-methods-container{
+    flex-direction: column;
   }
 }
 
@@ -799,22 +791,7 @@
   background-color: #8b00c1;
 }
 
-/* Адаптивность */
-@media screen and (max-width: 480px) {
-  .empty-cart-content {
-    padding: 30px 20px;
-  }
 
-  .empty-cart-icon {
-    width: 60px;
-    height: 60px;
-  }
 
-  .empty-cart h2 {
-    font-size: 20px;
-  }
 
-  .empty-cart p {
-    font-size: 14px;
-  }
-}
+
