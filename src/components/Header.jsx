@@ -19,7 +19,9 @@ export default function Header() {
     const getUserData = () => {
       const userData = localStorage.getItem('user');
       if (userData) {
-        setUser(JSON.parse(userData));
+        const parsedUser = JSON.parse(userData);
+        console.log('User data from localStorage:', parsedUser);
+        setUser(parsedUser);
       }
     };
 
@@ -47,13 +49,6 @@ export default function Header() {
     setCartOpen(false);
   }
 
-  const handleLogout = () => {
-    localStorage.removeItem('user');
-    localStorage.removeItem('token');
-    setUser(null);
-    navigate('/');
-  };
-
   return (
     <header>
       <nav className="navbar">
@@ -73,6 +68,7 @@ export default function Header() {
           <SideBar
             className={"js-burger" + (cartOpen ? " active" : "")}
             onClickClose={clickClose}
+            user={user}
           />
         </div>
         <div className="header-icon">
@@ -84,13 +80,11 @@ export default function Header() {
             <FaHeart className="icon" />
           </Link>
           {user ? (
-            <div className="user-menu">
-              <Link to="/profile" className="user-name">
-                {user.login}
-              </Link>
-            </div>
+            <Link to="/profile" className="user-name">
+              {user.login}
+            </Link>
           ) : (
-            <Link to="/login" className="login-link">
+            <Link to="/login" className="link-to-login">
               Войти
             </Link>
           )}
@@ -100,20 +94,15 @@ export default function Header() {
   );
 }
 
-function SideBar({ className, onClickClose }) {
+function SideBar({ className, onClickClose, user }) {
   return (
     <ul id="open" className={"menu-links" + (className ? " " + className : "")}>
       <FiX className="header-fix js-burger-close" onClick={onClickClose} />
       <Link to={"/test"}>Граффити</Link>
-
       <Link to={"/NewProduct"}>Новинки</Link>
-
       <Link to={"/SalePage"}>Скидки</Link>
-
       <Link to={"/Brand"}>Бренды</Link>
-
       <Link to={"/news"}>Новости</Link>
-
     </ul>
   );
 }

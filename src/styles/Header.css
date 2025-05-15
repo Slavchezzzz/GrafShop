@@ -74,16 +74,15 @@ header .navbar {
 }
 
 .navbar .link-to-login {
-  background-color: #a800e5;
   color: rgb(0, 0, 0);
   padding: 5px 20px 5px 20px;
   border-radius: 13px;
   font-size: medium;
-  font-family: 700px;
+  font-weight: 700;
+  font-size: 1.2rem;
 }
 .navbar .link-to-login:hover {
-  color: white;
-  background-color: #7502ab;
+  color: #a800e5;
 }
 
 .navbar a {
