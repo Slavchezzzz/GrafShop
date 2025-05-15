@@ -1,16 +1,16 @@
-import { useState, useEffect, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import MainCard from '../components/MainCard';
-import { useCart } from '../components/data/CartContext';
-import { ProductsContext } from '../components/contexts/ProductsContext';
-import '../styles/ProfilePage.css';
+import { useState, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import MainCard from "../components/MainCard";
+import { useCart } from "../components/data/CartContext";
+import { ProductsContext } from "../components/contexts/ProductsContext";
+import "../styles/ProfilePage.css";
 
 export default function ProfilePage() {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
-  const [activeTab, setActiveTab] = useState('profile');
+  const [activeTab, setActiveTab] = useState("profile");
   const [orders, setOrders] = useState([]);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -19,19 +19,21 @@ export default function ProfilePage() {
   const { products } = useContext(ProductsContext);
 
   // Фильтруем избранные товары
-  const favoriteProducts = products.filter(product => favorites.includes(product.id));
+  const favoriteProducts = products.filter((product) =>
+    favorites.includes(product.id)
+  );
 
   useEffect(() => {
-    const userData = localStorage.getItem('user');
+    const userData = localStorage.getItem("user");
     if (!userData) {
-      navigate('/login');
+      navigate("/login");
       return;
     }
     setUser(JSON.parse(userData));
   }, [navigate]);
 
   useEffect(() => {
-    if (activeTab === 'orders') {
+    if (activeTab === "orders") {
       fetchOrders();
     }
   }, [activeTab]);
@@ -40,38 +42,40 @@ export default function ProfilePage() {
     try {
       setLoading(true);
       setError(null);
-      const token = localStorage.getItem('token');
-      
+      const token = localStorage.getItem("token");
+
       if (!token) {
-        throw new Error('Требуется авторизация');
+        throw new Error("Требуется авторизация");
       }
 
-      const response = await fetch('/api/order/history', {
-        method: 'GET',
+      const response = await fetch("/api/order/history", {
+        method: "GET",
         headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'X-Requested-With': 'XMLHttpRequest',
-          'Authorization': `Bearer ${token}`
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "X-Requested-With": "XMLHttpRequest",
+          Authorization: `Bearer ${token}`,
         },
-        credentials: 'include'
+        credentials: "include",
       });
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.message || 'Ошибка при получении истории заказов');
+        throw new Error(
+          errorData.message || "Ошибка при получении истории заказов"
+        );
       }
 
       const data = await response.json();
-      
+
       if (!data || !Array.isArray(data.orders)) {
-        throw new Error('Неверный формат данных');
+        throw new Error("Неверный формат данных");
       }
 
       setOrders(data.orders);
     } catch (err) {
       setError(err.message);
-      console.error('Ошибка при загрузке заказов:', err);
+      console.error("Ошибка при загрузке заказов:", err);
     } finally {
       setLoading(false);
     }
@@ -79,40 +83,40 @@ export default function ProfilePage() {
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('ru-RU', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
+    return date.toLocaleDateString("ru-RU", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
     });
   };
 
   const getStatusText = (statusId) => {
     const statuses = {
-      1: 'Новый',
-      2: 'В обработке',
-      3: 'Отправлен',
-      4: 'Доставлен',
-      5: 'Отменен'
+      1: "Новый",
+      2: "В обработке",
+      3: "Отправлен",
+      4: "Доставлен",
+      5: "Отменен",
     };
-    return statuses[statusId] || 'Неизвестный статус';
+    return statuses[statusId] || "Неизвестный статус";
   };
 
   const formatPrice = (price) => {
-    return new Intl.NumberFormat('ru-RU', {
-      style: 'currency',
-      currency: 'RUB',
-      minimumFractionDigits: 2
+    return new Intl.NumberFormat("ru-RU", {
+      style: "currency",
+      currency: "RUB",
+      minimumFractionDigits: 2,
     }).format(price);
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('user');
-    localStorage.removeItem('token');
-    localStorage.removeItem('cart');
-    localStorage.removeItem('favorites');
-    navigate('/');
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    localStorage.removeItem("cart");
+    localStorage.removeItem("favorites");
+    navigate("/");
   };
 
   const handleLogoutClick = () => {
@@ -143,27 +147,29 @@ export default function ProfilePage() {
             <h2>{user.login}</h2>
           </div>
           <nav className="profile-nav">
-            <button 
-              className={`nav-item ${activeTab === 'profile' ? 'active' : ''}`}
-              onClick={() => setActiveTab('profile')}
+            <button
+              className={`nav-item ${activeTab === "profile" ? "active" : ""}`}
+              onClick={() => setActiveTab("profile")}
             >
               Профиль
             </button>
-            <button 
-              className={`nav-item ${activeTab === 'orders' ? 'active' : ''}`}
-              onClick={() => setActiveTab('orders')}
+            <button
+              className={`nav-item ${activeTab === "orders" ? "active" : ""}`}
+              onClick={() => setActiveTab("orders")}
             >
               История заказов
             </button>
-            <button 
-              className={`nav-item ${activeTab === 'favorites' ? 'active' : ''}`}
-              onClick={() => setActiveTab('favorites')}
+            <button
+              className={`nav-item ${
+                activeTab === "favorites" ? "active" : ""
+              }`}
+              onClick={() => setActiveTab("favorites")}
             >
               Избранное
             </button>
-            <button 
-              className={`nav-item ${activeTab === 'settings' ? 'active' : ''}`}
-              onClick={() => setActiveTab('settings')}
+            <button
+              className={`nav-item ${activeTab === "settings" ? "active" : ""}`}
+              onClick={() => setActiveTab("settings")}
             >
               Настройки
             </button>
@@ -171,7 +177,7 @@ export default function ProfilePage() {
         </div>
 
         <div className="profile-content">
-          {activeTab === 'profile' && (
+          {activeTab === "profile" && (
             <div className="profile-info">
               <h3>Личная информация</h3>
               <div className="info-group">
@@ -189,31 +195,45 @@ export default function ProfilePage() {
             </div>
           )}
 
-          {activeTab === 'orders' && (
+          {activeTab === "orders" && (
             <div className="orders-history">
               <h3>История заказов</h3>
-              {loading && <div className="loading">Загрузка истории заказов...</div>}
+              {loading && (
+                <div className="loading">Загрузка истории заказов...</div>
+              )}
               {error && <div className="error">{error}</div>}
               {!loading && !error && orders.length > 0 ? (
                 <div className="orders-list">
-                  {orders.map(order => (
+                  {orders.map((order) => (
                     <div key={order.id} className="order-card">
                       <div className="order-header">
                         <div className="order-info">
-                          <span className="order-number">Заказ #{order.id}</span>
-                          <span className="order-date">{formatDate(order.order_date)}</span>
+                          <span className="order-number">
+                            Заказ #{order.id}
+                          </span>
+                          <span className="order-date">
+                            {formatDate(order.order_date)}
+                          </span>
                         </div>
-                        <span className={`order-status status-${order.status_id}`}>
+                        <span
+                          className={`order-status status-${order.status_id}`}
+                        >
                           {getStatusText(order.status_id)}
                         </span>
                       </div>
                       <div className="order-details">
                         <div className="order-items">
-                          {order.items.map(item => (
+                          {order.items.map((item) => (
                             <div key={item.id} className="order-item">
-                              <span className="item-name">{item.product_name}</span>
-                              <span className="item-quantity">x{item.quantity}</span>
-                              <span className="item-price">{formatPrice(item.unit_price)}</span>
+                              <span className="item-name">
+                                {item.product_name}
+                              </span>
+                              <span className="item-quantity">
+                                x{item.quantity}
+                              </span>
+                              <span className="item-price">
+                                {formatPrice(item.unit_price)}
+                              </span>
                             </div>
                           ))}
                         </div>
@@ -234,24 +254,33 @@ export default function ProfilePage() {
                       </div>
                       <div className="order-delivery">
                         <div className="delivery-info">
-                          <span className="delivery-method">{order.delivery_method}</span>
-                          <span className="delivery-address">{order.address}</span>
+                          <span className="delivery-method">
+                            {order.delivery_method}
+                          </span>
+                          <span className="delivery-address">
+                            {order.address}
+                          </span>
                         </div>
                         <div className="payment-info">
-                          <span className="payment-method">{order.payment_method}</span>
-                          <span className="payment-type">{order.payment_type}</span>
+                          <span className="payment-method">
+                            {order.payment_method}
+                          </span>
+                          <span className="payment-type">
+                            {order.payment_type}
+                          </span>
                         </div>
                       </div>
                     </div>
                   ))}
                 </div>
               ) : (
-                !loading && !error && <p className="no-orders">У вас пока нет заказов</p>
+                !loading &&
+                !error && <p className="no-orders">У вас пока нет заказов</p>
               )}
             </div>
           )}
 
-          {activeTab === 'favorites' && (
+          {activeTab === "favorites" && (
             <div className="favorites">
               <h3>Избранные товары</h3>
               {favoriteProducts.length > 0 ? (
@@ -259,9 +288,9 @@ export default function ProfilePage() {
               ) : (
                 <div className="no-favorites">
                   <p>У вас пока нет избранных товаров</p>
-                  <button 
+                  <button
                     className="browse-products-button"
-                    onClick={() => navigate('/test')}
+                    onClick={() => navigate("/test")}
                   >
                     Перейти в каталог
                   </button>
@@ -270,7 +299,7 @@ export default function ProfilePage() {
             </div>
           )}
 
-          {activeTab === 'settings' && (
+          {activeTab === "settings" && (
             <div className="settings">
               <h3>Настройки аккаунта</h3>
               <div className="settings-group">
@@ -288,7 +317,9 @@ export default function ProfilePage() {
                     <label>Подтвердите новый пароль</label>
                     <input type="password" />
                   </div>
-                  <button type="submit" className="save-button">Сохранить изменения</button>
+                  <button type="submit" className="save-button">
+                    Сохранить изменения
+                  </button>
                 </form>
               </div>
               <div className="settings-group">
@@ -322,4 +353,4 @@ export default function ProfilePage() {
       )}
     </div>
   );
-} 
+}

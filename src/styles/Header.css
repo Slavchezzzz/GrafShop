@@ -1,45 +1,133 @@
-* {
+body {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
-  list-style: none;
+  overflow-x: hidden; /* Блокируем горизонтальный скролл */
+  font-family: "Roboto", sans-serif;
 }
 
-.header {
+/* ===== Шапка ===== */
+header {
+  position: sticky;
   top: 0;
   left: 0;
-  height: 100%;
+  width: 100%;
+  z-index: 1000;
+  background-color: white;
+  box-shadow: 0px 1px 15px black;
 }
 
 nav.navbar {
   display: flex;
+  align-items: center;
+  justify-content: space-around;
   width: 100%;
+  margin: 0 auto;
+  padding: 10px 20px;
   background-color: white;
-  padding: 10px;
-  justify-content: space-around;
-  box-shadow: 0px 1px 15px black;
 }
 
-.navbar {
+/* ===== Логотип ===== */
+.header-logo img {
+  width: 100px;
+  height: auto;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.header-logo img:hover {
+  transform: scale(1.05);
+}
+
+/* ===== Навигационные ссылки ===== */
+.menu-links {
   display: flex;
-  align-items: center;
-  justify-content: space-around;
-}
-
-.header-info {
-  display: flex;
-  align-items: center;
-}
-
-.header-icon {
   gap: 40px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.menu-links a {
+  color: black;
+  font-size: 1.2rem;
+  font-weight: 700;
+  text-decoration: none;
+  position: relative;
+  padding: 5px 0;
+  transition: all 0.3s ease;
+}
+
+.menu-links a:hover {
+  color: #a800e5;
+}
+
+.menu-links a::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #a800e5;
+  transition: width 0.3s ease;
+}
+
+.menu-links a:hover::after {
+  width: 100%;
+}
+
+/* ===== Кнопка входа ===== */
+.link-to-login {
+  color: black;
+  padding: 8px 20px;
+  border-radius: 13px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  text-decoration: none;
+  border: 2px solid transparent;
+  display: inline-block;
+  min-width: 120px; /* Фиксированная ширина */
+  text-align: center;
+}
+
+.link-to-login:hover {
+  color: #a800e5;
+  border-color: #a800e5;
+  transform: translateY(-2px);
+}
+
+.user-name {
+  color: black;
+  text-decoration: none;
+  font-size: larger;
+  font-weight: 500;
+}
+
+.user-name:hover {
+  color: #a800e5;
+}
+/* ===== Иконки ===== */
+.header-icon {
   display: flex;
+  gap: 40px;
   align-items: center;
 }
 
+.icon {
+  width: 24px;
+  height: 24px;
+  color: black;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.icon:hover {
+  color: #a800e5;
+  transform: scale(1.1);
+}
 .header-icon p {
   position: absolute;
-  display: inline-block;
+  /* display: inline-block; */
   margin-left: 25px;
 }
 
@@ -50,61 +138,11 @@ nav.navbar {
   background-color: #a800e5;
   color: white;
   border-radius: 50%;
-  padding-left: 8px;
-  padding-right: 8px;
-}
-
-.navbar img {
-  display: flex;
-  width: 100px;
-}
-
-header .navbar {
-  display: flex;
-  align-items: center;
-  max-width: 1900px;
-  margin: 0 auto;
-}
-
-.navbar .menu-links {
-  display: flex;
-  justify-content: center;
-  gap: 40px;
-  margin: 0;
-}
-
-.navbar .link-to-login {
-  color: rgb(0, 0, 0);
-  padding: 5px 20px 5px 20px;
-  border-radius: 13px;
-  font-size: medium;
-  font-weight: 700;
-  font-size: 1.2rem;
-}
-.navbar .link-to-login:hover {
-  color: #a800e5;
-}
-
-.navbar a {
-  color: black;
-  margin: 0;
-  font-size: 1.2rem;
-  font-weight: 700;
-  text-decoration: none;
-  transition: 0.1s ease;
-}
-
-.navbar a:hover {
-  color: #a800e5;
-}
-
-.icon {
-  width: 24px;
+  min-width: 24px;
   height: 24px;
-  transition: transform 500ms ease;
-  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 700;
 }
-
 .burger-menu {
   display: none;
   width: 24px;
@@ -165,9 +203,7 @@ header .navbar {
   .header-icon a {
     color: rgb(0, 0, 0);
   }
-  .icon {
-    color: black;
-  }
+
   .icon:hover {
     color: #a800e5;
     transform: scale(1.1);
