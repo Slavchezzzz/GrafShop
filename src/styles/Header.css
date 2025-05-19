@@ -190,7 +190,9 @@ nav.navbar {
     display: none;
     z-index: 1000;
   }
+
   .navbar .menu-links.active {
+    justify-content: center;
     display: flex;
   }
   .navbar a {
